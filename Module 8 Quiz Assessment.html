@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 8 Quiz | Internal Sales Mechanics — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780; --red:#C0392B;
+    --ltgreen:#E3F7E4; --ltblue:#E3F5F7; --border:#C8D8C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF; --gray:#F5F7F5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .logo-mark{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .logo-text{font-size:17px;font-weight:700;color:white;}
+  .logo-text span{color:var(--leaf);}
+  .mod-tag{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .main{max-width:760px;margin:0 auto;padding:40px 20px;}
+
+  /* ── START SCREEN ── */
+  #start-screen{text-align:center;}
+  .start-badge{display:inline-block;background:rgba(255,255,255,0.1);color:var(--leaf);padding:6px 18px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;}
+  .start-title{font-size:42px;font-weight:900;color:white;margin-bottom:12px;}
+  .start-sub{font-size:17px;color:#89B89A;margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;}
+  .start-card{background:white;border-radius:18px;padding:36px 40px;margin-bottom:28px;text-align:left;box-shadow:0 12px 40px rgba(0,0,0,0.3);}
+  .start-card h3{font-size:16px;font-weight:700;color:var(--green);margin-bottom:16px;}
+  .info-row{display:flex;gap:32px;flex-wrap:wrap;}
+  .info-item{display:flex;align-items:center;gap:10px;}
+  .info-icon{font-size:22px;}
+  .info-text .iv-val{font-size:20px;font-weight:900;color:var(--text);}
+  .info-text .iv-label{font-size:11px;color:var(--mid);font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+  .topics{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);}
+  .topics h4{font-size:12px;font-weight:700;color:var(--mid);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+  .topic-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .topic-tag{background:var(--ltgreen);color:var(--green);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;}
+  .btn-start{display:inline-block;background:var(--leaf);color:white;font-family:'Red Hat Display',sans-serif;font-size:17px;font-weight:700;padding:18px 52px;border-radius:12px;border:none;cursor:pointer;transition:all 0.2s;}
+  .btn-start:hover{background:#5A9038;transform:translateY(-2px);box-shadow:0 8px 24px rgba(116,170,80,0.4);}
+
+  /* ── QUIZ SCREEN ── */
+  #quiz-screen{display:none;}
+  .progress-bar-wrap{background:rgba(255,255,255,0.1);border-radius:8px;height:6px;margin-bottom:28px;}
+  .progress-bar-fill{height:6px;border-radius:8px;background:var(--leaf);transition:width 0.4s ease;}
+  .q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .q-counter{font-size:12px;font-weight:700;color:#89B89A;text-transform:uppercase;letter-spacing:1.5px;}
+  .q-category{font-size:12px;font-weight:700;color:var(--leaf);}
+  .q-card{background:white;border-radius:16px;padding:36px 40px;box-shadow:0 12px 40px rgba(0,0,0,0.25);}
+  .q-text{font-size:20px;font-weight:700;color:var(--text);margin-bottom:28px;line-height:1.45;}
+  .choices{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+  .choice{border:2px solid var(--border);border-radius:10px;padding:16px 20px;cursor:pointer;transition:all 0.2s;font-size:15px;color:var(--mid);line-height:1.5;background:var(--gray);}
+  .choice:hover:not(.locked){border-color:var(--steel);background:var(--ltblue);color:var(--text);}
+  .choice.correct{border-color:var(--leaf);background:var(--ltgreen);color:var(--text);}
+  .choice.wrong{border-color:var(--red);background:#FDEDEC;color:var(--red);}
+  .choice.locked{cursor:default;}
+  .feedback{display:none;border-radius:10px;padding:16px 20px;font-size:14px;line-height:1.7;margin-bottom:20px;}
+  .feedback.show{display:block;}
+  .feedback.good{background:var(--ltgreen);border-left:4px solid var(--leaf);}
+  .feedback.bad{background:#FDEDEC;border-left:4px solid var(--red);}
+  .feedback strong{display:block;margin-bottom:4px;}
+  .btn-next{background:var(--green);color:white;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;padding:14px 36px;border-radius:10px;border:none;cursor:pointer;display:none;transition:all 0.2s;}
+  .btn-next.show{display:inline-block;}
+  .btn-next:hover{background:var(--teal);}
+
+  /* ── RESULTS SCREEN ── */
+  #results-screen{display:none;text-align:center;}
+  .score-ring{width:160px;height:160px;border-radius:50%;margin:0 auto 28px;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+  .score-ring.pass{background:var(--leaf);box-shadow:0 0 0 10px rgba(116,170,80,0.2);}
+  .score-ring.fail{background:var(--red);box-shadow:0 0 0 10px rgba(192,57,43,0.2);}
+  .score-pct{font-size:52px;font-weight:900;color:white;}
+  .score-frac{font-size:16px;font-weight:700;color:rgba(255,255,255,0.85);}
+  .result-title{font-size:32px;font-weight:900;color:white;margin-bottom:12px;}
+  .result-sub{font-size:16px;color:#89B89A;margin-bottom:32px;}
+  .result-bar{display:flex;align-items:center;background:rgba(255,255,255,0.08);border-radius:12px;padding:20px 28px;max-width:500px;margin:0 auto 32px;gap:18px;}
+  .rb-icon{font-size:30px;}
+  .rb-text{text-align:left;}
+  .rb-text .rv{font-size:20px;font-weight:900;color:white;}
+  .rb-text .rl{font-size:12px;color:#89B89A;font-weight:600;}
+  .btn-review{background:var(--steel);color:white;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;padding:14px 36px;border-radius:10px;border:none;cursor:pointer;margin-right:12px;}
+  .btn-review:hover{background:var(--teal);}
+  .btn-retake{background:var(--leaf);color:white;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;padding:14px 36px;border-radius:10px;border:none;cursor:pointer;}
+  .btn-retake:hover{background:#5A9038;}
+
+  /* ── REVIEW SCREEN ── */
+  #review-screen{display:none;}
+  .review-title{font-size:26px;font-weight:900;color:white;margin-bottom:24px;text-align:center;}
+  .review-card{background:white;border-radius:14px;padding:28px 32px;margin-bottom:16px;box-shadow:0 6px 20px rgba(0,0,0,0.2);border-left:5px solid var(--border);}
+  .review-card.rc-pass{border-left-color:var(--leaf);}
+  .review-card.rc-fail{border-left-color:var(--red);}
+  .rc-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .rc-cat{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--steel);text-transform:uppercase;}
+  .rc-status{font-size:12px;font-weight:700;padding:3px 12px;border-radius:20px;}
+  .rc-status.pass{background:var(--ltgreen);color:var(--green);}
+  .rc-status.fail{background:#FDEDEC;color:var(--red);}
+  .rc-q{font-size:16px;font-weight:700;color:var(--text);margin-bottom:14px;line-height:1.4;}
+  .rc-your{font-size:13px;margin-bottom:6px;}
+  .rc-your.correct{color:var(--green);}
+  .rc-your.wrong{color:var(--red);}
+  .rc-correct-ans{font-size:13px;color:var(--green);font-weight:700;margin-bottom:10px;}
+  .rc-exp{font-size:13px;color:var(--mid);line-height:1.7;background:var(--ltgreen);border-left:3px solid var(--leaf);padding:10px 14px;border-radius:6px;}
+  .btn-back{background:var(--steel);color:white;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;padding:14px 36px;border-radius:10px;border:none;cursor:pointer;margin-top:24px;display:block;margin-left:auto;margin-right:auto;}
+  .btn-back:hover{background:var(--teal);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">Action<span>step</span></div>
+  </div>
+  <div class="mod-tag">Module 8 · Assessment</div>
+</header>
+
+<div class="main">
+
+  <!-- START SCREEN -->
+  <div id="start-screen">
+    <div class="start-badge">Module 8 | Phase 2: Controlled Execution</div>
+    <div class="start-title">Internal Sales Mechanics</div>
+    <div class="start-sub">Formal certification assessment. You must score 80% or higher to pass.</div>
+    <div class="start-card">
+      <h3>Assessment Details</h3>
+      <div class="info-row">
+        <div class="info-item">
+          <div class="info-icon">📋</div>
+          <div class="info-text"><div class="iv-val">15</div><div class="iv-label">Questions</div></div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🎯</div>
+          <div class="info-text"><div class="iv-val">80%</div><div class="iv-label">Pass Threshold</div></div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">⏱️</div>
+          <div class="info-text"><div class="iv-val">~10 min</div><div class="iv-label">Estimated Time</div></div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">💬</div>
+          <div class="info-text"><div class="iv-val">Immediate</div><div class="iv-label">Feedback Per Q</div></div>
+        </div>
+      </div>
+      <div class="topics">
+        <h4>Topics Covered</h4>
+        <div class="topic-list">
+          <span class="topic-tag">Deal Desk Process</span>
+          <span class="topic-tag">MEDDICC Framework</span>
+          <span class="topic-tag">SWAT Template</span>
+          <span class="topic-tag">Escalation Judgment</span>
+          <span class="topic-tag">Internal Communication</span>
+          <span class="topic-tag">Salesforce Standards</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Begin Assessment →</button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="q-meta">
+      <div class="q-counter" id="q-counter">Question 1 of 15</div>
+      <div class="q-category" id="q-category"></div>
+    </div>
+    <div class="q-card">
+      <div class="q-text" id="q-text"></div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div id="results-screen">
+    <div class="score-ring" id="score-ring">
+      <div class="score-pct" id="score-pct"></div>
+      <div class="score-frac" id="score-frac"></div>
+    </div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-sub" id="result-sub"></div>
+    <div class="result-bar" style="margin-bottom:16px;">
+      <div class="rb-icon">✅</div>
+      <div class="rb-text"><div class="rv" id="r-correct"></div><div class="rl">Correct Answers</div></div>
+    </div>
+    <div class="result-bar">
+      <div class="rb-icon">❌</div>
+      <div class="rb-text"><div class="rv" id="r-wrong"></div><div class="rl">Incorrect Answers</div></div>
+    </div>
+    <br>
+    <button class="btn-review" onclick="showReview()">Review All Answers</button>
+    <button class="btn-retake" onclick="retakeQuiz()">Retake Assessment</button>
+  </div>
+
+  <!-- REVIEW SCREEN -->
+  <div id="review-screen">
+    <div class="review-title">Full Answer Review — Module 8</div>
+    <div id="review-cards"></div>
+    <button class="btn-back" onclick="showResults()">← Back to Results</button>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    cat: 'Deal Desk Process',
+    q: 'What is the specific trigger that requires a rep to invoke the Deal Desk process at Actionstep?',
+    opts: [
+      'Anytime a prospect asks about pricing',
+      'When a deal exceeds $20,000 ACV',
+      'When you want to offer a discount greater than 10% off list price',
+      'Whenever a deal reaches the Negotiation stage'
+    ],
+    ans: 2,
+    exp: 'The Deal Desk has one trigger: you want to offer a discount greater than 10%. At or below 10%, reps can approve discounts themselves. Above that threshold, a meeting with your manager and the CRO is required before any commitment is made to the prospect.'
+  },
+  {
+    cat: 'Deal Desk Process',
+    q: 'Who must be present in a Deal Desk meeting at Actionstep?',
+    opts: [
+      'The rep and their manager only',
+      'The rep, their manager, and the CRO',
+      'The rep and the CRO only',
+      'The rep, manager, CRO, and the prospect\'s champion'
+    ],
+    ans: 1,
+    exp: 'A Deal Desk meeting requires the rep, their manager, and the CRO. This ensures the discount decision has the appropriate level of authority and that leadership has full visibility into the deal before any pricing commitment is made.'
+  },
+  {
+    cat: 'Deal Desk Process',
+    q: 'A prospect says they\'ll sign if you can get to 91% of list price. List price is $20,000. What must you do before responding?',
+    opts: [
+      'Offer 91% immediately — it\'s only 9% off which is under the threshold',
+      'Counter at 93% to stay under the 10% limit',
+      'Schedule a Deal Desk meeting — a 9% discount is within your authority, so no escalation needed',
+      'Schedule a Deal Desk meeting — a 9% discount is at your limit, so proceed with caution'
+    ],
+    ans: 0,
+    exp: 'A 9% discount is at $20,000 × 9% = $1,800 off, bringing the deal to $18,200 — which is 91% of list. Since 9% is below the 10% threshold, the rep can approve this themselves without Deal Desk. No escalation is required. However, reps should still approach discount discussions thoughtfully and use discounts only when they are strategic.'
+  },
+  {
+    cat: 'Deal Desk Process',
+    q: 'Which of the following is NOT something you should bring to a Deal Desk meeting?',
+    opts: [
+      'A completed or draft SWAT template',
+      'Your rationale for why the discount is justified',
+      'The prospect\'s legal team to represent their interests',
+      'The specific discount percentage and what you\'re asking for in return'
+    ],
+    ans: 2,
+    exp: 'The Deal Desk meeting is an internal Actionstep discussion — the prospect is not part of it. You should bring your SWAT, discount rationale, deal overview, specific ask, and what concession you expect in return for the discount (referencability, prepay, faster close, etc.).'
+  },
+  {
+    cat: 'MEDDICC Framework',
+    q: 'What does the "E" stand for in MEDDICC and what makes someone qualify for this role?',
+    opts: [
+      'Evaluator — the person assigned to assess vendor solutions',
+      'Economic Buyer — the person with real budget authority who can say yes',
+      'Executive Buyer — always the CEO or Managing Partner',
+      'Engagement Buyer — the person who initiated the purchase process'
+    ],
+    ans: 1,
+    exp: 'Economic Buyer is the person with real budget authority — they can say "yes" and make it happen. This is not always the most senior person, and it\'s not always the person you speak to most. They must have confirmed authority to approve the expenditure, not just influence over it.'
+  },
+  {
+    cat: 'MEDDICC Framework',
+    q: 'What distinguishes a Champion from a Coach in the MEDDICC framework?',
+    opts: [
+      'A Champion has a higher title; a Coach is junior staff',
+      'A Champion actively advocates for you internally and takes action; a Coach provides political intelligence but may not advocate publicly',
+      'A Champion approves the budget; a Coach approves the technical requirements',
+      'There is no meaningful difference — both terms refer to internal supporters'
+    ],
+    ans: 1,
+    exp: 'A Champion actively advocates for Actionstep in internal meetings, shares information, and takes action on your behalf. A Coach provides useful political intelligence and helps you navigate the firm\'s dynamics — but they may not publicly advocate for you. Both are valuable, but only a Champion can truly advance your deal from the inside.'
+  },
+  {
+    cat: 'MEDDICC Framework',
+    q: 'You\'re filling out the Metrics section of your SWAT. The prospect has told you billing is "a real pain." What additional information do you need before this field is properly complete?',
+    opts: [
+      'Nothing — "billing is a real pain" is sufficient context for the Metrics field',
+      'A quantified estimate of the pain — time spent, dollars lost, or revenue impact',
+      'The name of the specific billing module they\'re using',
+      'A quote from the Economic Buyer confirming the billing issue'
+    ],
+    ans: 1,
+    exp: 'Metrics require quantification. "Billing is a pain" is a qualitative observation. The Metrics field needs numbers: How many hours per week is wasted on billing? What is the estimated cost of billing errors? How much revenue is at risk from delayed invoicing? Without metrics, you cannot build a credible business case or defend the deal in a review.'
+  },
+  {
+    cat: 'SWAT Template',
+    q: 'The SWAT template has a field called "Known Qualification Gaps." A rep leaves this blank because they don\'t want to look unprepared. What\'s wrong with this approach?',
+    opts: [
+      'Nothing — leaving gaps blank is fine if the deal is progressing',
+      'It\'s a minor issue but won\'t affect the Deal Desk decision',
+      'It creates a false picture of deal health and prevents leadership from helping effectively — honest gaps are more useful than empty fields',
+      'Reps should always fill in every field, even with estimates, to show effort'
+    ],
+    ans: 2,
+    exp: 'Known Qualification Gaps is one of the most important fields in the SWAT. Leaving it blank (when gaps exist) creates a false sense of deal certainty. Leadership cannot help with risks they don\'t know about. "Unknown — scheduling discovery call to confirm Economic Buyer" is far more valuable than a blank field or a fabricated answer.'
+  },
+  {
+    cat: 'SWAT Template',
+    q: 'Which section of the SWAT template covers the step-by-step path from evaluation to a signed contract, including who signs and in what order?',
+    opts: [
+      'Decision Criteria',
+      'Competition (MEDDICC)',
+      'Decision Making Roles',
+      'Decision Process & Paper Process'
+    ],
+    ans: 3,
+    exp: 'The Decision Process section — including the Paper Process — maps out every step required to get from today to a fully executed contract. This includes legal review steps, contract sign-off sequences, billing confirmation, and any internal approvals required at the firm. Reps frequently underestimate the paper process and are surprised when deals slow down at the finish line.'
+  },
+  {
+    cat: 'Escalation Judgment',
+    q: 'Which of the following is an "escalate immediately" situation?',
+    opts: [
+      'A prospect asks for a product comparison document',
+      'Your champion schedules a call to discuss implementation timelines',
+      'A prospect\'s legal team begins marking up the Actionstep MSA',
+      'A prospect asks to speak to an existing customer reference'
+    ],
+    ans: 2,
+    exp: 'Contract markup by the prospect\'s legal team is an immediate escalation trigger. Before responding to the prospect or their attorney, loop in your manager. Contract terms can have binding legal implications that reps cannot evaluate or negotiate alone. A reference call request (option D) is an "escalate before proceeding" situation — requiring internal coordination first, not an immediate emergency.'
+  },
+  {
+    cat: 'Escalation Judgment',
+    q: 'What is the biggest risk of over-escalating routine deal situations to your manager?',
+    opts: [
+      'Your manager will start working the deal for you',
+      'It slows down the sales cycle because managers are busy',
+      'It trains your manager to discount your escalation flags — reducing their responsiveness when something genuinely critical occurs',
+      'It violates the CRM logging policy'
+    ],
+    ans: 2,
+    exp: 'Over-escalation is a credibility risk. When you escalate everything — including routine objections and standard conversations — your manager learns to expect that your "urgent" flags are frequently unnecessary. When something genuinely critical happens, you may not get the fast response you need. Escalate when you\'ve reached the limits of your authority, not every time you encounter friction.'
+  },
+  {
+    cat: 'Escalation Judgment',
+    q: 'You want to escalate a deal issue to your manager via Slack. Which message is most effective?',
+    opts: [
+      '"Hey — can we talk about Hartwell today? Having some issues."',
+      '"Quick question on a deal when you have a sec."',
+      '"Hartwell & Associates ($18K ARR, Deal Review, close 3/31) — their legal team is asking to mark up our MSA. Need 15 min to align on our response. Available tomorrow 10am or 2pm?"',
+      '"Just a heads up on Hartwell — some complications but I\'ll handle it."'
+    ],
+    ans: 2,
+    exp: 'The third option is the model escalation message: it leads with deal context (name, ARR, stage, close date), states the specific issue, specifies what is needed (15 minutes of alignment), and offers specific time options. It enables your manager to prepare and respond efficiently. Vague messages create back-and-forth and delay resolution.'
+  },
+  {
+    cat: 'Internal Communication',
+    q: 'What must the Salesforce "Next Step" field always contain?',
+    opts: [
+      'A summary of the last call',
+      'A concrete, time-bound action with a specific owner',
+      'A note that the rep is "following up"',
+      'The prospect\'s contact information for the next touchpoint'
+    ],
+    ans: 1,
+    exp: '"Following up" is not a next step — it\'s an intention. A next step must be specific ("Sending revised SOW"), time-bound ("by Thursday, March 14"), and ideally owned ("confirmed with champion Sarah Chen"). When the next step field is vague, it\'s invisible in pipeline reviews and useless for forecasting.'
+  },
+  {
+    cat: 'Internal Communication',
+    q: 'A rep is in a pipeline review and gets asked about a deal they haven\'t updated in Salesforce since last week. They pull up the record during the meeting and start updating it. What does this signal to their manager?',
+    opts: [
+      'The rep is detail-oriented and ensures accurate information is captured',
+      'The rep lacks deal ownership and is unprepared — Salesforce should be updated before the meeting, not during it',
+      'This is acceptable practice — pipeline reviews are meant to surface and document deal updates',
+      'The rep is being efficient by updating and discussing simultaneously'
+    ],
+    ans: 1,
+    exp: 'Updating Salesforce during a pipeline review signals that the rep is not on top of their pipeline. Salesforce should be current before the meeting — it\'s a pre-meeting hygiene requirement. The meeting itself should surface insights, decisions, and strategy — not become a live data entry session. Managers notice who comes prepared and who doesn\'t.'
+  },
+  {
+    cat: 'Internal Communication',
+    q: 'A rep makes an offhand comment to a prospect: "We can probably get this closer to 85% of list — let me check internally." What is the primary problem with this?',
+    opts: [
+      'The rep used imprecise language ("probably") instead of a firm number',
+      'The rep created an unauthorized pricing expectation before getting Deal Desk approval — anchoring the prospect at a number before internal alignment',
+      'The rep should have communicated the discount via email, not verbally',
+      'The rep didn\'t check whether the 85% required a Deal Desk meeting first'
+    ],
+    ans: 1,
+    exp: 'The core violation is making any pricing commitment — even a soft, uncertain one — before getting internal approval. "We can probably get to 85%" plants a number in the prospect\'s mind. If Deal Desk approves only 90%, you\'re walking back a commitment. If they decline the discount entirely, you\'ve created a gap between what the prospect expected and what you can deliver. No discount hints before Deal Desk approval. Ever.'
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let userAnswers = [];
+let answered = false;
+
+function startQuiz() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = QUESTIONS[currentQ];
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of ${QUESTIONS.length}`;
+  document.getElementById('q-category').textContent = q.cat;
+  document.getElementById('q-text').textContent = q.q;
+  document.getElementById('progress-fill').style.width = ((currentQ / QUESTIONS.length) * 100) + '%';
+
+  const choicesEl = document.getElementById('choices');
+  choicesEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'choice';
+    div.textContent = opt;
+    div.onclick = () => handleAnswer(i, div);
+    choicesEl.appendChild(div);
+  });
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.innerHTML = '';
+  document.getElementById('btn-next').className = 'btn-next';
+  document.getElementById('btn-next').textContent = currentQ === QUESTIONS.length - 1 ? 'See Results →' : 'Next Question →';
+}
+
+function handleAnswer(idx, el) {
+  if (answered) return;
+  answered = true;
+
+  const q = QUESTIONS[currentQ];
+  const correct = idx === q.ans;
+
+  document.querySelectorAll('.choice').forEach(c => c.classList.add('locked'));
+
+  if (correct) {
+    el.classList.add('correct');
+    score++;
+    userAnswers.push({ q: currentQ, selected: idx, correct: true });
+  } else {
+    el.classList.add('wrong');
+    document.querySelectorAll('.choice')[q.ans].classList.add('correct');
+    userAnswers.push({ q: currentQ, selected: idx, correct: false });
+  }
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback show ' + (correct ? 'good' : 'bad');
+  fb.innerHTML = `<strong>${correct ? '✓ Correct.' : '✗ Incorrect.'}</strong>${q.exp}`;
+
+  document.getElementById('btn-next').className = 'btn-next show';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= QUESTIONS.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('review-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  const pct = Math.round((score / QUESTIONS.length) * 100);
+  const pass = pct >= 80;
+
+  const ring = document.getElementById('score-ring');
+  ring.className = 'score-ring ' + (pass ? 'pass' : 'fail');
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('score-frac').textContent = score + ' / ' + QUESTIONS.length;
+  document.getElementById('result-title').textContent = pass ? '🎉 Certification Passed!' : '📚 Not Quite Yet';
+  document.getElementById('result-sub').textContent = pass
+    ? 'You\'ve demonstrated mastery of internal sales mechanics. Submit your SWAT and get manager sign-off to complete Module 8.'
+    : `You scored ${pct}%. You need 80% to pass. Review the answer explanations and retake when ready.`;
+  document.getElementById('r-correct').textContent = score + ' of ' + QUESTIONS.length + ' correct';
+  document.getElementById('r-wrong').textContent = (QUESTIONS.length - score) + ' of ' + QUESTIONS.length + ' incorrect';
+}
+
+function showReview() {
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('review-screen').style.display = 'block';
+
+  const container = document.getElementById('review-cards');
+  container.innerHTML = '';
+
+  userAnswers.forEach((ua, i) => {
+    const q = QUESTIONS[ua.q];
+    const div = document.createElement('div');
+    div.className = 'review-card ' + (ua.correct ? 'rc-pass' : 'rc-fail');
+    div.innerHTML = `
+      <div class="rc-meta">
+        <span class="rc-cat">${q.cat}</span>
+        <span class="rc-status ${ua.correct ? 'pass' : 'fail'}">${ua.correct ? '✓ Correct' : '✗ Incorrect'}</span>
+      </div>
+      <div class="rc-q">Q${i + 1}. ${q.q}</div>
+      <div class="rc-your ${ua.correct ? 'correct' : 'wrong'}">Your answer: ${q.opts[ua.selected]}</div>
+      ${!ua.correct ? `<div class="rc-correct-ans">Correct answer: ${q.opts[q.ans]}</div>` : ''}
+      <div class="rc-exp">${q.exp}</div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function retakeQuiz() {
+  currentQ = 0;
+  score = 0;
+  userAnswers = [];
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  renderQuestion();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('review-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  const pct = Math.round((score / QUESTIONS.length) * 100);
+  const pass = pct >= 80;
+
+  const ring = document.getElementById('score-ring');
+  ring.className = 'score-ring ' + (pass ? 'pass' : 'fail');
+  document.getElementById('score-pct').textContent = pct + '%';
+  document.getElementById('score-frac').textContent = score + ' / ' + QUESTIONS.length;
+  document.getElementById('result-title').textContent = pass ? '🎉 Certification Passed!' : '📚 Not Quite Yet';
+  document.getElementById('result-sub').textContent = pass
+    ? 'You\'ve demonstrated mastery of internal sales mechanics. Submit your SWAT and get manager sign-off to complete Module 8.'
+    : `You scored ${pct}%. You need 80% to pass. Review the answer explanations and retake when ready.`;
+  document.getElementById('r-correct').textContent = score + ' of ' + QUESTIONS.length + ' correct';
+  document.getElementById('r-wrong').textContent = (QUESTIONS.length - score) + ' of ' + QUESTIONS.length + ' incorrect';
+}
+</script>
+</body>
+</html>

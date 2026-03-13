@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1 | Stage & Gate Walkthrough — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780; --lblue:#7BA7BC;
+    --ltgreen:#E3F7E4; --ltblue:#E3F5F7; --gray:#F5F7F5; --border:#C8E0C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Red Hat Display',sans-serif; background:var(--navy); color:var(--text); min-height:100vh; }
+
+  header { background:var(--green); padding:0 40px; height:58px; display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid var(--leaf); }
+  .logo { display:flex; align-items:center; gap:12px; }
+  .logo-mark { width:34px; height:34px; background:var(--teal); border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:900; color:white; }
+  .logo-text { font-size:17px; font-weight:700; color:white; }
+  .logo-text span { color:var(--leaf); }
+  .mod-tag { background:rgba(255,255,255,0.12); color:#A8D5A8; padding:4px 14px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
+
+  .main { max-width:1080px; margin:0 auto; padding:40px 20px; }
+  .hero { text-align:center; margin-bottom:44px; }
+  .hero h1 { font-size:40px; font-weight:900; color:white; margin-bottom:10px; letter-spacing:-0.5px; }
+  .hero p { color:#89B89A; font-size:15px; max-width:560px; margin:0 auto; }
+
+  .tabs { display:flex; gap:4px; background:rgba(255,255,255,0.06); border-radius:12px; padding:5px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.08); }
+  .tab-btn { flex:1; padding:11px 18px; border:none; background:transparent; color:#89B89A; font-family:'Red Hat Display',sans-serif; font-size:13px; font-weight:700; border-radius:8px; cursor:pointer; transition:all 0.2s; }
+  .tab-btn.active { background:var(--green); color:white; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
+  .tab-btn:hover:not(.active) { color:white; }
+
+  .pipe-bar { display:flex; gap:3px; margin-bottom:28px; }
+  .ps { flex:1; height:56px; border-radius:7px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:all 0.22s; border:2px solid transparent; }
+  .ps:hover { filter:brightness(1.12); }
+  .ps.active { border-color:var(--yellow); transform:translateY(-4px); box-shadow:0 10px 28px rgba(0,0,0,0.4); }
+  .ps .sn { font-size:9px; font-weight:700; color:white; text-transform:uppercase; letter-spacing:0.5px; text-align:center; line-height:1.2; padding:0 3px; }
+  .ps .sp { font-size:12px; font-weight:700; color:rgba(255,255,255,0.85); margin-top:2px; }
+
+  .sc { background:white; border-radius:14px; overflow:hidden; box-shadow:0 20px 56px rgba(0,0,0,0.35); display:none; }
+  .sc.vis { display:block; animation:up 0.28s ease; }
+  @keyframes up { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+  .sc-hdr { padding:26px 32px; display:flex; align-items:center; gap:18px; }
+  .s-badge { width:58px; height:58px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:900; color:white; flex-shrink:0; }
+  .s-info h2 { font-size:26px; font-weight:900; color:var(--green); margin-bottom:5px; }
+  .p-chip { display:inline-flex; padding:3px 12px; border-radius:20px; font-size:12px; font-weight:700; color:white; }
+
+  .sc-body2 { display:grid; grid-template-columns:1fr 1fr; }
+  .sc-sec { padding:22px 32px; border-top:1px solid var(--border); }
+  .sc-sec:nth-child(2) { border-left:1px solid var(--border); }
+  .sc-sec h3 { font-size:10px; text-transform:uppercase; letter-spacing:1.8px; color:var(--leaf); font-weight:700; margin-bottom:12px; }
+  .sc-sec p { color:var(--mid); font-size:14px; line-height:1.75; }
+  .g-list { list-style:none; }
+  .g-list li { display:flex; align-items:flex-start; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); color:var(--mid); font-size:13px; line-height:1.5; }
+  .g-list li:last-child { border-bottom:none; }
+  .g-chk { font-weight:900; font-size:12px; flex-shrink:0; margin-top:1px; }
+
+  .w-box { margin:0 32px 22px; padding:14px 18px; border-radius:10px; background:#FFFDE7; border-left:4px solid var(--yellow); display:flex; gap:10px; }
+  .w-box p { color:#5C4400; font-size:13px; line-height:1.6; }
+
+  .sc-nav { padding:16px 32px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; background:var(--gray); }
+  .btn { padding:10px 22px; border-radius:8px; border:none; font-family:'Red Hat Display',sans-serif; font-size:13px; font-weight:700; cursor:pointer; transition:all 0.18s; }
+  .btn-o { background:white; color:var(--green); border:1.5px solid var(--border); }
+  .btn-o:hover { border-color:var(--green); }
+  .btn-p { background:var(--green); color:white; }
+  .btn-p:hover { background:var(--teal); }
+  .sct { color:var(--mid); font-size:13px; font-weight:500; }
+
+  .fc-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .fc-card { background:white; border-radius:13px; overflow:hidden; box-shadow:0 8px 28px rgba(0,0,0,0.2); transition:all 0.2s; }
+  .fc-card:hover { transform:translateY(-4px); box-shadow:0 16px 44px rgba(0,0,0,0.3); }
+  .fch { padding:22px 24px 18px; }
+  .fch .fc-c { font-size:10px; text-transform:uppercase; letter-spacing:2px; color:rgba(255,255,255,0.75); font-weight:700; margin-bottom:6px; }
+  .fch .fc-l { font-size:26px; font-weight:900; color:white; font-style:italic; }
+  .fcb { padding:18px 24px; }
+  .fc-m { color:var(--text); font-size:14px; font-weight:600; margin-bottom:10px; line-height:1.6; }
+  .fc-s { color:var(--mid); font-size:13px; line-height:1.65; font-style:italic; padding-top:10px; border-top:1px solid var(--border); }
+
+  .sw { background:white; border-radius:14px; overflow:hidden; box-shadow:0 20px 56px rgba(0,0,0,0.3); }
+  .sh { background:var(--green); padding:22px 30px; display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid var(--leaf); }
+  .sh h2 { font-size:20px; font-weight:900; color:white; }
+  .sh .sct2 { color:var(--leaf); font-size:13px; font-weight:600; }
+  .sb { padding:28px 30px; }
+
+  .score-b { display:flex; gap:20px; align-items:center; padding:14px 20px; background:var(--gray); border-radius:10px; margin-bottom:24px; }
+  .ss .sv { font-size:26px; font-weight:900; color:var(--green); }
+  .ss .sl { font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--mid); font-weight:600; }
+  .pw { flex:1; height:7px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .pf { height:100%; background:linear-gradient(90deg,var(--green),var(--leaf)); border-radius:4px; transition:width 0.5s ease; }
+
+  .sp-box { background:var(--ltgreen); border-radius:10px; padding:20px 22px; margin-bottom:24px; border-left:4px solid var(--leaf); }
+  .sp-box .pl { font-size:10px; text-transform:uppercase; letter-spacing:1.5px; color:var(--leaf); font-weight:700; margin-bottom:8px; }
+  .sp-box p { color:var(--text); font-size:15px; line-height:1.75; }
+
+  .og { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+  .opt { padding:14px 18px; border-radius:9px; border:2px solid var(--border); background:white; font-family:'Red Hat Display',sans-serif; font-size:14px; color:var(--text); cursor:pointer; transition:all 0.18s; text-align:left; line-height:1.4; }
+  .opt:hover:not(:disabled) { border-color:var(--green); color:var(--green); background:var(--ltgreen); }
+  .opt:disabled { cursor:default; }
+  .opt.correct { border-color:var(--leaf); background:#EBF5E3; color:#1A5C1A; }
+  .opt.incorrect { border-color:var(--orange); background:#FFF0E6; color:#883300; }
+  .opt.show-right { border-color:var(--leaf); background:#EBF5E3; color:#1A5C1A; opacity:0.6; }
+
+  .fb2 { padding:18px 22px; border-radius:10px; margin-bottom:20px; display:none; }
+  .fb2.vis { display:block; animation:up 0.28s ease; }
+  .fb2.ok { background:#EBF5E3; border:1.5px solid var(--leaf); }
+  .fb2.ng { background:#FFF0E6; border:1.5px solid var(--orange); }
+  .fb2 .ft { font-weight:700; font-size:14px; margin-bottom:6px; }
+  .fb2.ok .ft { color:#1A5C1A; }
+  .fb2.ng .ft { color:#883300; }
+  .fb2 p { font-size:13px; line-height:1.65; color:var(--mid); }
+
+  .btn-ns { display:none; width:100%; padding:13px; background:var(--green); color:white; border:none; border-radius:9px; font-family:'Red Hat Display',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.18s; }
+  .btn-ns:hover { background:var(--teal); }
+
+  .res-wrap { text-align:center; padding:48px 28px; }
+  .big-s { font-size:80px; font-weight:900; color:var(--green); line-height:1; margin-bottom:6px; }
+  .pfl { font-size:17px; font-weight:700; margin-bottom:14px; }
+  .pfl.pass { color:var(--leaf); }
+  .pfl.fail { color:var(--orange); }
+  .res-wrap p { color:var(--mid); font-size:14px; max-width:400px; margin:0 auto 26px; line-height:1.7; }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">Actíonstep <span>Sales Academy</span></div>
+  </div>
+  <div class="mod-tag">Module 1 · Interactive</div>
+</header>
+<div class="main">
+  <div class="hero">
+    <h1>Sales Process Mastery</h1>
+    <p>Explore every stage in the Actionstep pipeline, master forecast categories, and test yourself with real deal scenarios.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('stages',this)">🗺&nbsp; Stage Walkthrough</button>
+    <button class="tab-btn" onclick="showTab('forecast',this)">📊&nbsp; Forecast Categories</button>
+    <button class="tab-btn" onclick="showTab('scenarios',this)">🎯&nbsp; Deal Scenarios</button>
+  </div>
+  <div id="tab-stages"><div class="pipe-bar" id="pb"></div><div id="scards"></div></div>
+  <div id="tab-forecast" style="display:none"><div class="fc-grid" id="fcg"></div></div>
+  <div id="tab-scenarios" style="display:none"><div class="sw" id="swrap"></div></div>
+</div>
+<script>
+const ST=[
+  {name:"New",prob:"—",color:"#2A4A3A",what:"A brand-new opportunity has been identified and entered into Salesforce. Not yet validated or qualified.",gate:["Assign to the correct rep","Confirm contact info and basic fit","Identify primary business problem before advancing"],warn:null},
+  {name:"Partner",prob:"—",color:"#1E5044",what:"A partner-sourced lead not yet ready for active selling. Sits here until it demonstrates readiness to enter a structured sales process.",gate:["Partner engagement confirmed and documented","Lead shows readiness to move to active Discovery","Initial fit criteria met"],warn:"Don't ignore these leads. Maintain regular light-touch engagement even when timing isn't right. Neglecting Partner stage leads damages partner relationships and future deal flow."},
+  {name:"Discovery",prob:"20%",color:"#255C4E",what:"Conversational research phase: process/pain analysis, reverse demos, integration scoping, and baseline product demos. Discovery is how you earn the right to propose.",gate:["Pain clearly identified and documented","ICP qualification confirmed","Key stakeholders are known","Integration requirements scoped","Next step mutually agreed upon"],warn:"Do NOT skip Discovery to go straight to demo. A demo without Discovery is a product tour — not a sale. You cannot tailor your pitch without first understanding the business."},
+  {name:"Confirming Value",prob:"30%",color:"#285780",what:"Conceptual or physical solutioning. Your primary mission: GET WIDE — understand the perspective of ALL firm influencers, not just your primary contact.",gate:["Multiple stakeholders engaged","Value clearly articulated to each stakeholder","Decision-making process fully understood","You know who can kill this deal"],warn:"If you're only talking to one person at this stage, you are in danger. Deals die when champions leave, get overruled, or lack authority. Map every influencer before advancing."},
+  {name:"Deal Review",prob:"50%",color:"#74AA50",what:"Value established, list pricing communicated, close/go-live date confirmed, SOW provided. Pending feedback before moving to Negotiation.",gate:["Value established and acknowledged","List pricing communicated","Close and go-live date confirmed","Scope of Work delivered","Pending feedback documented"],warn:null},
+  {name:"Negotiation",prob:"80%",color:"#FF6900",what:"Active pricing and contract discussions: price, term, payment type, and corresponding asks including referencability, white papers, and referrals.",gate:["Legal and/or finance engaged on buyer side","All final objections being actively resolved","Corresponding asks documented in Deal Desk","Clear path to signed agreement established"],warn:null},
+  {name:"Contracted",prob:"99.9%",color:"#285780",what:"A fully signed Order Form and MSA with a billing commencement date in the future. The deal is done — waiting for billing start date.",gate:["Signed Order Form received","Signed MSA received","Billing commencement date set (future)","Implementation handoff initiated"],warn:null},
+  {name:"Closed Won",prob:"100%",color:"#024638",what:"Signed Order Form and MSA with billing commencement in the current month AND payment or deposit collected in the current quarter. Revenue recognized.",gate:["All signatures obtained","Billing starts in current month","Payment or deposit collected in current quarter","Implementation team briefed"],warn:null},
+];
+const FC=[
+  {cat:"COMMIT",label:"I KNOW",bg:"#024638",desc:"Neck on the line — this deal closes this quarter by the listed close date. Only place a deal here if you'd stake your credibility on it.",signal:"Bring this number to your VP with confidence. Any doubt? It belongs in Forecast."},
+  {cat:"FORECAST",label:"I THINK",bg:"#285780",desc:"I believe this deal WILL close this quarter by the listed close date. Strong confidence, clear path — not fully locked yet.",signal:"You have a clear view forward. The buyer is engaged and moving."},
+  {cat:"STRETCH — YES",label:"I HOPE",bg:"#C87800",desc:"I am actively trying to pull this deal into the quarter. Aspirational but possible — I'm working to accelerate close.",signal:"Active conversations and a real shot — but it's not certain."},
+  {cat:"STRETCH — NO",label:"I DON'T THINK",bg:"#B03020",desc:"From today's information, I do NOT believe this deal will advance to Forecast/Commit by the listed close date.",signal:"Honest and important to flag proactively. Don't hide bad news."},
+];
+const SC=[
+  {q:"You've had two calls with a law firm. Pain is confirmed, integration needs scoped. You haven't done a tailored demo yet and only know the IT Manager — no other stakeholders. Which stage?",opts:["New","Discovery","Confirming Value","Deal Review"],ans:1,exp:"This deal is in Discovery. You've done pain analysis and requirements scoping — exactly what Discovery is for. It cannot advance to Confirming Value until multiple stakeholders are engaged and value solutioned."},
+  {q:"Your champion loves the product after a demo. However, you've only spoken with the Office Manager. They've asked for pricing. What should you do BEFORE sharing pricing and advancing?",opts:["Send pricing — champion approval is enough","Move to Negotiation directly","Stay in Confirming Value and get wide first","Move to Contracted stage"],ans:2,exp:"You must get wide before advancing. Confirming Value requires ALL firm influencers. Advancing with one contact leaves you vulnerable to unseen decision-makers who can kill the deal."},
+  {q:"A deal has been in your pipeline 2 months. You sent a proposal and SOW, the buyer said 'looks good' — but no one is engaging or responding to follow-ups. Close date is next week. Forecast category?",opts:["Commit — they said it looks good","Forecast — I think it'll close","Stretch Yes — I hope to get it in","Stretch No — I don't believe it closes this quarter"],ans:3,exp:"Non-responsive buyers with no next step should be Stretch No. 'Looks good' with radio silence is a stalled deal. Surface the risk proactively."},
+  {q:"A deal has a signed Order Form and MSA. Billing starts in 45 days (next quarter). What stage does this deal belong in?",opts:["Deal Review","Negotiation","Contracted","Closed Won"],ans:2,exp:"This is Contracted (99.9%). All signatures are in place but billing commencement is next quarter. Closed Won requires billing in the CURRENT month AND payment/deposit collected this quarter."},
+  {q:"You receive a warm partner referral. The law firm is 18 months from contract renewal and isn't actively evaluating. What stage should this lead sit in?",opts:["New — start sales process immediately","Partner — park it until ready","Discovery — start gathering info now","Don't create an opportunity yet"],ans:1,exp:"This belongs in the Partner stage. It's a real lead worth tracking but not ready for active selling. Maintain light-touch engagement and advance to Discovery when timing is right."},
+  {q:"Your champion confirms pricing is agreed, legal is reviewing, and you expect signatures this week. Close date is end of this month. What is the correct forecast category?",opts:["Commit — I know this closes","Forecast — I think it will","Stretch Yes — I hope to get it","Stretch No — I don't think so"],ans:0,exp:"This is a Commit. Legal is reviewing, pricing agreed, champion aligned, close imminent. You'd stake your credibility on it. This is exactly the definition of Commit — neck on the line."},
+];
+
+let curS=0,curQ=0,scores=[],ans=false;
+
+function buildPipe(){
+  const b=document.getElementById('pb');
+  ST.forEach((s,i)=>{
+    const e=document.createElement('div');
+    e.className='ps'+(i===0?' active':'');
+    e.style.background=s.color;
+    e.innerHTML=`<div class="sn">${s.name}</div><div class="sp">${s.prob}</div>`;
+    e.onclick=()=>selS(i);
+    b.appendChild(e);
+  });
+  buildCards();
+}
+
+function selS(i){
+  curS=i;
+  document.querySelectorAll('.ps').forEach((e,j)=>e.classList.toggle('active',j===i));
+  document.querySelectorAll('.sc').forEach(c=>c.classList.remove('vis'));
+  document.getElementById('sc'+i).classList.add('vis');
+}
+
+function buildCards(){
+  const c=document.getElementById('scards');
+  ST.forEach((s,i)=>{
+    const gates=s.gate.map(g=>`<li><span class="g-chk" style="color:${s.color}">✓</span>${g}</li>`).join('');
+    const warn=s.warn?`<div class="w-box"><div>⚠️</div><p><strong>Watch out:</strong> ${s.warn}</p></div>`:'';
+    const d=document.createElement('div');
+    d.className='sc'+(i===0?' vis':'');
+    d.id='sc'+i;
+    d.innerHTML=`
+      <div class="sc-hdr" style="background:${s.color}18;border-bottom:3px solid ${s.color}">
+        <div class="s-badge" style="background:${s.color}">${i+1}</div>
+        <div class="s-info"><h2>${s.name}</h2><div class="p-chip" style="background:${s.color}">${s.prob==='—'?'Unscored Stage':s.prob+' Probability'}</div></div>
+      </div>
+      <div class="sc-body2">
+        <div class="sc-sec"><h3>What This Stage Means</h3><p>${s.what}</p></div>
+        <div class="sc-sec"><h3>Gate Criteria to Advance</h3><ul class="g-list">${gates}</ul></div>
+      </div>
+      ${warn}
+      <div class="sc-nav">
+        <button class="btn btn-o" onclick="navS(-1)" ${i===0?'style="visibility:hidden"':''}>← Previous</button>
+        <span class="sct">Stage ${i+1} of ${ST.length}</span>
+        <button class="btn btn-p" onclick="navS(1)" ${i===ST.length-1?'style="visibility:hidden"':''}>Next →</button>
+      </div>`;
+    c.appendChild(d);
+  });
+}
+
+function navS(d){const n=curS+d;if(n>=0&&n<ST.length)selS(n);}
+
+function buildFC(){
+  const g=document.getElementById('fcg');
+  FC.forEach(f=>{
+    const d=document.createElement('div');
+    d.className='fc-card';
+    d.innerHTML=`<div class="fch" style="background:${f.bg}"><div class="fc-c">${f.cat}</div><div class="fc-l">"${f.label}"</div></div><div class="fcb"><p class="fc-m">${f.desc}</p><p class="fc-s">${f.signal}</p></div>`;
+    g.appendChild(d);
+  });
+}
+
+function buildQ(){
+  if(curQ>=SC.length){showRes();return;}
+  const s=SC[curQ];
+  const score=scores.filter(x=>x).length;
+  const pct=Math.round((curQ/SC.length)*100);
+  document.getElementById('swrap').innerHTML=`
+    <div class="sh"><h2>Deal Scenario ${curQ+1}</h2><span class="sct2">${curQ+1} of ${SC.length}</span></div>
+    <div class="sb">
+      <div class="score-b">
+        <div class="ss"><div class="sv">${score}</div><div class="sl">Correct</div></div>
+        <div class="ss"><div class="sv">${curQ-score}</div><div class="sl">Incorrect</div></div>
+        <div class="pw"><div class="pf" style="width:${pct}%"></div></div>
+        <div class="ss"><div class="sv">${SC.length-curQ}</div><div class="sl">Remaining</div></div>
+      </div>
+      <div class="sp-box"><div class="pl">Deal Situation</div><p>${s.q}</p></div>
+      <div class="og" id="og">${s.opts.map((o,i)=>`<button class="opt" onclick="pick(${i})">${o}</button>`).join('')}</div>
+      <div class="fb2" id="fb2"><div class="ft" id="ft2"></div><p id="fp2"></p></div>
+      <button class="btn-ns" id="ns" onclick="nextQ()">${curQ<SC.length-1?'Next Scenario →':'See Your Results'}</button>
+    </div>`;
+  ans=false;
+}
+
+function pick(i){
+  if(ans)return;
+  ans=true;
+  const s=SC[curQ];
+  const ok=i===s.ans;
+  scores.push(ok);
+  document.querySelectorAll('.opt').forEach((b,j)=>{
+    b.disabled=true;
+    if(j===s.ans&&ok)b.classList.add('correct');
+    else if(j===s.ans&&!ok)b.classList.add('show-right');
+    else if(j===i&&!ok)b.classList.add('incorrect');
+  });
+  const fb=document.getElementById('fb2');
+  fb.className='fb2 vis '+(ok?'ok':'ng');
+  document.getElementById('ft2').textContent=ok?'✓ Correct!':'✗ Not quite.';
+  document.getElementById('fp2').textContent=s.exp;
+  document.getElementById('ns').style.display='block';
+}
+
+function nextQ(){curQ++;buildQ();}
+
+function showRes(){
+  const score=scores.filter(x=>x).length;
+  const pct=Math.round((score/SC.length)*100);
+  const pass=pct>=80;
+  document.getElementById('swrap').innerHTML=`
+    <div class="sh"><h2>Your Results</h2></div>
+    <div class="sb res-wrap">
+      <div class="big-s">${pct}%</div>
+      <div class="pfl ${pass?'pass':'fail'}">${pass?'✓ Scenario Exercise Passed!':'✗ Review & Retry'}</div>
+      <p>${score} of ${SC.length} correct. ${pass?"Great work — bring this to your manager for certification sign-off.":"Review the Stage Walkthrough and Forecast tabs, then try again. You need 80%+ to pass."}</p>
+      <button class="btn btn-p" onclick="restart()">Try Again</button>
+    </div>`;
+}
+
+function restart(){curQ=0;scores=[];buildQ();}
+
+function showTab(n,btn){
+  document.querySelectorAll('[id^="tab-"]').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+n).style.display='block';
+  btn.classList.add('active');
+}
+
+buildPipe();buildFC();buildQ();
+</script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 8 | Internal Sales Mechanics — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780; --red:#C0392B;
+    --ltgreen:#E3F7E4; --ltblue:#E3F5F7; --gray:#F5F7F5; --border:#C8D8C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .logo-mark{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .logo-text{font-size:17px;font-weight:700;color:white;}
+  .logo-text span{color:var(--leaf);}
+  .mod-tag{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .main{max-width:1080px;margin:0 auto;padding:40px 20px;}
+  .hero{text-align:center;margin-bottom:40px;}
+  .hero h1{font-size:38px;font-weight:900;color:white;margin-bottom:10px;letter-spacing:-0.5px;}
+  .hero p{color:#89B89A;font-size:15px;max-width:560px;margin:0 auto;}
+
+  .tabs{display:flex;gap:4px;background:rgba(255,255,255,0.06);border-radius:12px;padding:5px;margin-bottom:32px;border:1px solid rgba(255,255,255,0.08);}
+  .tab-btn{flex:1;padding:11px 18px;border:none;background:transparent;color:#89B89A;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+  .tab-btn.active{background:var(--green);color:white;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+  .tab-btn:hover:not(.active){color:white;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* ── TAB 1: DEAL DESK ── */
+  .dd-intro{background:white;border-radius:14px;padding:28px 36px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .dd-intro h2{font-size:22px;font-weight:900;color:var(--green);margin-bottom:10px;}
+  .dd-intro p{color:var(--mid);font-size:14px;line-height:1.75;}
+
+  .rule-banner{background:var(--orange);border-radius:14px;padding:24px 32px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.25);}
+  .rule-banner .rb-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:6px;}
+  .rule-banner .rb-rule{font-size:26px;font-weight:900;color:white;margin-bottom:8px;}
+  .rule-banner .rb-sub{font-size:14px;color:rgba(255,255,255,0.9);line-height:1.6;}
+
+  .dd-split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px;}
+  .dd-can{background:white;border-radius:13px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+  .dd-cannot{background:white;border-radius:13px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+  .dd-can-hdr{background:var(--teal);padding:16px 22px;font-size:14px;font-weight:700;color:white;}
+  .dd-cannot-hdr{background:var(--red);padding:16px 22px;font-size:14px;font-weight:700;color:white;}
+  .dd-col-body{padding:18px 22px;}
+  .dd-col-body li{list-style:none;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--mid);display:flex;gap:10px;line-height:1.5;}
+  .dd-col-body li:last-child{border-bottom:none;}
+  .dd-col-body li::before{color:var(--leaf);font-weight:700;flex-shrink:0;}
+  .dd-can .dd-col-body li::before{content:'✓';}
+  .dd-cannot .dd-col-body li::before{content:'✗';color:var(--red);}
+
+  /* Deal Desk Meeting Prep */
+  .prep-title{font-size:18px;font-weight:900;color:white;margin-bottom:16px;}
+  .prep-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;}
+  .prep-step{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.15);display:flex;align-items:stretch;}
+  .ps-num{width:52px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:white;flex-shrink:0;}
+  .ps-body{padding:16px 20px;flex:1;}
+  .ps-body h3{font-size:15px;font-weight:700;color:var(--green);margin-bottom:4px;}
+  .ps-body p{font-size:13px;color:var(--mid);line-height:1.65;}
+
+  /* ── TAB 2: SWAT / MEDDICC ── */
+  .meddicc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px;}
+  .med-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.15);cursor:pointer;transition:all 0.2s;border:2px solid transparent;}
+  .med-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.25);}
+  .med-card.selected{border-color:var(--yellow);}
+  .med-hdr{display:flex;align-items:center;gap:14px;padding:16px 20px;}
+  .med-letter{width:50px;height:50px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:white;flex-shrink:0;}
+  .med-title{font-size:16px;font-weight:700;color:var(--text);}
+  .med-sub{font-size:12px;color:var(--mid);margin-top:2px;}
+  .med-detail{display:none;padding:0 20px 18px;border-top:1px solid var(--border);}
+  .med-card.selected .med-detail{display:block;}
+  .med-detail p{font-size:13px;color:var(--mid);line-height:1.75;margin-top:12px;}
+  .med-detail .med-question{background:var(--ltgreen);border-left:4px solid var(--leaf);padding:10px 14px;border-radius:6px;font-size:13px;color:var(--text);font-weight:600;margin-top:12px;}
+
+  .swat-sections-title{font-size:18px;font-weight:900;color:white;margin:24px 0 16px;}
+  .swat-sections{display:flex;flex-direction:column;gap:8px;}
+  .swat-section{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.15);cursor:pointer;border:2px solid transparent;}
+  .swat-section:hover{border-color:var(--leaf);}
+  .swat-section.open{border-color:var(--teal);}
+  .ss-hdr{display:flex;align-items:center;gap:16px;padding:16px 22px;}
+  .ss-num{width:36px;height:36px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:white;flex-shrink:0;}
+  .ss-title{flex:1;font-size:15px;font-weight:700;color:var(--text);}
+  .ss-arrow{font-size:18px;color:var(--mid);transition:transform 0.25s;}
+  .swat-section.open .ss-arrow{transform:rotate(180deg);}
+  .ss-body{display:none;padding:0 22px 18px;border-top:1px solid var(--border);}
+  .swat-section.open .ss-body{display:block;}
+  .ss-body p{font-size:13px;color:var(--mid);line-height:1.75;margin-top:12px;}
+  .ss-body ul{margin-top:10px;padding-left:0;list-style:none;}
+  .ss-body ul li{font-size:13px;color:var(--mid);padding:4px 0;display:flex;gap:8px;}
+  .ss-body ul li::before{content:'→';color:var(--teal);font-weight:700;flex-shrink:0;}
+
+  /* ── TAB 3: ESCALATION SCENARIOS ── */
+  .esc-intro{background:white;border-radius:14px;padding:24px 32px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .esc-intro h2{font-size:20px;font-weight:900;color:var(--green);margin-bottom:8px;}
+  .esc-intro p{font-size:14px;color:var(--mid);line-height:1.7;}
+
+  .scenario-card{background:white;border-radius:14px;padding:28px 32px;margin-bottom:20px;box-shadow:0 8px 28px rgba(0,0,0,0.18);border-left:5px solid var(--steel);}
+  .sc-meta{font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--steel);text-transform:uppercase;margin-bottom:10px;}
+  .sc-situation{font-size:17px;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.4;}
+  .sc-prompt{font-size:14px;color:var(--mid);margin-bottom:18px;line-height:1.65;}
+  .sc-choices{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+  .sc-choice{border:2px solid var(--border);border-radius:10px;padding:14px 18px;cursor:pointer;transition:all 0.2s;font-size:14px;color:var(--mid);line-height:1.5;background:var(--gray);}
+  .sc-choice:hover{border-color:var(--steel);background:var(--ltblue);color:var(--text);}
+  .sc-choice.correct{border-color:var(--leaf);background:var(--ltgreen);color:var(--text);}
+  .sc-choice.wrong{border-color:var(--red);background:#FDEDEC;color:var(--red);}
+  .sc-feedback{display:none;border-radius:10px;padding:14px 18px;font-size:14px;line-height:1.65;}
+  .sc-feedback.show{display:block;}
+  .sc-feedback.good{background:var(--ltgreen);border-left:4px solid var(--leaf);color:var(--text);}
+  .sc-feedback.bad{background:#FDEDEC;border-left:4px solid var(--red);color:#7B241C;}
+  .sc-feedback strong{display:block;margin-bottom:4px;}
+
+  /* ── TAB 4: COMM STANDARDS ── */
+  .sf-title{font-size:18px;font-weight:900;color:white;margin-bottom:16px;}
+  .compare-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .cw-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.15);}
+  .cw-hdr{padding:16px 22px;font-size:14px;font-weight:700;color:white;}
+  .cw-hdr.good{background:var(--leaf);}
+  .cw-hdr.bad{background:var(--red);}
+  .cw-list{padding:18px 22px;}
+  .cw-list li{list-style:none;padding:9px 0;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--mid);display:flex;gap:10px;line-height:1.5;}
+  .cw-list li:last-child{border-bottom:none;}
+  .cw-list.good li::before{content:'✓';color:var(--leaf);font-weight:700;flex-shrink:0;}
+  .cw-list.bad li::before{content:'✗';color:var(--red);font-weight:700;flex-shrink:0;}
+
+  .sf-rules-title{font-size:18px;font-weight:900;color:white;margin-bottom:16px;}
+  .sf-rules{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .sf-rule{background:white;border-radius:12px;padding:20px 22px;box-shadow:0 4px 16px rgba(0,0,0,0.15);}
+  .sf-rule .sfr-icon{font-size:24px;margin-bottom:8px;}
+  .sf-rule h3{font-size:15px;font-weight:700;color:var(--green);margin-bottom:8px;}
+  .sf-rule p{font-size:13px;color:var(--mid);line-height:1.65;}
+
+  /* ── WARN CALLOUT ── */
+  .warn-box{background:#FFF8E7;border-left:5px solid var(--orange);border-radius:8px;padding:16px 22px;margin-top:16px;}
+  .warn-box p{font-size:13.5px;color:#5C4400;line-height:1.7;}
+  .warn-box strong{color:var(--orange);}
+
+  footer{text-align:center;padding:32px 20px;color:rgba(255,255,255,0.3);font-size:12px;margin-top:40px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">Action<span>step</span></div>
+  </div>
+  <div class="mod-tag">Module 8 · Internal Sales Mechanics</div>
+</header>
+
+<div class="main">
+  <div class="hero">
+    <h1>Internal Sales Mechanics</h1>
+    <p>Master the Deal Desk process, SWAT documentation, escalation judgment, and internal communication standards.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('dealdesk',this)">💰 Deal Desk</button>
+    <button class="tab-btn" onclick="switchTab('swat',this)">🔍 SWAT & MEDDICC</button>
+    <button class="tab-btn" onclick="switchTab('escalation',this)">🚨 Escalation Scenarios</button>
+    <button class="tab-btn" onclick="switchTab('comms',this)">📡 Communication</button>
+  </div>
+
+  <!-- ── TAB 1: DEAL DESK ── -->
+  <div id="tab-dealdesk" class="tab-panel active">
+    <div class="dd-intro">
+      <h2>The Deal Desk — One Rule, One Process</h2>
+      <p>The Deal Desk at Actionstep has a single trigger: you want to offer a discount greater than 10% off list price. When that situation arises, you must stop and schedule a meeting with your manager and the CRO before making any commitment to the prospect. This is not optional — it's a process violation to go around it.</p>
+    </div>
+
+    <div class="rule-banner">
+      <div class="rb-label">The Rule</div>
+      <div class="rb-rule">Discount &gt; 10%? You need Deal Desk approval.</div>
+      <div class="rb-sub">Schedule a meeting with your Manager + CRO. Present the deal. Get approval. Then — and only then — communicate anything about discount to the prospect.</div>
+    </div>
+
+    <div class="dd-split">
+      <div class="dd-can">
+        <div class="dd-can-hdr">✓ You Can Approve Without Deal Desk</div>
+        <ul class="dd-col-body">
+          <li>Discounts up to 10% — no meeting required</li>
+          <li>Standard pricing and packaging conversations</li>
+          <li>Add-on upsell or cross-sell decisions</li>
+          <li>Trial extensions within your authority</li>
+        </ul>
+      </div>
+      <div class="dd-cannot">
+        <div class="dd-cannot-hdr">✗ Requires Deal Desk Approval</div>
+        <ul class="dd-col-body">
+          <li>Any discount greater than 10% off list price</li>
+          <li>Commitments made before approval are a process violation</li>
+          <li>No exceptions — even "soft" verbal hints count</li>
+          <li>Violations damage manager trust and your credibility</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="prep-title">How to Run the Deal Desk Meeting</p>
+    <div class="prep-steps">
+      <div class="prep-step">
+        <div class="ps-num">1</div>
+        <div class="ps-body">
+          <h3>Deal Overview</h3>
+          <p>Firm name, deal size (ARR), current stage, expected close date, and a brief summary of what you've confirmed so far. Your manager and CRO need context before they can help you.</p>
+        </div>
+      </div>
+      <div class="prep-step">
+        <div class="ps-num">2</div>
+        <div class="ps-body">
+          <h3>Discount Request</h3>
+          <p>State the exact percentage you want to offer and what you're asking for in return — referencability, prepay, faster close, referral, or a white paper. The "give" is as important as the "get."</p>
+        </div>
+      </div>
+      <div class="prep-step">
+        <div class="ps-num">3</div>
+        <div class="ps-body">
+          <h3>SWAT Template</h3>
+          <p>Bring a completed or draft SWAT showing identified pain, key decision makers, competitive positioning, and next steps. If you can't fill out the SWAT, you probably don't know the deal well enough to be requesting a discount.</p>
+        </div>
+      </div>
+      <div class="prep-step">
+        <div class="ps-num">4</div>
+        <div class="ps-body">
+          <h3>Rationale</h3>
+          <p>Why is this discount justified? Competitive pressure? Budget constraints? Strategic value of this firm as a reference? Make the case. Don't just ask — persuade.</p>
+        </div>
+      </div>
+      <div class="prep-step">
+        <div class="ps-num">5</div>
+        <div class="ps-body">
+          <h3>Your Ask</h3>
+          <p>Be specific about what you need from this meeting: pricing exception approval, a co-sell call, a different packaging option. Leadership responds to clarity. "I need help" is not an ask.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <p><strong>⚠️ Remember:</strong> Come as a presenter, not a permission-seeker. You are making a business case. Reps who come in knowing their deals cold and with a clear ask get faster decisions and more leadership support.</p>
+    </div>
+  </div>
+
+  <!-- ── TAB 2: SWAT / MEDDICC ── -->
+  <div id="tab-swat" class="tab-panel">
+    <div class="dd-intro">
+      <h2>The SWAT Template & MEDDICC</h2>
+      <p>The SWAT (Strategic Win Analysis Template) is your internal deal intelligence document. It is built on the MEDDICC qualification framework and is required for any serious escalation, Deal Desk conversation, or management review. Click each component to explore what it means and what questions to ask.</p>
+    </div>
+
+    <div class="meddicc-grid">
+      <div class="med-card" onclick="toggleMed(this)">
+        <div class="med-hdr">
+          <div class="med-letter" style="background:#74AA50;">M</div>
+          <div>
+            <div class="med-title">Metrics</div>
+            <div class="med-sub">Quantify the pain and the value</div>
+          </div>
+        </div>
+        <div class="med-detail">
+          <p>Metrics are the numbers that make the pain and solution real. Without metrics, a deal is emotional and undefendable in a review. You need to know both the size of the problem (cost of doing nothing) and the expected value of the solution.</p>
+          <div class="med-question">Key questions: How much time is wasted on billing today? What does a missed deadline or compliance gap cost the firm? What's the revenue impact of faster matter management?</div>
+        </div>
+      </div>
+
+      <div class="med-card" onclick="toggleMed(this)">
+        <div class="med-hdr">
+          <div class="med-letter" style="background:#285780;">E</div>
+          <div>
+            <div class="med-title">Economic Buyer</div>
+            <div class="med-sub">Who has real budget authority?</div>
+          </div>
+        </div>
+        <div class="med-detail">
+          <p>The Economic Buyer is the person who can say "yes" and make it happen — or "no" and kill the deal. This is not always the person you've been talking to most. At law firms, this is often the Managing Partner, Equity Partner, or Firm Administrator.</p>
+          <div class="med-question">Key questions: Have you met the Economic Buyer directly? Have they seen the solution? Do they know the price? Have they shown any signal of commitment?</div>
+        </div>
+      </div>
+
+      <div class="med-card" onclick="toggleMed(this)">
+        <div class="med-hdr">
+          <div class="med-letter" style="background:#255C4E;">D</div>
+          <div>
+            <div class="med-title">Decision Criteria</div>
+            <div class="med-sub">What standards are they evaluating?</div>
+          </div>
+        </div>
+        <div class="med-detail">
+          <p>Decision Criteria are the technical and financial requirements the firm is using to evaluate solutions. If you don't know what they're measuring, you can't position effectively — and you'll be surprised when you lose on a criterion you didn't know existed.</p>
+          <div class="med-question">Key questions: What does the perfect solution look like to you? What would cause you to rule out a vendor? Are there must-have integrations or compliance requirements?</div>
+        </div>
+      </div>
+
+      <div class="med-card" onclick="toggleMed(this)">
+        <div class="med-hdr">
+          <div class="med-letter" style="background:#285780;">D</div>
+          <div>
+            <div class="med-title">Decision Process</div>
+            <div class="med-sub">How will they actually decide?</div>
+          </div>
+        </div>
+        <div class="med-detail">
+          <p>The Decision Process maps out the specific steps the firm will take from evaluation to signed contract — including who signs, in what order, and what reviews or approvals are required. The paper process (legal review, contract sign-off) is part of this and is often underestimated.</p>
+          <div class="med-question">Key questions: Who else needs to approve before a contract is signed? Has your legal team reviewed our MSA before? What's your typical timeline from decision to implementation?</div>
+        </div>
+      </div>
+
+      <div class="med-card" onclick="toggleMed(this)">
+        <div class="med-hdr">
+          <div class="med-letter" style="background:#FF6900;">I</div>
+          <div>
+            <div class="med-title">Identify Pain</div>
+            <div class="med-sub">What are they really trying to fix?</div>
+          </div>
+        </div>
+        <div class="med-detail">
+          <p>Pain has two dimensions: business pain (billing delays, compliance risk, reporting gaps, inefficiency) and technical pain (legacy software, integration failures, data silos). Both must be identified, and ideally quantified. Pain without metrics is a conversation — pain with metrics is a business case.</p>
+          <div class="med-question">Key questions: What breaks when your current system fails? Who spends the most time on manual work today? What keeps the Managing Partner up at night?</div>
+        </div>
+      </div>
+
+      <div class="med-card" onclick="toggleMed(this)">
+        <div class="med-hdr">
+          <div class="med-letter" style="background:#024638;">C</div>
+          <div>
+            <div class="med-title">Champion</div>
+            <div class="med-sub">Who wants you to win internally?</div>
+          </div>
+        </div>
+        <div class="med-detail">
+          <p>Your Champion is the internal advocate who actively wants Actionstep to win and has the credibility and influence to move the deal forward when you're not in the room. A Champion is different from a contact — they take action, share internal information, and coach you on the politics of the firm.</p>
+          <div class="med-question">Key questions: Has this person advocated for you in an internal meeting? Have they shared information that wasn't publicly available? Do they have something to gain if you win?</div>
+        </div>
+      </div>
+
+      <div class="med-card" onclick="toggleMed(this)" style="grid-column:1/-1;">
+        <div class="med-hdr">
+          <div class="med-letter" style="background:#024638;">C</div>
+          <div>
+            <div class="med-title">Competition</div>
+            <div class="med-sub">Who else is being evaluated?</div>
+          </div>
+        </div>
+        <div class="med-detail">
+          <p>Competition includes both named competitors (other software vendors) and the status quo (doing nothing or staying with their current system). For each competitor, you need to know their strengths, weaknesses, and how you differentiate. Blind spots in competitive knowledge are where deals get stolen.</p>
+          <div class="med-question">Key questions: Who else are you looking at? What do you like about them? What concerns do you have about them? What does [Competitor X] do better or worse than what you've seen from us?</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="swat-sections-title">The 6 Sections of the SWAT Template</p>
+    <div class="swat-sections">
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num">1</div>
+          <div class="ss-title">Opportunity Overview</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>The header of the SWAT — captures deal name, rep name, stage, ARR, Salesforce link, close date, opportunity description, and any known qualification gaps or challenges. This is the "card" for the deal.</p>
+          <ul>
+            <li>Always keep the close date current and the stage accurate before filling this out</li>
+            <li>Known qualification gaps are not weaknesses — they are honesty, and they help leadership help you</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num">2</div>
+          <div class="ss-title">Business Initiatives &amp; Outcomes</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Capture the firm's top 3 strategic initiatives and the specific business outcomes they expect from a solution. This connects your deal to what leadership at the firm actually cares about — and it's what makes your ROI narrative credible.</p>
+          <ul>
+            <li>Initiative: "Reduce time spent on billing by 40% this year"</li>
+            <li>Outcome: "Partners spend 3+ hours/week less on administrative work"</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num">3</div>
+          <div class="ss-title">Identified Pain (MEDDICC)</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Document both business pains and technical pains separately. For each, estimate the dollar size of the pain and identify who is impacted. The SWAT template has fields for both — fill both.</p>
+          <ul>
+            <li>Business pain: billing delays, compliance risk, manual reporting, lack of visibility</li>
+            <li>Technical pain: integration failures, legacy software limitations, data fragmentation</li>
+            <li>Size of pain: quantify in time, dollars, or risk exposure wherever possible</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num">4</div>
+          <div class="ss-title">Decision Making Roles (MEDDICC)</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Map every key person in the deal: Economic Buyer, Technical Buyer, Champion, Coach, and other influencers. For each role, name the person, their title, and how you've validated their role. "I assume" is not validation.</p>
+          <ul>
+            <li>Economic Buyer validation: Have they confirmed budget? Have they seen pricing?</li>
+            <li>Champion validation: Have they acted on your behalf internally?</li>
+            <li>Coach: someone who gives you political intelligence but may not advocate for you publicly</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num">5</div>
+          <div class="ss-title">Decision Criteria &amp; Competition (MEDDICC)</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Document the technical and financial criteria the firm is evaluating, plus a structured competitor analysis for each vendor in the evaluation. For each competitor: their strengths, their weaknesses, and your specific differentiators against them.</p>
+          <ul>
+            <li>Don't leave the competitor column blank — "None" is rarely the honest answer</li>
+            <li>Status quo ("staying with what we have") counts as a competitor</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num">6</div>
+          <div class="ss-title">Decision Process, Paper Process &amp; Critical Next Steps</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Map the full path from today to a signed contract. Include the decision process steps (with owners and due dates), the paper process (who signs, in what order, and what legal review is needed), and the top 3 critical next steps with owners and deadlines.</p>
+          <ul>
+            <li>Critical next step = specific, time-bound, owned action — not "follow up"</li>
+            <li>Paper process should be confirmed with the prospect, not assumed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TAB 3: ESCALATION SCENARIOS ── -->
+  <div id="tab-escalation" class="tab-panel">
+    <div class="esc-intro">
+      <h2>Escalation Judgment — Practice Scenarios</h2>
+      <p>Escalation is a skill. Knowing when and how to bring in your manager or CRO separates reps who win with support from reps who lose alone. Work through each scenario and choose the best response.</p>
+    </div>
+
+    <!-- Scenario 1 -->
+    <div class="scenario-card">
+      <div class="sc-meta">Scenario 1 of 6 · Deal Desk Trigger</div>
+      <div class="sc-situation">A prospect says: "We love Actionstep. If you can get us to 88% of list price, we'll sign this quarter."</div>
+      <div class="sc-prompt">You're currently at list price. Their request represents a 12% discount. What do you do?</div>
+      <div class="sc-choices">
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Tell them you'll see what you can do and send a revised proposal at 88% immediately.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'correct')">Tell them you'll need to get internal approval for that level of discount, and schedule a Deal Desk meeting with your manager and CRO before responding.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Counter with 95% since anything above 10% is close and probably fine.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Decline and say you can't offer any discount without losing the deal.</div>
+      </div>
+      <div class="sc-feedback good"><strong>✓ Correct.</strong> A 12% discount exceeds the 10% threshold. You must schedule a Deal Desk meeting with your manager and the CRO before making any commitment. Tell the prospect: "I'll need to get internal alignment on that — let me come back to you by [specific date]." Don't hint at the number, don't soft-commit. Pause and get approval.</div>
+      <div class="sc-feedback bad"><strong>✗ Not quite.</strong> Any discount greater than 10% requires Deal Desk approval — a meeting with your manager and the CRO — before you make any commitment to the prospect. Even a soft verbal agreement counts. Pause the conversation and get internal approval first.</div>
+    </div>
+
+    <!-- Scenario 2 -->
+    <div class="scenario-card">
+      <div class="sc-meta">Scenario 2 of 6 · Escalation Timing</div>
+      <div class="sc-situation">Your champion just texted: "Heads up — their attorney is asking to review and mark up the MSA before anyone signs."</div>
+      <div class="sc-prompt">You're in Deal Review stage. What's your next move?</div>
+      <div class="sc-choices">
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Wait to see what changes the attorney proposes before looping in your manager.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Tell the champion that Actionstep doesn't allow MSA markups and see if it goes away.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'correct')">Immediately escalate to your manager — legal review of the MSA is a situation that requires internal coordination before you respond to the prospect.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Send the prospect a "clean" version of the MSA and hope they accept it.</div>
+      </div>
+      <div class="sc-feedback good"><strong>✓ Correct.</strong> Contract markup by the prospect's legal team is an immediate escalation trigger. Before you respond to the prospect or their attorney, loop in your manager. Your response to a legal markup could have binding implications — this is not a situation you handle alone.</div>
+      <div class="sc-feedback bad"><strong>✗ Not quite.</strong> Prospect legal review of the MSA is on the "escalate immediately" list. Don't wait for the markup, don't improvise a response, and don't speak to contract terms without internal guidance. Escalate to your manager now.</div>
+    </div>
+
+    <!-- Scenario 3 -->
+    <div class="scenario-card">
+      <div class="sc-meta">Scenario 3 of 6 · Escalation Communication</div>
+      <div class="sc-situation">You need to escalate a deal to your manager. You send this Slack message: "Hey, can I get 10 mins to talk about Hartwell & Associates? Having some issues."</div>
+      <div class="sc-prompt">What's wrong with this escalation communication?</div>
+      <div class="sc-choices">
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Nothing — it's casual and gets the conversation started.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'correct')">It provides no context about the deal, the specific issue, or what decision or support is needed — making it hard for your manager to help efficiently.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">It should have been an email, not Slack.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">It should mention the deal ARR so the manager knows if it's worth their time.</div>
+      </div>
+      <div class="sc-feedback good"><strong>✓ Correct.</strong> "Having some issues" tells your manager nothing. A strong escalation Slack message looks like: "Hey — Hartwell & Associates ($18K ARR, Deal Review, close date 3/31) — their legal team is asking to mark up the MSA. I need 15 minutes to align on how to respond. Available tomorrow 10am or 2pm?" Context + issue + specific ask = efficient escalation.</div>
+      <div class="sc-feedback bad"><strong>✗ Not quite.</strong> The problem is specificity. Escalation messages should always include: deal name, stage, ARR, what's happening, and what you need. Without context, your manager can't prepare, and your meeting will be slower and less useful.</div>
+    </div>
+
+    <!-- Scenario 4 -->
+    <div class="scenario-card">
+      <div class="sc-meta">Scenario 4 of 6 · SWAT Completeness</div>
+      <div class="sc-situation">You request a Deal Desk meeting to discuss a 15% discount. Your manager asks: "Do you have a SWAT ready?" You say: "Sort of — I have notes in Salesforce."</div>
+      <div class="sc-prompt">What is your manager likely to say next, and what should you do?</div>
+      <div class="sc-choices">
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Walk your manager through your Salesforce notes verbally in the meeting.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Reschedule the Deal Desk meeting until you have better notes.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'correct')">Complete the SWAT before the Deal Desk meeting. Salesforce notes are not a substitute — the SWAT has structured fields that help leadership evaluate the deal systematically.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Ask your manager to help you fill out the SWAT in the meeting.</div>
+      </div>
+      <div class="sc-feedback good"><strong>✓ Correct.</strong> The SWAT is not optional for escalation conversations. Your manager and CRO need structured information to evaluate the deal and the discount ask — not scattered notes. Complete the SWAT before the meeting. If you can't complete it, that's often a signal that you need to do more discovery before requesting a discount.</div>
+      <div class="sc-feedback bad"><strong>✗ Not quite.</strong> The SWAT template exists because structured information enables faster, better decisions. "Notes in Salesforce" means your leadership has to interpret and extract what they need rather than reviewing what you've prepared. Complete the SWAT before any escalation meeting.</div>
+    </div>
+
+    <!-- Scenario 5 -->
+    <div class="scenario-card">
+      <div class="sc-meta">Scenario 5 of 6 · Over-Escalation</div>
+      <div class="sc-situation">A prospect pushes back on your ROI numbers during a demo, saying they're not sure the pricing is justified. You immediately message your manager: "Need help — prospect is objecting on pricing and I don't know what to do."</div>
+      <div class="sc-prompt">Is this the right escalation move?</div>
+      <div class="sc-choices">
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Yes — any pricing objection should go to the manager immediately.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'correct')">No — pricing objections during a demo are normal and should be handled by the rep. This is over-escalation. Escalate only if it reaches a discount request exceeding 10% or requires management authority.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Yes — it's better to loop in management early than to lose the deal.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">No — this should go to the CRO directly, not the manager.</div>
+      </div>
+      <div class="sc-feedback good"><strong>✓ Correct.</strong> Pricing objections in a demo are a normal part of selling. Handle them with discovery questions, ROI framing, and value articulation. Escalating every objection trains your manager to see you as dependent rather than capable. Escalate when you've reached the limits of your authority — not the first moment you encounter resistance.</div>
+      <div class="sc-feedback bad"><strong>✗ Not quite.</strong> Over-escalation is a real problem. Routine objections — including most pricing discussions — are within your scope to handle. Reserve escalation for situations that genuinely require management authority: discount > 10%, contract markups, executive requests, custom scope, and deal-threatening competitive situations.</div>
+    </div>
+
+    <!-- Scenario 6 -->
+    <div class="scenario-card">
+      <div class="sc-meta">Scenario 6 of 6 · Unauthorized Commitment</div>
+      <div class="sc-situation">You're excited about a deal and hint to the prospect that "we can probably get you to 85% of list to make this work" — planning to get Deal Desk approval afterward.</div>
+      <div class="sc-prompt">What's the problem with this approach?</div>
+      <div class="sc-choices">
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">Nothing — getting approval after the fact is usually fine since you're planning to do it right.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'correct')">You've made an unauthorized commitment. The prospect now believes 85% is on the table, weakening your negotiating position internally and externally, and creating a process violation.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">It's only a problem if the Deal Desk doesn't approve the 85%.</div>
+        <div class="sc-choice" onclick="answerScenario(this,'wrong')">It's fine as long as you document the conversation in Salesforce.</div>
+      </div>
+      <div class="sc-feedback good"><strong>✓ Correct.</strong> Once you hint at a number, the prospect anchors to it. If Deal Desk then approves only 90%, you're in an awkward position of having to walk back a commitment. And if they reject the discount entirely, you've damaged the deal. The rule is clear: no commitment before approval. Not even a "probably" or a "we can likely."</div>
+      <div class="sc-feedback bad"><strong>✗ Not quite.</strong> Any hint of a discount above 10% — even casual language — creates an expectation. The prospect hears "85% is the floor." When Deal Desk approves less, or approves nothing, you've made your job harder and damaged trust on both sides. Get approval first. Always.</div>
+    </div>
+  </div>
+
+  <!-- ── TAB 4: COMMUNICATION STANDARDS ── -->
+  <div id="tab-comms" class="tab-panel">
+    <div class="dd-intro">
+      <h2>Internal Communication Standards</h2>
+      <p>Your credibility as a rep is built in two places: with prospects and with your internal team. How you communicate about deals — in Salesforce, in pipeline reviews, and in async messages — shapes how leadership perceives you and how much support you receive.</p>
+    </div>
+
+    <p class="sf-title">Pipeline Review: Strong vs. Weak Rep Behaviors</p>
+    <div class="compare-wrapper">
+      <div class="cw-card">
+        <div class="cw-hdr good">✅ Strong Rep — In Every Review</div>
+        <ul class="cw-list good">
+          <li>Knows every deal in their pipeline cold — no looking things up</li>
+          <li>Can articulate next step, close date rationale, and risk for every deal</li>
+          <li>Proactively flags deals with risk before being asked</li>
+          <li>Salesforce is updated before the meeting, not during</li>
+          <li>Owns their forecast with conviction — "I know this closes"</li>
+        </ul>
+      </div>
+      <div class="cw-card">
+        <div class="cw-hdr bad">❌ Weak Rep — Red Flags</div>
+        <ul class="cw-list bad">
+          <li>Looks up deal details or notes during the meeting itself</li>
+          <li>Can't explain why the close date is what it is</li>
+          <li>Optimistic about every deal — no acknowledgment of risk</li>
+          <li>Updates Salesforce after the meeting is over</li>
+          <li>Says "I think" or "I believe" instead of "I know this deal"</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="sf-rules-title">Salesforce as Your Communication Layer</p>
+    <div class="sf-rules">
+      <div class="sf-rule">
+        <div class="sfr-icon">📋</div>
+        <h3>Log Every External Touchpoint</h3>
+        <p>Calls, emails, demos, meetings — all of it goes in. A deal with no Salesforce activity is invisible to leadership and undefendable in a review. Logging protects you as much as it informs others.</p>
+      </div>
+      <div class="sf-rule">
+        <div class="sfr-icon">📅</div>
+        <h3>Update Stage &amp; Close Date in Real Time</h3>
+        <p>Don't batch your Salesforce updates. When something changes in a deal — a stage advance, a slip, a new stakeholder — update it the same day. Stale data misleads every forecast roll-up above you.</p>
+      </div>
+      <div class="sf-rule">
+        <div class="sfr-icon">🎯</div>
+        <h3>Use the Next Step Field</h3>
+        <p>The Next Step field must contain a concrete, time-bound action with an owner. "Following up" is not a next step. "Sending revised SOW by Thursday, confirmed with champion" is a next step.</p>
+      </div>
+      <div class="sf-rule">
+        <div class="sfr-icon">📝</div>
+        <h3>Write Escalation-Ready Deal Notes</h3>
+        <p>Any deal that might need management involvement should have notes clear enough that your manager could walk in cold and understand the situation. Write notes as if you won't be the one presenting them.</p>
+      </div>
+    </div>
+
+    <p class="sf-rules-title" style="margin-top:28px;">Async Communication Standards</p>
+    <div class="swat-sections">
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num" style="background:var(--steel);">1</div>
+          <div class="ss-title">Lead with context, not questions</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Always include deal name, stage, and what's happening before asking your question. "Can you help with Hartwell?" tells your manager nothing. "Hartwell &amp; Associates ($18K ARR, Deal Review) — their legal team wants to mark up the MSA. What's our standard response?" gives them everything they need.</p>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num" style="background:var(--steel);">2</div>
+          <div class="ss-title">State what you need specifically</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Do you need a decision? Advice? An email sent? A call made? A pricing exception? State it explicitly. "I need 15 minutes Wednesday to get your sign-off on a 12% discount request for Hartwell before I respond to them Thursday." is a complete ask.</p>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num" style="background:var(--steel);">3</div>
+          <div class="ss-title">Sensitive deal terms = call, not Slack</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>Slack and email are fine for logistics and quick questions. But sensitive discussions — pricing exceptions, contract terms, competitive intel, deal strategy — belong on a call or in a meeting where you can have a real conversation and alignment is confirmed, not assumed from a text thread.</p>
+        </div>
+      </div>
+
+      <div class="swat-section" onclick="toggleSS(this)">
+        <div class="ss-hdr">
+          <div class="ss-num" style="background:var(--steel);">4</div>
+          <div class="ss-title">Close the loop — always</div>
+          <div class="ss-arrow">▾</div>
+        </div>
+        <div class="ss-body">
+          <p>When you escalate and receive help — a decision made, guidance given, an email sent on your behalf — close the loop with a quick confirmation. This is good professional hygiene and it signals to your manager that their time was worth spending. It also keeps your deal history clean.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box" style="margin-top:24px;">
+      <p><strong>⚠️ Never over-rely on verbal alignment.</strong> When you've reached agreement internally — on a discount, a strategy, a response — get it confirmed and documented. "We talked about it" is not a deal record. Put it in Salesforce and confirm via email when the stakes are high.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>Actionstep Sales Academy · Module 8: Internal Sales Mechanics · Phase 2 — Controlled Execution</footer>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleMed(card) {
+  const wasOpen = card.classList.contains('selected');
+  document.querySelectorAll('.med-card').forEach(c => c.classList.remove('selected'));
+  if (!wasOpen) card.classList.add('selected');
+}
+
+function toggleSS(el) {
+  el.classList.toggle('open');
+}
+
+function answerScenario(choice, result) {
+  const card = choice.closest('.scenario-card');
+  const choices = card.querySelectorAll('.sc-choice');
+  const feedbacks = card.querySelectorAll('.sc-feedback');
+
+  // Disable all choices
+  choices.forEach(c => c.style.pointerEvents = 'none');
+
+  // Mark this choice
+  choice.classList.add(result === 'correct' ? 'correct' : 'wrong');
+
+  // Show appropriate feedback
+  const feedbackEl = result === 'correct' ? feedbacks[0] : feedbacks[1];
+  feedbackEl.classList.add('show');
+}
+</script>
+</body>
+</html>

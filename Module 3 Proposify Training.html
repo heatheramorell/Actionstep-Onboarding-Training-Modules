@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3 | Proposify — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780; --lblue:#7BA7BC;
+    --ltgreen:#E3F7E4; --ltblue:#E3F5F7; --gray:#F5F7F5; --border:#C8E0C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'Red Hat Display',sans-serif; background:var(--navy); color:var(--text); min-height:100vh; }
+
+  /* HEADER */
+  header { background:var(--green); padding:0 40px; height:58px; display:flex; justify-content:space-between; align-items:center; border-bottom:4px solid var(--leaf); }
+  .logo { display:flex; align-items:center; gap:12px; }
+  .logo-mark { width:34px; height:34px; background:var(--teal); border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:900; color:white; }
+  .logo-text { font-size:17px; font-weight:700; color:white; }
+  .logo-text span { color:var(--leaf); }
+  .mod-tag { background:rgba(255,255,255,0.12); color:#A8D5A8; padding:4px 14px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; }
+
+  /* MAIN */
+  .main { max-width:1040px; margin:0 auto; padding:40px 20px; }
+  .hero { text-align:center; margin-bottom:40px; }
+  .hero-eyebrow { display:inline-flex; align-items:center; gap:8px; background:rgba(116,170,80,0.15); border:1px solid rgba(116,170,80,0.3); border-radius:20px; padding:5px 16px; margin-bottom:16px; }
+  .hero-eyebrow span { font-size:11px; font-weight:700; color:var(--leaf); letter-spacing:1.5px; text-transform:uppercase; }
+  .hero h1 { font-size:38px; font-weight:900; color:white; margin-bottom:10px; letter-spacing:-0.5px; }
+  .hero h1 em { color:var(--leaf); font-style:normal; }
+  .hero p { color:#89B89A; font-size:15px; max-width:580px; margin:0 auto; line-height:1.6; }
+
+  /* TABS */
+  .tabs { display:flex; gap:4px; background:rgba(255,255,255,0.06); border-radius:12px; padding:5px; margin-bottom:32px; border:1px solid rgba(255,255,255,0.08); }
+  .tab-btn { flex:1; padding:11px 14px; border:none; background:transparent; color:#89B89A; font-family:'Red Hat Display',sans-serif; font-size:12px; font-weight:700; border-radius:8px; cursor:pointer; transition:all 0.2s; letter-spacing:0.3px; }
+  .tab-btn.active { background:var(--green); color:white; box-shadow:0 2px 10px rgba(0,0,0,0.3); }
+  .tab-btn:hover:not(.active) { color:white; }
+
+  /* PANELS */
+  .panel { display:none; }
+  .panel.vis { display:block; animation:fadeup 0.28s ease; }
+  @keyframes fadeup { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  /* CARDS */
+  .card { background:white; border-radius:14px; overflow:hidden; box-shadow:0 16px 48px rgba(0,0,0,0.3); margin-bottom:20px; }
+  .card-hdr { padding:22px 28px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:14px; }
+  .card-icon { width:46px; height:46px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .card-hdr h2 { font-size:19px; font-weight:900; color:var(--green); }
+  .card-hdr p { font-size:13px; color:var(--mid); margin-top:2px; }
+  .card-body { padding:24px 28px; }
+
+  /* GRID */
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+
+  /* STEP FLOW */
+  .step-flow { display:flex; flex-direction:column; gap:0; }
+  .step-item { display:flex; gap:18px; }
+  .step-left { display:flex; flex-direction:column; align-items:center; width:40px; flex-shrink:0; }
+  .step-num { width:40px; height:40px; border-radius:50%; background:var(--green); color:white; font-size:15px; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .step-line { width:2px; flex:1; background:var(--border); min-height:20px; }
+  .step-content { padding-bottom:24px; flex:1; }
+  .step-content h3 { font-size:15px; font-weight:900; color:var(--green); margin-bottom:6px; margin-top:8px; }
+  .step-content p { font-size:13px; color:var(--mid); line-height:1.7; }
+  .step-tip { background:var(--ltgreen); border-left:3px solid var(--leaf); border-radius:0 8px 8px 0; padding:8px 12px; margin-top:8px; font-size:12px; color:var(--teal); font-weight:700; }
+  .step-warn { background:#FFF8EC; border-left:3px solid var(--orange); border-radius:0 8px 8px 0; padding:8px 12px; margin-top:8px; font-size:12px; color:#8B4500; font-weight:600; }
+
+  /* INFO BOXES */
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .info-box { border-radius:10px; padding:16px 18px; }
+  .info-box.green { background:var(--ltgreen); border:1px solid var(--border); }
+  .info-box.blue { background:var(--ltblue); border:1px solid #B8D8E0; }
+  .info-box.yellow { background:#FFFBEC; border:1px solid #F5D87A; }
+  .info-box.orange { background:#FFF3EA; border:1px solid #FFBF8A; }
+  .info-box h4 { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px; }
+  .info-box.green h4 { color:var(--teal); }
+  .info-box.blue h4 { color:var(--steel); }
+  .info-box.yellow h4 { color:#8A6800; }
+  .info-box.orange h4 { color:#8B3A00; }
+  .info-box ul { list-style:none; }
+  .info-box ul li { font-size:13px; color:var(--mid); padding:4px 0; display:flex; gap:8px; line-height:1.5; }
+  .info-box ul li::before { content:'→'; font-weight:700; flex-shrink:0; margin-top:1px; }
+  .info-box.green ul li::before { color:var(--leaf); }
+  .info-box.blue ul li::before { color:var(--lblue); }
+  .info-box.yellow ul li::before { color:#C8A800; }
+  .info-box.orange ul li::before { color:var(--orange); }
+  .info-box p { font-size:13px; color:var(--mid); line-height:1.6; }
+
+  /* FEATURE CARDS */
+  .feat-card { background:var(--gray); border-radius:10px; padding:16px; border:1px solid var(--border); }
+  .feat-card .feat-icon { font-size:22px; margin-bottom:8px; }
+  .feat-card h4 { font-size:13px; font-weight:900; color:var(--green); margin-bottom:6px; }
+  .feat-card p { font-size:12px; color:var(--mid); line-height:1.6; }
+  .feat-card .feat-tag { display:inline-block; margin-top:8px; background:var(--ltgreen); color:var(--teal); font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:10px; }
+
+  /* SECTION LABEL */
+  .sec-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.8px; color:var(--leaf); margin-bottom:12px; }
+
+  /* DIVIDER */
+  .divider { height:1px; background:var(--border); margin:20px 0; }
+
+  /* TABLE */
+  .data-table { width:100%; border-collapse:collapse; }
+  .data-table th { background:var(--green); color:white; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:10px 14px; text-align:left; }
+  .data-table th:first-child { border-radius:8px 0 0 0; }
+  .data-table th:last-child { border-radius:0 8px 0 0; }
+  .data-table td { padding:11px 14px; font-size:13px; color:var(--mid); border-bottom:1px solid var(--border); }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table tr:hover td { background:var(--ltgreen); }
+  .pill { display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; }
+  .pill-green { background:var(--ltgreen); color:var(--teal); }
+  .pill-blue { background:var(--ltblue); color:var(--steel); }
+  .pill-orange { background:#FFF0E5; color:var(--orange); }
+
+  /* SCENARIO PANEL */
+  .scenario-wrap { display:flex; flex-direction:column; gap:16px; }
+  .scenario-card { background:white; border-radius:12px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,0.25); }
+  .scenario-hdr { padding:16px 22px; display:flex; align-items:center; gap:12px; cursor:pointer; user-select:none; }
+  .s-num { width:32px; height:32px; border-radius:8px; background:var(--green); color:white; font-size:13px; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .s-title { flex:1; }
+  .s-title h3 { font-size:14px; font-weight:900; color:var(--green); }
+  .s-title p { font-size:12px; color:var(--mid); margin-top:1px; }
+  .s-arrow { font-size:16px; color:var(--leaf); transition:transform 0.2s; }
+  .s-arrow.open { transform:rotate(90deg); }
+  .scenario-body { display:none; border-top:1px solid var(--border); }
+  .scenario-body.vis { display:block; }
+  .scenario-section { padding:18px 22px; }
+  .scenario-section + .scenario-section { border-top:1px solid var(--border); }
+  .scenario-section h4 { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--leaf); margin-bottom:10px; }
+  .scenario-section p { font-size:13px; color:var(--mid); line-height:1.7; }
+  .scenario-section ul { list-style:none; }
+  .scenario-section ul li { font-size:13px; color:var(--mid); padding:5px 0; display:flex; gap:8px; line-height:1.5; border-bottom:1px solid var(--border); }
+  .scenario-section ul li:last-child { border-bottom:none; }
+  .scenario-section ul li::before { content:'✓'; color:var(--leaf); font-weight:900; flex-shrink:0; }
+  .situation-box { background:#FFFBEC; border-radius:8px; border-left:3px solid var(--yellow); padding:12px 14px; font-size:13px; color:var(--text); font-style:italic; line-height:1.6; }
+  .answer-box { background:var(--ltgreen); border-radius:8px; padding:14px 16px; }
+  .answer-box p { font-size:13px; color:var(--teal); line-height:1.7; }
+
+  /* QUIZ */
+  .quiz-start { background:white; border-radius:14px; padding:48px 40px; text-align:center; box-shadow:0 16px 48px rgba(0,0,0,0.3); }
+  .quiz-start h2 { font-size:26px; font-weight:900; color:var(--green); margin-bottom:10px; }
+  .quiz-start p { font-size:15px; color:var(--mid); max-width:420px; margin:0 auto 28px; line-height:1.6; }
+  .quiz-meta { display:flex; justify-content:center; gap:32px; margin-bottom:28px; }
+  .qm-item { display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .qm-num { font-size:28px; font-weight:900; color:var(--green); }
+  .qm-lbl { font-size:11px; font-weight:700; color:var(--mid); text-transform:uppercase; letter-spacing:1px; }
+
+  .q-wrap { background:white; border-radius:14px; overflow:hidden; box-shadow:0 16px 48px rgba(0,0,0,0.3); }
+  .q-hdr { padding:18px 28px; background:var(--green); display:flex; justify-content:space-between; align-items:center; }
+  .q-hdr span { font-size:13px; font-weight:700; color:rgba(255,255,255,0.7); }
+  .q-hdr .q-prog-bar { flex:1; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; margin:0 16px; }
+  .q-prog-fill { height:100%; background:var(--leaf); border-radius:3px; transition:width 0.3s; }
+  .q-body { padding:28px; }
+  .q-text { font-size:17px; font-weight:700; color:var(--text); line-height:1.55; margin-bottom:22px; }
+  .q-opts { display:flex; flex-direction:column; gap:10px; }
+  .q-opt { padding:14px 18px; border-radius:10px; border:2px solid var(--border); background:white; font-family:'Red Hat Display',sans-serif; font-size:14px; color:var(--text); cursor:pointer; transition:all 0.18s; text-align:left; display:flex; gap:14px; align-items:flex-start; line-height:1.5; }
+  .q-opt-letter { width:28px; height:28px; border-radius:50%; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--mid); flex-shrink:0; transition:all 0.18s; }
+  .q-opt:hover:not(:disabled) { border-color:var(--green); background:var(--ltgreen); }
+  .q-opt:hover:not(:disabled) .q-opt-letter { border-color:var(--green); color:var(--green); }
+  .q-opt:disabled { cursor:default; }
+  .q-opt.correct { border-color:var(--leaf); background:var(--ltgreen); }
+  .q-opt.correct .q-opt-letter { background:var(--leaf); border-color:var(--leaf); color:white; }
+  .q-opt.wrong { border-color:var(--orange); background:#FFF0E5; }
+  .q-opt.wrong .q-opt-letter { background:var(--orange); border-color:var(--orange); color:white; }
+  .q-opt.show-right { border-color:var(--leaf); background:var(--ltgreen); }
+  .q-opt.show-right .q-opt-letter { background:var(--leaf); border-color:var(--leaf); color:white; }
+  .q-fb { margin-top:16px; padding:14px 18px; border-radius:10px; font-size:13px; line-height:1.6; display:none; }
+  .q-fb.vis { display:block; }
+  .q-fb.ok { background:var(--ltgreen); border-left:4px solid var(--leaf); }
+  .q-fb.ng { background:#FFF0E5; border-left:4px solid var(--orange); }
+  .q-fb strong { font-size:12px; font-weight:900; display:block; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px; }
+  .q-fb.ok strong { color:var(--teal); }
+  .q-fb.ng strong { color:var(--orange); }
+  .q-fb p { color:var(--mid); }
+  .q-next { display:none; margin-top:16px; width:100%; padding:14px; background:var(--green); color:white; border:none; border-radius:10px; font-family:'Red Hat Display',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:background 0.2s; }
+  .q-next:hover { background:var(--teal); }
+  .q-next.vis { display:block; }
+
+  /* RESULT */
+  .result-wrap { background:white; border-radius:14px; padding:48px 40px; text-align:center; box-shadow:0 16px 48px rgba(0,0,0,0.3); }
+  .result-score { font-size:72px; font-weight:900; color:var(--green); line-height:1; margin-bottom:4px; }
+  .result-label { font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--mid); margin-bottom:20px; }
+  .result-badge { display:inline-block; padding:8px 24px; border-radius:30px; font-size:14px; font-weight:900; letter-spacing:0.5px; margin-bottom:20px; }
+  .result-badge.pass { background:var(--ltgreen); color:var(--teal); border:2px solid var(--leaf); }
+  .result-badge.fail { background:#FFF0E5; color:var(--orange); border:2px solid var(--orange); }
+  .result-msg { font-size:15px; color:var(--mid); max-width:440px; margin:0 auto 28px; line-height:1.6; }
+  .btn { padding:12px 28px; border-radius:10px; border:none; font-family:'Red Hat Display',sans-serif; font-size:14px; font-weight:700; cursor:pointer; transition:all 0.2s; }
+  .btn-primary { background:var(--green); color:white; }
+  .btn-primary:hover { background:var(--teal); }
+  .btn-secondary { background:var(--ltgreen); color:var(--teal); border:2px solid var(--leaf); margin-left:10px; }
+  .btn-secondary:hover { background:var(--border); }
+
+  /* REVIEW */
+  .review-item { background:white; border-radius:10px; overflow:hidden; margin-bottom:12px; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+  .review-hdr { padding:12px 16px; display:flex; gap:12px; align-items:center; }
+  .review-hdr.pass-r { border-left:4px solid var(--leaf); }
+  .review-hdr.fail-r { border-left:4px solid var(--orange); }
+  .review-icon { font-size:16px; flex-shrink:0; }
+  .review-q { font-size:13px; font-weight:700; color:var(--text); flex:1; line-height:1.4; }
+  .review-detail { padding:10px 16px 14px 52px; border-top:1px solid var(--border); }
+  .review-detail .lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--mid); margin-bottom:3px; }
+  .review-detail .val { font-size:12px; color:var(--mid); line-height:1.5; }
+  .review-detail .val.correct { color:var(--teal); font-weight:700; }
+
+  /* MISC */
+  .callout { background:var(--ltblue); border:1px solid #B8D8E0; border-radius:10px; padding:16px 18px; display:flex; gap:12px; align-items:flex-start; margin-bottom:16px; }
+  .callout-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
+  .callout p { font-size:13px; color:var(--steel); line-height:1.7; }
+  .callout strong { color:var(--steel); }
+
+  .warning { background:#FFF3EA; border:1px solid #FFBF8A; border-radius:10px; padding:14px 18px; display:flex; gap:12px; align-items:flex-start; margin-bottom:16px; }
+  .warning-icon { font-size:18px; flex-shrink:0; margin-top:2px; }
+  .warning p { font-size:13px; color:#6B3A00; line-height:1.7; }
+
+  .progress-row { display:flex; gap:6px; margin-bottom:8px; }
+  .prog-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.15); transition:background 0.3s; }
+  .prog-dot.done { background:var(--leaf); }
+  .prog-dot.current { background:var(--yellow); }
+
+  @media(max-width:700px) {
+    .grid2, .grid3, .info-grid { grid-template-columns:1fr; }
+    .hero h1 { font-size:28px; }
+    .tabs { flex-wrap:wrap; }
+    .quiz-meta { gap:20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">Actionstep <span>Sales Academy</span></div>
+  </div>
+  <div class="mod-tag">Module 3 · Tech Stack · Proposify</div>
+</header>
+
+<div class="main">
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <span>📄 Module 3 Sub-Module</span>
+    </div>
+    <h1>Proposify: <em>Your Proposal Tool</em></h1>
+    <p>Learn how to create, customize, send, and track professional proposals that integrate directly with Salesforce and close deals faster.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('overview',this)">📋 Overview</button>
+    <button class="tab-btn" onclick="showTab('workflow',this)">⚙️ Step-by-Step</button>
+    <button class="tab-btn" onclick="showTab('features',this)">✨ Key Features</button>
+    <button class="tab-btn" onclick="showTab('scenarios',this)">💬 Scenarios</button>
+    <button class="tab-btn" onclick="showTab('quiz',this)">📝 Knowledge Check</button>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 1: OVERVIEW
+  ═══════════════════════════════════ -->
+  <div id="tab-overview" class="panel vis">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-icon" style="background:#E3F7E4;">📄</div>
+        <div>
+          <h2>What Is Proposify?</h2>
+          <p>Cloud-based proposal software integrated directly into your Salesforce workflow</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <p style="font-size:14px;color:var(--mid);line-height:1.75;margin-bottom:20px;">
+          Proposify is a cloud-based proposal platform that lets you build, send, and track polished, professional proposals — without starting from scratch every time. Actionstep has already built branded templates for US and UK regions. Your job is to customize and send them, primarily from within Salesforce.
+        </p>
+
+        <div class="callout">
+          <div class="callout-icon">💡</div>
+          <p><strong>Pro tip:</strong> Most reps work almost entirely inside Salesforce — the Proposify widget sits right on your opportunity page. You'll rarely need to log into Proposify directly.</p>
+        </div>
+
+        <div class="sec-label">Why It Matters</div>
+        <div class="grid3" style="margin-bottom:20px;">
+          <div class="feat-card">
+            <div class="feat-icon">🏆</div>
+            <h4>Consistent Branding</h4>
+            <p>Every proposal looks professional and on-brand — no more franken-docs cobbled together in Word.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">📊</div>
+            <h4>Engagement Tracking</h4>
+            <p>See when a prospect opens your proposal, how long they spend on each section, and which pages they return to.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">✍️</div>
+            <h4>E-Signature Option</h4>
+            <p>Get a formal commitment before the MSA/Order Form — ideal for complex enterprise deals where you need a staged commitment.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🔗</div>
+            <h4>Salesforce Integration</h4>
+            <p>Client details auto-populate from your opportunity. No re-typing names, emails, or company info.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">📚</div>
+            <h4>Snippet Library</h4>
+            <p>Pre-written pain points and requirements you can drop in with a click — keeps language consistent across the team.</p>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🔄</div>
+            <h4>Version Control</h4>
+            <p>Duplicate any proposal to create a new version when a prospect requests changes. Keep a clean history.</p>
+          </div>
+        </div>
+
+        <div class="warning">
+          <div class="warning-icon">⚠️</div>
+          <p><strong>Critical reminder:</strong> Proposify does NOT replace the MSA and Order Form. A signed Proposify proposal is a <em>non-binding</em> statement of intent only. You still need both legal documents to close. Proposify is a tool to help move deals forward — not the finish line.</p>
+        </div>
+
+        <div class="sec-label">US vs UK Templates</div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Region</th><th>Template Available</th><th>Key Differences</th><th>Contact for Changes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pill pill-blue">🇺🇸 US</span></td>
+              <td>✅ Ready</td>
+              <td>USD pricing, US English spellings</td>
+              <td>Lauren / Aaron</td>
+            </tr>
+            <tr>
+              <td><span class="pill pill-green">🇬🇧 UK</span></td>
+              <td>✅ Ready</td>
+              <td>GBP pricing, UK English spellings (extra U's 😄)</td>
+              <td>Lauren / Aaron</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 2: STEP-BY-STEP WORKFLOW
+  ═══════════════════════════════════ -->
+  <div id="tab-workflow" class="panel">
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-icon" style="background:#E3F7E4;">⚙️</div>
+        <div>
+          <h2>Creating & Sending a Proposal</h2>
+          <p>The complete workflow from Salesforce opportunity to signed proposal</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="warning" style="margin-bottom:24px;">
+          <div class="warning-icon">⚠️</div>
+          <p><strong>Before you start:</strong> Update your Proposify profile first — add your job title, phone number, and time zone. This info is client-facing and will appear on every proposal you send.</p>
+        </div>
+
+        <div class="step-flow">
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">1</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Set Up Your Profile (One-Time)</h3>
+              <p>Log into Proposify → click your avatar (top right) → Profile. Fill in <strong>job title</strong>, <strong>phone number</strong>, and <strong>time zone</strong>. These populate automatically into every proposal — your client will see them on the cover page and thank-you page.</p>
+              <div class="step-tip">✓ Do this before sending your first real proposal. A blank phone number looks unprofessional.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">2</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Start from Salesforce (Recommended)</h3>
+              <p>Navigate to your Salesforce opportunity → find the <strong>Proposify widget</strong> → click <strong>"Create Document."</strong> Starting here means all client details (company name, contact, email) auto-populate into the proposal — no manual entry needed.</p>
+              <div class="step-tip">✓ Always start from Salesforce. It saves time and avoids data mismatch errors.</div>
+              <div class="step-warn">⚠ If you start inside Proposify instead, you'll need to manually connect to a Salesforce opportunity. Make sure your opportunity already has a primary contact with a valid email address.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">3</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Select the Right Template</h3>
+              <p>Choose <strong>US template</strong> (USD, US English) or <strong>UK template</strong> (GBP, UK English) based on your prospect's region. The system makes a copy of the template for you — this copy is your working proposal and won't affect the master template.</p>
+              <div class="step-tip">✓ Name the proposal something client-facing and clear: "Actionstep Proposal — [Firm Name]"</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">4</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Review Auto-Populated Variables</h3>
+              <p>Open the proposal editor. Yellow-highlighted text = variables pulling automatically from Salesforce and your profile. Check the cover page, introduction letter, and thank-you page. If anything looks wrong (typos, weird capitalization), fix it in Salesforce first, then click <strong>"Sync Document Data"</strong> to refresh.</p>
+              <div class="step-tip">✓ Click into any text box to see what's a variable (yellow) vs. editable text.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">5</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Customize the Firm Summary</h3>
+              <p>The <strong>Firm Summary</strong> section has pain points and requirements — three bullet points each. Use the <strong>Snippets library</strong> (right sidebar) to swap in the pain points and requirements that match your prospect's situation. Highlight the text you want to replace, open Snippets, choose the right one, and it drops in.</p>
+              <div class="step-tip">✓ Snippets keep language consistent. Use them. Only go off-script if truly necessary.</div>
+              <div class="step-warn">⚠ If you need a pain point or requirement that's not in the library, flag it to Lauren or Aaron — they'll add it. Don't improvise with inconsistent language if you can avoid it.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">6</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Set Pricing in the Investment Table</h3>
+              <p>The <strong>Investment page</strong> has a simple pricing table. Click into it to edit. You can delete rows you don't need (three-dot menu → trash). Update quantities and prices — totals calculate automatically. For complex deals, use the notes text box below the table to explain billing terms (e.g., "Billed annually," "Quarterly down payment of X").</p>
+              <div class="step-tip">✓ If showing monthly pricing but billing annually, note it clearly in the text box below the table — clients get confused otherwise.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">7</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Choose Your Next Steps / Signature Page</h3>
+              <p>You have two options: <strong>With Signature</strong> (prospect signs digitally — non-binding, signals intent to proceed) or <strong>Without Signature</strong> (informational only). For enterprise deals or staged implementations, the signature page is a powerful commitment tool. For quick transactional deals, skip it. Delete the version you're not using from the left-side section list.</p>
+              <div class="step-tip">✓ The with-signature option is preferred in most cases — it formalizes the verbal commit and triggers a real-time notification to you when they sign.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">8</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Select an Implementation Page</h3>
+              <p>Two options: <strong>Standard implementation overview</strong> (general timeline and process) or <strong>Partner implementation</strong> (includes a clickable link to an implementation partner's statement of work). Delete the version you're not using from the section list on the left.</p>
+              <div class="step-tip">✓ If a CCP (implementation partner) has provided their own SOW, link it here to keep everything in one document.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">9</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Do a Final Read-Through</h3>
+              <p>Scroll through every page before sending. Check: Is the client name correct? Are your contact details filled in? Does pricing match what you discussed? Are there any leftover placeholder sections you forgot to delete?</p>
+              <div class="step-warn">⚠ Sending a proposal with "Insert Link.com" still in the button text or a blank phone number is a quick way to lose credibility. Always review.</div>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-left">
+              <div class="step-num">10</div>
+              <div class="step-line"></div>
+            </div>
+            <div class="step-content">
+              <h3>Send the Proposal</h3>
+              <p>Two options: <strong>Send via Proposify email</strong> (auto-addresses to your prospect, lets you add a personal note, tracks engagement) or <strong>Copy the link</strong> and paste into your own Outlook email. Either way, <strong>always toggle "Mark as Sent"</strong> — if you skip this, Proposify won't track when or how long the client views it.</p>
+              <div class="step-tip">✓ Send via Proposify when you want maximum tracking. Use Outlook when you prefer your own email format or have other attachments to include.</div>
+              <div class="step-tip" style="background:#FFFBEC;border-left-color:var(--yellow);">💡 Optional: Set an auto-expiry date if you have time-limited pricing. The proposal link will expire automatically and prompt the client to contact you.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 3: KEY FEATURES
+  ═══════════════════════════════════ -->
+  <div id="tab-features" class="panel">
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-hdr">
+        <div class="card-icon" style="background:#E3F5F7;">✨</div>
+        <div>
+          <h2>Key Features Deep Dive</h2>
+          <p>The tools that make Proposify worth using — and how to use them well</p>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="sec-label">Engagement Tracking</div>
+        <div class="callout" style="margin-bottom:20px;">
+          <div class="callout-icon">📊</div>
+          <p>Once a prospect <strong>views your proposal</strong>, Proposify captures: total number of views, total time spent, time spent on each section, and number of times each section was opened. This tells you exactly what matters to them. Use it to tailor your follow-up conversation.</p>
+        </div>
+        <div class="info-grid" style="margin-bottom:24px;">
+          <div class="info-box green">
+            <h4>🟢 What You Learn</h4>
+            <ul>
+              <li>Spent 4 mins on pricing? They're serious but price-sensitive.</li>
+              <li>Skipped "Why Actionstep"? Spend more time on differentiation on your next call.</li>
+              <li>Read the implementation page 3x? Scope and timeline are concerns.</li>
+              <li>Forwarded it to someone new? Now you need to get wide — find out who that person is.</li>
+            </ul>
+          </div>
+          <div class="info-box blue">
+            <h4>🔵 Tracking Limitations</h4>
+            <ul>
+              <li>Unverified viewers show as "a client" until they sign or verify email.</li>
+              <li>If you send via PDF download, tracking is lost entirely.</li>
+              <li>Must toggle "Mark as Sent" when copying link — or tracking won't activate.</li>
+              <li>Individual viewer ID (who specifically forwarded it) is a future feature.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="sec-label">Snippet Library</div>
+        <p style="font-size:13px;color:var(--mid);line-height:1.75;margin-bottom:14px;">
+          Snippets are pre-approved blocks of text stored in a library that you can drop into your proposal with one click. Currently organized by category (pain points, requirements). You can add snippets but should work with Lauren or Aaron to maintain consistency.
+        </p>
+        <table class="data-table" style="margin-bottom:24px;">
+          <thead>
+            <tr><th>When to Use</th><th>How</th><th>What to Avoid</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Customizing pain points on the Firm Summary page</td>
+              <td>Highlight text → Snippets button → pick category → click</td>
+              <td>Don't improvise with ad hoc language if a snippet exists</td>
+            </tr>
+            <tr>
+              <td>Swapping out requirements bullets</td>
+              <td>Same process as above</td>
+              <td>Don't leave placeholder text that doesn't match the prospect</td>
+            </tr>
+            <tr>
+              <td>Need something not in the library</td>
+              <td>Message Lauren or Aaron to add it</td>
+              <td>Don't write one-off language that undermines brand consistency</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <div class="sec-label">E-Signature Page</div>
+        <div class="info-grid" style="margin-bottom:14px;">
+          <div class="info-box green">
+            <h4>✅ With Signature — Use When:</h4>
+            <ul>
+              <li>Enterprise or complex multi-phase implementation</li>
+              <li>Prospect needs a staged commitment before full legal docs</li>
+              <li>You want to trigger a real-time notification when they commit</li>
+              <li>Deal is at risk of going quiet after the proposal stage</li>
+            </ul>
+          </div>
+          <div class="info-box blue">
+            <h4>⬜ Without Signature — Use When:</h4>
+            <ul>
+              <li>Transactional, straightforward deal</li>
+              <li>Prospect just wants to see pricing on paper</li>
+              <li>You're sending early in the process as a pricing indicator (especially UK)</li>
+              <li>You'll move straight to MSA + Order Form</li>
+            </ul>
+          </div>
+        </div>
+        <div class="warning">
+          <div class="warning-icon">⚠️</div>
+          <p>The Proposify signature is <strong>not legally binding</strong> and does <strong>not replace</strong> the MSA and Order Form. Always make this clear to the prospect. The signature says: "Yes, we want to move forward — prepare the formal documents."</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="sec-label">Version Control & Duplication</div>
+        <p style="font-size:13px;color:var(--mid);line-height:1.75;margin-bottom:14px;">
+          If a prospect requests changes to pricing or scope after you've already sent a proposal, <strong>duplicate the original</strong> before making edits. This preserves your original version and creates a clean v2. From the pipeline view, click the proposal → Duplicate button.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="sec-label">Section Library</div>
+        <p style="font-size:13px;color:var(--mid);line-height:1.75;">
+          The section library (click the "+" button in the editor → Library) stores whole pages that aren't in your default template. For example: if you almost always send without a signature page but occasionally need one, you can save it to the library and drag it back in on a case-by-case basis instead of having it clutter your default template.
+        </p>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 4: SCENARIOS
+  ═══════════════════════════════════ -->
+  <div id="tab-scenarios" class="panel">
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-hdr">
+        <div class="card-icon" style="background:#FFF3EA;">💬</div>
+        <div>
+          <h2>Real-World Scenarios</h2>
+          <p>Practice the decisions you'll actually face. Click each scenario to see the situation and recommended approach.</p>
+        </div>
+      </div>
+      <div class="card-body" style="padding:16px 20px;">
+
+        <div class="scenario-wrap">
+
+          <div class="scenario-card">
+            <div class="scenario-hdr" onclick="toggleScenario(this)">
+              <div class="s-num">1</div>
+              <div class="s-title">
+                <h3>The Messy Company Name</h3>
+                <p>The firm name in Salesforce has weird capitalization and shows up wrong in the proposal</p>
+              </div>
+              <div class="s-arrow">▶</div>
+            </div>
+            <div class="scenario-body">
+              <div class="scenario-section">
+                <h4>The Situation</h4>
+                <div class="situation-box">You open the proposal editor and notice the cover page says "JOHNSON PARKER LLC" in all caps — because that's how it was entered in Salesforce. You need to send this in an hour.</div>
+              </div>
+              <div class="scenario-section">
+                <h4>What You Do</h4>
+                <div class="answer-box">
+                  <p><strong>Don't fix it directly in the proposal.</strong> Go to Salesforce and correct the company name there (change it to "Johnson Parker LLC"). Then come back to Proposify, open your proposal, and click <strong>"Sync Document Data"</strong> in the right sidebar. This pulls the corrected name and updates it everywhere in the document automatically — cover page, introduction letter, throughout. Saves you hunting through 8 pages manually.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="scenario-hdr" onclick="toggleScenario(this)">
+              <div class="s-num">2</div>
+              <div class="s-title">
+                <h3>The Multi-Year Pricing Question</h3>
+                <p>Your prospect wants to see both monthly and annual pricing options</p>
+              </div>
+              <div class="s-arrow">▶</div>
+            </div>
+            <div class="scenario-body">
+              <div class="scenario-section">
+                <h4>The Situation</h4>
+                <div class="situation-box">Your prospect says: "Can you show me what it looks like monthly vs. if we commit to 2 years?" The standard table shows one price. How do you handle this?</div>
+              </div>
+              <div class="scenario-section">
+                <h4>What You Do (Choose One)</h4>
+                <div class="answer-box">
+                  <p><strong>Option A — Edit the total field:</strong> In the pricing table, click the total/subtotal cell and edit the text manually. Add a parenthetical like "(Billed Annually — $X,XXX)" to clarify billing terms.</p>
+                  <p style="margin-top:8px;"><strong>Option B — Use the notes text box:</strong> Below the pricing table is a freeform text area. Spell out billing terms here: "Shown as monthly. Billed annually at $X,XXX. Two-year commitment pricing available at $X,XXX/year."</p>
+                  <p style="margin-top:8px;"><strong>Option C — Ask for help:</strong> Lauren or Aaron can build a two-table layout for complex pricing if needed. Flag it before your deadline, not after.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="scenario-hdr" onclick="toggleScenario(this)">
+              <div class="s-num">3</div>
+              <div class="s-title">
+                <h3>The Proposal Was Opened — Now What?</h3>
+                <p>Proposify shows the prospect spent 6 minutes on your proposal, mostly on the pricing page</p>
+              </div>
+              <div class="s-arrow">▶</div>
+            </div>
+            <div class="scenario-body">
+              <div class="scenario-section">
+                <h4>The Situation</h4>
+                <div class="situation-box">You get a notification: the prospect viewed your proposal. You check the metrics tab and see they spent 5+ minutes on the Investment page and 30 seconds on everything else. They haven't responded to your follow-up email.</div>
+              </div>
+              <div class="scenario-section">
+                <h4>What You Do</h4>
+                <div class="answer-box">
+                  <p>The data tells you price is the primary concern. Don't follow up with a generic "did you get a chance to review?" email. Instead, call or email with something specific: <em>"I noticed you've had a chance to look through the proposal — I'd love to walk through the investment section together and make sure everything aligns with your budget expectations. When's a quick 15 minutes this week?"</em> You're using the insight to have a smarter conversation, not to reveal that you're tracking them.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="scenario-hdr" onclick="toggleScenario(this)">
+              <div class="s-num">4</div>
+              <div class="s-title">
+                <h3>Sign or No Signature — UK Deal</h3>
+                <p>You're sending a proposal to a UK firm who asked for pricing early in the process</p>
+              </div>
+              <div class="s-arrow">▶</div>
+            </div>
+            <div class="scenario-body">
+              <div class="scenario-section">
+                <h4>The Situation</h4>
+                <div class="situation-box">A UK prospect at Discovery stage has asked for "a ballpark on what this would look like." You want to send a proposal to stay professional, but they're still early in their evaluation.</div>
+              </div>
+              <div class="scenario-section">
+                <h4>What You Do</h4>
+                <div class="answer-box">
+                  <p>For UK prospects receiving early-stage pricing proposals: <strong>use the no-signature version.</strong> They're not ready to signal intent — they just want to see numbers. Sending a signature page at this stage may feel premature or create friction. Use the standard proposal with the "Next Steps" page (no signature) to confirm what happens when they're ready to move forward. As the deal progresses toward Deal Review or Negotiation stage, you can send an updated proposal with the signature page to formalize their commitment before the MSA and Order Form.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="scenario-hdr" onclick="toggleScenario(this)">
+              <div class="s-num">5</div>
+              <div class="s-title">
+                <h3>The Prospect Wants a PDF</h3>
+                <p>Your prospect says "Can you just send me a PDF? We don't open links from vendors."</p>
+              </div>
+              <div class="s-arrow">▶</div>
+            </div>
+            <div class="scenario-body">
+              <div class="scenario-section">
+                <h4>The Situation</h4>
+                <div class="situation-box">The prospect's IT policy apparently blocks external document links. They've asked you to send a PDF attachment instead. You know that means you lose all tracking.</div>
+              </div>
+              <div class="scenario-section">
+                <h4>What You Do</h4>
+                <div class="answer-box">
+                  <p>Accommodate them — use the <strong>Download PDF</strong> button in the pipeline view. Acknowledge internally that you've lost tracking and will need to rely on direct follow-up and conversation to gauge interest. If tracking is critical on this deal, try one more time: <em>"We have a secure viewing link that doesn't require any login — many of our clients prefer it because you can share it with colleagues easily. Would that work?"</em> If they still say no, send the PDF. Don't let a preference for tracking override the prospect's comfort.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       TAB 5: KNOWLEDGE CHECK
+  ═══════════════════════════════════ -->
+  <div id="tab-quiz" class="panel">
+    <div id="quiz-start">
+      <div class="quiz-start">
+        <div style="font-size:40px;margin-bottom:16px;">📝</div>
+        <h2>Proposify Knowledge Check</h2>
+        <p>Test what you've learned about creating, sending, and tracking proposals in Proposify. 80% required to pass.</p>
+        <div class="quiz-meta">
+          <div class="qm-item"><div class="qm-num">10</div><div class="qm-lbl">Questions</div></div>
+          <div class="qm-item"><div class="qm-num">80%</div><div class="qm-lbl">Pass Mark</div></div>
+          <div class="qm-item"><div class="qm-num">~5</div><div class="qm-lbl">Minutes</div></div>
+        </div>
+        <button class="btn btn-primary" onclick="startQuiz()">Begin Assessment →</button>
+      </div>
+    </div>
+
+    <div id="quiz-active" style="display:none;">
+      <div class="q-wrap">
+        <div class="q-hdr">
+          <span id="q-num-label">Question 1 of 10</span>
+          <div class="q-prog-bar"><div class="q-prog-fill" id="q-prog-fill" style="width:0%"></div></div>
+          <span id="q-score-label">0 correct</span>
+        </div>
+        <div class="q-body">
+          <div class="progress-row" id="prog-dots"></div>
+          <div class="q-text" id="q-text"></div>
+          <div class="q-opts" id="q-opts"></div>
+          <div class="q-fb" id="q-fb"><strong id="q-fb-title"></strong><p id="q-fb-body"></p></div>
+          <button class="q-next" id="q-next" onclick="nextQuestion()">Next Question →</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="quiz-result" style="display:none;"></div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ═══ TAB SWITCHING ═══
+function showTab(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('vis'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('vis');
+  btn.classList.add('active');
+}
+
+// ═══ SCENARIOS ═══
+function toggleScenario(hdr) {
+  const body = hdr.nextElementSibling;
+  const arrow = hdr.querySelector('.s-arrow');
+  const isOpen = body.classList.contains('vis');
+  document.querySelectorAll('.scenario-body.vis').forEach(b => b.classList.remove('vis'));
+  document.querySelectorAll('.s-arrow.open').forEach(a => a.classList.remove('open'));
+  if (!isOpen) {
+    body.classList.add('vis');
+    arrow.classList.add('open');
+  }
+}
+
+// ═══ QUIZ ═══
+const QUESTIONS = [
+  {
+    q: "You're about to create your first proposal. What's the recommended starting point?",
+    opts: [
+      "Log into Proposify directly and click '+ Document'",
+      "Start from the Proposify widget on your Salesforce opportunity",
+      "Email the template to yourself from SharePoint",
+      "Ask Lauren to create it and send you the link"
+    ],
+    ans: 1,
+    exp: "Always start from your Salesforce opportunity. The Proposify widget auto-populates all client details, saving time and reducing data errors. Starting inside Proposify requires you to manually connect to the opportunity afterward."
+  },
+  {
+    q: "The company name on your proposal's cover page shows as 'ACME LEGAL LLC' in all caps. What's the correct fix?",
+    opts: [
+      "Manually edit every instance of the company name in the proposal editor",
+      "Fix the company name in Salesforce, then click 'Sync Document Data' in Proposify",
+      "Delete the proposal and start over with a new one",
+      "Send it anyway — the client will understand"
+    ],
+    ans: 1,
+    exp: "Fix the source data in Salesforce first, then sync. 'Sync Document Data' updates the company name everywhere in the document automatically — you don't have to hunt through each page manually."
+  },
+  {
+    q: "What are Snippets used for in Proposify?",
+    opts: [
+      "Pre-built email templates for following up after a proposal is sent",
+      "Shortcut keys for common keyboard commands in the editor",
+      "Pre-approved blocks of text (pain points, requirements) you can drop into the Firm Summary",
+      "Saved pricing configurations for common deal sizes"
+    ],
+    ans: 2,
+    exp: "Snippets are pre-written, approved content blocks — mainly pain points and requirements — stored in a library. You highlight the text you want to replace, open Snippets, choose the right one, and it swaps in. This keeps language consistent across the team."
+  },
+  {
+    q: "A prospect has signed the Proposify signature page. What happens next?",
+    opts: [
+      "The deal is legally closed — move to Contracted stage",
+      "The signature triggers automatic billing in Salesforce",
+      "You send them the MSA and Order Form to complete the formal close",
+      "The deal moves automatically to Negotiation stage in Salesforce"
+    ],
+    ans: 2,
+    exp: "The Proposify signature is non-binding — it signals intent to proceed, but it does NOT replace the MSA and Order Form. You still need both legal documents before the deal is contracted. Always be clear with prospects about this."
+  },
+  {
+    q: "You want to send a proposal via a link pasted into your own Outlook email. What must you remember to do in Proposify?",
+    opts: [
+      "Export a PDF version first so the link has a backup",
+      "Toggle 'Mark as Sent' so Proposify activates tracking on that link",
+      "Add all recipients to the CC field inside Proposify as well",
+      "Nothing — copying the link automatically triggers tracking"
+    ],
+    ans: 1,
+    exp: "If you copy the link and send via Outlook, you MUST toggle 'Mark as Sent' in Proposify before pasting the link. If you skip this step, Proposify won't track when or how the client views the document — you'll lose all engagement insight."
+  },
+  {
+    q: "You check your Proposify metrics and see a prospect spent 7 of their 8 minutes on the Investment page. How should this inform your follow-up?",
+    opts: [
+      "Wait for them to reply — they clearly read the proposal and will reach out when ready",
+      "Tell them you can see they spent time on pricing and ask if they liked the numbers",
+      "Follow up specifically focused on the investment section — address budget and value without revealing you tracked them",
+      "Send a new proposal with lower pricing immediately"
+    ],
+    ans: 2,
+    exp: "Engagement data should inform your conversation, not be disclosed directly. Reach out with something like: 'Happy to walk through the investment section together to make sure everything aligns.' You know what matters — now use it to have a more targeted, valuable conversation."
+  },
+  {
+    q: "A prospect requests changes to pricing after you've already sent the first proposal. What's the best approach?",
+    opts: [
+      "Edit the original sent proposal directly",
+      "Create a brand new proposal from scratch",
+      "Duplicate the original to create a v2, then edit and send the duplicate",
+      "Send the changes in an email instead of a new proposal"
+    ],
+    ans: 2,
+    exp: "Duplicate first — this preserves your original sent version as a clean record. Then edit the copy and send it as v2. This gives you a clean version history and ensures the client has the most current version."
+  },
+  {
+    q: "You're a UK rep sending a pricing proposal to a firm that's still in Discovery stage. Which signature approach is most appropriate?",
+    opts: [
+      "Always include the signature page — it forces commitment",
+      "Use the no-signature version — they're not ready to commit, just want to see numbers",
+      "Include the signature page but remove the non-binding language",
+      "Skip the proposal entirely and just email pricing"
+    ],
+    ans: 1,
+    exp: "UK reps typically use the no-signature version for early-stage pricing proposals. The prospect is evaluating, not committing. A signature request at Discovery stage often feels premature. Save the signature page for when you're closer to a formal close."
+  },
+  {
+    q: "A prospect tells you they can't open external links due to IT policy and asks for a PDF. What do you do?",
+    opts: [
+      "Refuse — only link-based proposals are permitted to ensure tracking",
+      "Try once to re-offer the link, then download a PDF from Proposify if they still decline",
+      "Ask your manager to call their IT department",
+      "Cancel the proposal and use a Word document instead"
+    ],
+    ans: 1,
+    exp: "Try once to offer the secure link as an alternative. If they decline, accommodate them — download a PDF from the pipeline view. You'll lose tracking, but maintaining a positive prospect relationship is more important than analytics on one deal."
+  },
+  {
+    q: "Which of these details is NOT part of your Proposify profile that appears on proposals?",
+    opts: [
+      "Job title",
+      "Phone number",
+      "LinkedIn URL",
+      "Time zone"
+    ],
+    ans: 2,
+    exp: "Your Proposify profile includes job title, phone number, and time zone — all of which appear in client-facing areas of the proposal. LinkedIn URL is not a standard profile field. Fill out your profile completely before sending your first proposal."
+  }
+];
+
+let currentQ = 0;
+let scores = [];
+let answered = false;
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-active').style.display = 'block';
+  currentQ = 0;
+  scores = [];
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = QUESTIONS[currentQ];
+  const letters = ['A','B','C','D'];
+
+  // Progress dots
+  let dots = '';
+  for (let i = 0; i < QUESTIONS.length; i++) {
+    let cls = '';
+    if (i < currentQ) cls = 'done';
+    else if (i === currentQ) cls = 'current';
+    dots += `<div class="prog-dot ${cls}"></div>`;
+  }
+  document.getElementById('prog-dots').innerHTML = dots;
+
+  document.getElementById('q-num-label').textContent = `Question ${currentQ+1} of ${QUESTIONS.length}`;
+  document.getElementById('q-score-label').textContent = `${scores.filter(x=>x).length} correct`;
+  document.getElementById('q-prog-fill').style.width = `${(currentQ/QUESTIONS.length)*100}%`;
+  document.getElementById('q-text').textContent = q.q;
+
+  let optsHtml = '';
+  q.opts.forEach((opt, i) => {
+    optsHtml += `<button class="q-opt" onclick="selectAnswer(${i})" id="opt-${i}">
+      <div class="q-opt-letter">${letters[i]}</div>
+      <div>${opt}</div>
+    </button>`;
+  });
+  document.getElementById('q-opts').innerHTML = optsHtml;
+
+  const fb = document.getElementById('q-fb');
+  fb.className = 'q-fb';
+  document.getElementById('q-next').className = 'q-next';
+}
+
+function selectAnswer(i) {
+  if (answered) return;
+  answered = true;
+  const q = QUESTIONS[currentQ];
+  const correct = i === q.ans;
+  scores.push(correct);
+
+  document.querySelectorAll('.q-opt').forEach((btn, j) => {
+    btn.disabled = true;
+    if (j === q.ans && correct) btn.classList.add('correct');
+    else if (j === q.ans && !correct) btn.classList.add('show-right');
+    else if (j === i && !correct) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('q-fb');
+  fb.className = 'q-fb vis ' + (correct ? 'ok' : 'ng');
+  document.getElementById('q-fb-title').textContent = correct ? '✓ Correct!' : '✗ Not quite.';
+  document.getElementById('q-fb-body').textContent = q.exp;
+
+  const nextBtn = document.getElementById('q-next');
+  nextBtn.className = 'q-next vis';
+  nextBtn.textContent = currentQ < QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= QUESTIONS.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-active').style.display = 'none';
+  const correct = scores.filter(x=>x).length;
+  const pct = Math.round((correct / QUESTIONS.length) * 100);
+  const pass = pct >= 80;
+
+  let reviewHtml = QUESTIONS.map((q, i) => {
+    const ok = scores[i];
+    return `<div class="review-item">
+      <div class="review-hdr ${ok ? 'pass-r' : 'fail-r'}">
+        <div class="review-icon">${ok ? '✅' : '❌'}</div>
+        <div class="review-q">${q.q}</div>
+      </div>
+      ${!ok ? `<div class="review-detail">
+        <div class="lbl">Correct Answer</div>
+        <div class="val correct">${['A','B','C','D'][q.ans]}. ${q.opts[q.ans]}</div>
+        <div class="lbl" style="margin-top:6px;">Explanation</div>
+        <div class="val">${q.exp}</div>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('quiz-result').innerHTML = `
+    <div class="result-wrap">
+      <div class="result-score">${pct}%</div>
+      <div class="result-label">${correct} of ${QUESTIONS.length} correct</div>
+      <div class="result-badge ${pass ? 'pass' : 'fail'}">${pass ? '✅ Module Passed!' : '📋 Review & Retry'}</div>
+      <p class="result-msg">${pass
+        ? 'You\'ve demonstrated solid Proposify knowledge. You\'re ready to create your first real proposal. Show this result to your manager for certification sign-off.'
+        : 'Review the Overview and Step-by-Step tabs, then try again. Focus on the questions you missed below. 80% required to pass.'}</p>
+      <button class="btn btn-primary" onclick="resetQuiz()">Try Again</button>
+      ${pass ? '<button class="btn btn-secondary" onclick="showReview()">Review Answers</button>' : ''}
+    </div>
+    <div id="review-section" style="display:none;margin-top:20px;">
+      <div style="margin-bottom:12px;color:white;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">Answer Review</div>
+      ${reviewHtml}
+    </div>`;
+  document.getElementById('quiz-result').style.display = 'block';
+}
+
+function showReview() {
+  document.getElementById('review-section').style.display = 'block';
+}
+
+function resetQuiz() {
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-result').innerHTML = '';
+  currentQ = 0;
+  scores = [];
+  document.getElementById('quiz-active').style.display = 'block';
+  renderQuestion();
+}
+</script>
+</body>
+</html>

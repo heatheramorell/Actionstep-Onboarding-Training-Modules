@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5: ICP & Qualification — Interactive Simulation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #024638;
+    --teal: #255C4E;
+    --leaf: #74AA50;
+    --yellow: #FED141;
+    --orange: #FF6900;
+    --steel: #285780;
+    --dark: #171C29;
+    --light-green: #E3F7E4;
+    --light-blue: #E3F5F7;
+    --white: #FFFFFF;
+    --gray-100: #F5FAF7;
+    --gray-200: #EAEAEA;
+    --gray-600: #555555;
+    --font: 'Red Hat Display', sans-serif;
+  }
+
+  body { font-family: var(--font); background: var(--gray-100); color: #333; min-height: 100vh; }
+
+  .header {
+    background: var(--green);
+    color: white;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: 64px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .header .brand { font-size: 1.1rem; font-weight: 700; color: var(--leaf); }
+  .header .module-title { font-size: 1rem; color: rgba(255,255,255,0.8); }
+  .header .badge {
+    margin-left: auto;
+    background: var(--teal);
+    color: var(--leaf);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .tab-nav {
+    background: var(--dark);
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    padding: 0 1.5rem;
+  }
+  .tab-nav button {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: var(--font);
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 1rem 1.4rem;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-nav button:hover { color: rgba(255,255,255,0.85); }
+  .tab-nav button.active { color: var(--leaf); border-bottom-color: var(--leaf); font-weight: 700; }
+
+  .tab-content { display: none; padding: 2rem; max-width: 1100px; margin: 0 auto; }
+  .tab-content.active { display: block; }
+
+  .page-title { font-size: 1.8rem; font-weight: 800; color: var(--green); margin-bottom: 0.3rem; }
+  .page-subtitle { color: var(--gray-600); font-size: 1rem; margin-bottom: 1.8rem; }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    border-left: 5px solid var(--green);
+  }
+  .card.teal { border-left-color: var(--teal); }
+  .card.leaf { border-left-color: var(--leaf); }
+  .card.orange { border-left-color: var(--orange); }
+  .card.steel { border-left-color: var(--steel); }
+  .card h3 { font-size: 1.1rem; font-weight: 700; color: var(--green); margin-bottom: 0.5rem; }
+  .card.teal h3 { color: var(--teal); }
+  .card.leaf h3 { color: #3a7a28; }
+  .card.orange h3 { color: var(--orange); }
+  .card.steel h3 { color: var(--steel); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+  @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  thead th { background: var(--green); color: white; padding: 0.6rem 0.85rem; text-align: left; font-weight: 600; }
+  tbody td { padding: 0.55rem 0.85rem; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+  tbody tr:nth-child(even) td { background: var(--gray-100); }
+  tbody tr:hover td { background: var(--light-green); }
+
+  .badge-pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .badge-excellent { background: var(--green); color: white; }
+  .badge-very-good { background: var(--teal); color: white; }
+  .badge-good { background: var(--leaf); color: var(--dark); }
+  .badge-ok { background: var(--yellow); color: var(--dark); }
+
+  /* ── ICP Evaluator ── */
+  .evaluator { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+  .evaluator-header { background: var(--green); color: white; padding: 1.2rem 1.5rem; }
+  .evaluator-header h2 { font-size: 1.2rem; font-weight: 700; }
+  .evaluator-header p { font-size: 0.88rem; color: var(--leaf); margin-top: 0.2rem; }
+  .evaluator-body { padding: 1.5rem; }
+
+  .criteria-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .criteria-row:last-child { border-bottom: none; }
+  .criteria-label { font-weight: 600; font-size: 0.9rem; color: var(--green); }
+  .criteria-desc { font-size: 0.8rem; color: #777; margin-top: 2px; }
+  .score-buttons { display: flex; gap: 0.4rem; }
+  .score-btn {
+    flex: 1;
+    padding: 0.45rem 0;
+    border-radius: 6px;
+    border: 2px solid var(--gray-200);
+    background: white;
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 0.82rem;
+    transition: all 0.15s;
+    color: #555;
+  }
+  .score-btn:hover { border-color: var(--teal); }
+  .score-btn.selected-1 { background: #fce8e8; border-color: #cc2200; color: #cc2200; font-weight: 700; }
+  .score-btn.selected-2 { background: #fff8d6; border-color: var(--yellow); color: #9a7000; font-weight: 700; }
+  .score-btn.selected-3 { background: var(--light-green); border-color: var(--leaf); color: var(--green); font-weight: 700; }
+
+  .score-bar-wrap { margin-top: 1.5rem; padding: 1.2rem; background: var(--gray-100); border-radius: 8px; }
+  .score-display { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+  .score-number { font-size: 2rem; font-weight: 800; color: var(--green); }
+  .score-label { font-size: 0.9rem; color: #666; }
+  .score-bar-track { height: 12px; background: var(--gray-200); border-radius: 6px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease, background 0.4s ease; }
+  .verdict-box { margin-top: 1rem; padding: 0.85rem 1rem; border-radius: 8px; font-size: 0.9rem; font-weight: 600; display: none; }
+  .verdict-box.show { display: block; }
+  .verdict-pursue { background: var(--light-green); color: var(--green); border: 1.5px solid var(--leaf); }
+  .verdict-caution { background: #fff8d6; color: #9a7000; border: 1.5px solid var(--yellow); }
+  .verdict-pass { background: #fce8e8; color: #cc2200; border: 1.5px solid #ff8888; }
+
+  /* ── Scenario Practice ── */
+  .scenario-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .scenario-header { background: var(--dark); color: white; padding: 1rem 1.5rem; }
+  .scenario-header .tag {
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    background: var(--teal); color: var(--leaf);
+    padding: 2px 8px; border-radius: 12px; display: inline-block; margin-bottom: 0.4rem;
+  }
+  .scenario-header h3 { font-size: 1.05rem; font-weight: 700; }
+  .scenario-body { padding: 1.25rem 1.5rem; }
+  .scenario-prompt { font-size: 0.95rem; color: #444; margin-bottom: 1rem; line-height: 1.55; }
+  .scenario-options { display: flex; flex-direction: column; gap: 0.5rem; }
+  .option-btn {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--gray-200);
+    background: white;
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 0.9rem;
+    text-align: left;
+    transition: all 0.15s;
+    color: #444;
+  }
+  .option-btn:hover:not(:disabled) { border-color: var(--teal); background: var(--light-green); }
+  .option-btn.correct { border-color: var(--leaf); background: var(--light-green); color: var(--green); font-weight: 600; }
+  .option-btn.incorrect { border-color: #cc2200; background: #fce8e8; color: #cc2200; }
+  .option-btn:disabled { cursor: default; }
+  .feedback-box { margin-top: 0.85rem; padding: 0.85rem 1rem; border-radius: 8px; font-size: 0.9rem; display: none; }
+  .feedback-box.show { display: block; }
+  .feedback-box.correct { background: var(--light-green); color: var(--green); border-left: 4px solid var(--leaf); }
+  .feedback-box.incorrect { background: #fce8e8; color: #8b2200; border-left: 4px solid #cc2200; }
+  .next-btn {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    border: none;
+    background: var(--green);
+    color: white;
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    display: none;
+  }
+  .next-btn.show { display: inline-block; }
+  .scenario-progress { font-size: 0.82rem; color: #888; margin-bottom: 1rem; }
+  .progress-dots { display: flex; gap: 0.4rem; margin-top: 0.3rem; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-200); transition: background 0.3s; }
+  .dot.done { background: var(--leaf); }
+  .dot.current { background: var(--green); }
+
+  /* ── Callout ── */
+  .callout {
+    padding: 1rem 1.2rem;
+    border-radius: 8px;
+    border-left: 5px solid var(--orange);
+    background: #fff8f0;
+    margin: 1.25rem 0;
+    font-size: 0.92rem;
+    color: #664400;
+  }
+  .callout strong { color: var(--orange); }
+
+  /* ── Persona Explorer ── */
+  .persona-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .persona-tab-btn {
+    padding: 0.45rem 1rem;
+    border-radius: 20px;
+    border: 2px solid var(--gray-200);
+    background: white;
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.15s;
+    color: #555;
+  }
+  .persona-tab-btn.active { background: var(--green); border-color: var(--green); color: white; }
+  .persona-detail { display: none; }
+  .persona-detail.active { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 700px) { .persona-detail.active { grid-template-columns: 1fr; } }
+
+  .info-block { padding: 1rem 1.2rem; border-radius: 10px; }
+  .info-block h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .info-block ul { list-style: none; padding: 0; }
+  .info-block ul li { padding: 0.3rem 0; font-size: 0.88rem; display: flex; gap: 0.5rem; align-items: flex-start; }
+  .info-block ul li::before { content: "→"; font-weight: 700; flex-shrink: 0; }
+
+  .bg-green-light { background: var(--light-green); }
+  .bg-blue-light { background: var(--light-blue); }
+  .color-green { color: var(--green); }
+  .color-teal { color: var(--teal); }
+  .color-orange { color: var(--orange); }
+  .color-steel { color: var(--steel); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">Actionstep</div>
+  <div class="module-title">Module 5 — ICP & Qualification</div>
+  <div class="badge">Interactive Simulation</div>
+</div>
+
+<div class="tab-nav">
+  <button class="active" onclick="switchTab('concepts', this)">📚 Concept Explorer</button>
+  <button onclick="switchTab('evaluator', this)">🎯 ICP Evaluator</button>
+  <button onclick="switchTab('personas', this)">👤 Persona Explorer</button>
+  <button onclick="switchTab('scenarios', this)">🧠 Scenario Practice</button>
+</div>
+
+<!-- ─── TAB 1: CONCEPTS ──────────────────────────────────── -->
+<div id="tab-concepts" class="tab-content active">
+  <div class="page-title">ICP & Qualification — Concept Explorer</div>
+  <div class="page-subtitle">Your field guide to finding and winning the right deals.</div>
+
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="card">
+      <h3>🎯 What is the ICP?</h3>
+      <p style="font-size:0.92rem;line-height:1.6;margin-top:0.5rem">Actionstep's <strong>Ideal Customer Profile</strong> is a business-minded law firm with 20–50 users, operating within your assigned territory, that has a strong administrative layer (Practice Manager, Operations Manager, or IT Manager) with real purchasing influence.</p>
+      <p style="font-size:0.9rem;margin-top:0.75rem;color:var(--teal);font-weight:600;font-style:italic">"Workflow = consistency + efficiency = profit" — this is how they think.</p>
+    </div>
+    <div class="card teal">
+      <h3>📏 Size Targeting by Priority</h3>
+      <table style="margin-top:0.5rem">
+        <thead><tr><th>Size</th><th>Approach</th><th>Priority</th></tr></thead>
+        <tbody>
+          <tr><td>5–20</td><td>Innovative</td><td><span class="badge-pill badge-excellent">#1</span></td></tr>
+          <tr><td>20–50</td><td>Business-Minded</td><td><span class="badge-pill badge-excellent">#2</span></td></tr>
+          <tr><td>5–20</td><td>Traditional</td><td><span class="badge-pill badge-very-good">#3</span></td></tr>
+          <tr><td>20–50</td><td>Traditional</td><td><span class="badge-pill badge-good">#5</span></td></tr>
+          <tr><td>50–100</td><td>Innovative</td><td><span class="badge-pill badge-good">#4</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem">
+    <h3>📊 Business-Minded vs. Traditional — Signal Guide</h3>
+    <table style="margin-top:0.75rem">
+      <thead><tr><th>Signal</th><th>✅ Business-Minded (Higher Priority)</th><th>🟡 Traditional (Lower Priority)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Website</strong></td><td>Modern, updated, online intake forms, webforms</td><td>Old-school design, static photos, rarely updated</td></tr>
+        <tr><td><strong>Admin Layer</strong></td><td>Practice Mgr / Ops Mgr / IT Mgr lead the evaluation</td><td>Managing partner handles all decisions alone</td></tr>
+        <tr><td><strong>Buying Process</strong></td><td>Clear team, defined steps, timeline-aware</td><td>Vague process, undefined "committee," no schedule</td></tr>
+        <tr><td><strong>Current Tech</strong></td><td>On cloud tools — outgrown them, seeking more capability</td><td>TimeMatters, on-prem servers, spreadsheets</td></tr>
+        <tr><td><strong>Social/PR</strong></td><td>Active LinkedIn, blog, press mentions, online reviews</td><td>Little to no digital presence</td></tr>
+        <tr><td><strong>Language</strong></td><td>"We want to systemize our intake process"</td><td>"We just need something basic that works"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem">
+    <h3>🎯 The Four Customer Segments</h3>
+    <table style="margin-top:0.75rem">
+      <thead><tr><th>Segment</th><th>Who They Are</th><th>Priority</th><th>How to Win</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Mid-Market Moderns</strong></td>
+          <td>20–75 users, B2C boutiques, growth-focused, tech-forward. Believe process = profit.</td>
+          <td><span class="badge-pill badge-excellent">#1 Target</span></td>
+          <td>Sell modern firm vision + workflow as competitive advantage</td>
+        </tr>
+        <tr>
+          <td><strong>Established Players</strong></td>
+          <td>40–200 users, mature firms, feel pressure to modernize, often on-prem switchers.</td>
+          <td><span class="badge-pill badge-very-good">#2 Target</span></td>
+          <td>Create urgency — cloud, security, peer proof, talent attraction</td>
+        </tr>
+        <tr>
+          <td><strong>Multi-Tasking Solos</strong></td>
+          <td>1–19 users, overwhelmed small firms needing quick wins. High post-sale service cost.</td>
+          <td><span class="badge-pill badge-ok">Selective</span></td>
+          <td>Inbound only. Short cycle. Confirm implementation commitment.</td>
+        </tr>
+        <tr>
+          <td><strong>Survivors</strong></td>
+          <td>Resistant to change. Won't invest. Noisy and high churn risk.</td>
+          <td><span style="background:#cc2200;color:white" class="badge-pill">Not Target</span></td>
+          <td>Do not pursue. Protect your time.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem">
+    <h3>📋 Practice Area Fit Guide</h3>
+    <table style="margin-top:0.75rem">
+      <thead><tr><th>Practice Area</th><th>Type</th><th>Fit</th><th>Key Value Points</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Civil Litigation (Plaintiff)</strong></td><td>B2C</td><td><span class="badge-pill badge-excellent">Excellent</span></td><td>Client intake automation, deadline tracking, case status visibility</td></tr>
+        <tr><td><strong>Family Law</strong></td><td>B2C</td><td><span class="badge-pill badge-very-good">Very Good</span></td><td>Matter templates, client comms, fixed-fee efficiency, remote access</td></tr>
+        <tr><td><strong>Real Estate / Conveyancing</strong></td><td>B2C</td><td><span class="badge-pill badge-very-good">Very Good</span></td><td>High-volume transaction workflow, document templates, deadline tracking</td></tr>
+        <tr><td><strong>Personal Injury</strong></td><td>B2C</td><td><span class="badge-pill badge-good">Good</span></td><td>Referral tracking, case viability, client updates, status reporting</td></tr>
+        <tr><td><strong>Estate Planning</strong></td><td>B2C</td><td><span class="badge-pill badge-good">Good</span></td><td>Referral source management, long-term client relationships</td></tr>
+        <tr><td><strong>Criminal Defense</strong></td><td>B2C</td><td><span class="badge-pill badge-good">Good</span></td><td>Workflow-driven case management, deadline automation</td></tr>
+        <tr><td><strong>Immigration</strong></td><td>B2C</td><td><span class="badge-pill badge-ok">OK</span></td><td>Visa intake forms, filing deadline reminders, caseload tracking</td></tr>
+        <tr><td><strong>Business & Corporate</strong></td><td>B2B</td><td><span class="badge-pill badge-ok">OK</span></td><td>Conflict checks, contract templates, reporting</td></tr>
+        <tr><td><strong>Intellectual Property</strong></td><td>B2B</td><td><span class="badge-pill badge-ok">OK</span></td><td>IP portfolio lifecycle, filing deadlines, margin on fixed fees</td></tr>
+        <tr><td><strong>Mixed Practice</strong></td><td>Mixed</td><td><span class="badge-pill badge-ok">OK–Good (≤50)</span></td><td>Multi-practice workflow, consolidated reporting</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>⚠️ Common Mistake #4 — Only One Contact:</strong> If you have only one contact in a deal, you don't have a deal — you have a conversation. You need 3+ contacts before moving to Confirming Value. The managing partner alone is never enough.
+  </div>
+</div>
+
+<!-- ─── TAB 2: ICP EVALUATOR ─────────────────────────────── -->
+<div id="tab-evaluator" class="tab-content">
+  <div class="page-title">ICP Qualification Evaluator</div>
+  <div class="page-subtitle">Score a prospect on 5 dimensions. Total below 12 = do not forecast.</div>
+
+  <div class="evaluator">
+    <div class="evaluator-header">
+      <h2>🎯 Prospect Scorecard</h2>
+      <p>Score each dimension: 1 = Weak &nbsp;|&nbsp; 2 = Moderate &nbsp;|&nbsp; 3 = Strong</p>
+    </div>
+    <div class="evaluator-body">
+      <div id="scorecard-rows"></div>
+
+      <div class="score-bar-wrap">
+        <div class="score-display">
+          <div>
+            <div class="score-number" id="total-score">—</div>
+            <div class="score-label">out of 15 possible points</div>
+          </div>
+          <div style="text-align:right">
+            <div id="score-status" style="font-size:1rem;font-weight:700;color:#888">Score your prospect above</div>
+          </div>
+        </div>
+        <div class="score-bar-track">
+          <div class="score-bar-fill" id="score-bar" style="width:0%;background:var(--gray-200)"></div>
+        </div>
+        <div class="verdict-box" id="verdict-box"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TAB 3: PERSONA EXPLORER ───────────────────────────── -->
+<div id="tab-personas" class="tab-content">
+  <div class="page-title">Persona Explorer</div>
+  <div class="page-subtitle">Who to talk to — and what they care about.</div>
+
+  <div class="persona-tabs" id="persona-tabs"></div>
+  <div id="persona-details"></div>
+</div>
+
+<!-- ─── TAB 4: SCENARIOS ─────────────────────────────────── -->
+<div id="tab-scenarios" class="tab-content">
+  <div class="page-title">Scenario Practice</div>
+  <div class="page-subtitle">Apply what you've learned to real-world qualification decisions.</div>
+
+  <div class="scenario-progress">
+    Scenario <span id="sc-current">1</span> of <span id="sc-total">6</span>
+    <div class="progress-dots" id="progress-dots"></div>
+  </div>
+
+  <div id="scenario-container"></div>
+</div>
+
+<script>
+// ─── TAB SWITCHING ───────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── SCORECARD ───────────────────────────────────────────
+const scoreDimensions = [
+  {
+    label: "ICP Fit",
+    desc: "Size, territory, practice type",
+    options: ["1 — Outside target ICP", "2 — Partial fit (2 of 3)", "3 — Clear ICP match"]
+  },
+  {
+    label: "Pain / Trigger",
+    desc: "Specific, documented business pain",
+    options: ["1 — No clear pain; exploratory", "2 — Pain acknowledged but vague", "3 — Specific pain with real impact"]
+  },
+  {
+    label: "Stakeholder Breadth",
+    desc: "Who you've engaged",
+    options: ["1 — One contact only", "2 — 2 contacts, one influencer", "3 — 3+ contacts incl. decision-maker"]
+  },
+  {
+    label: "Timeline",
+    desc: "Go-live urgency",
+    options: ["1 — 'Whenever it's ready'", "2 — Timeline mentioned, not committed", "3 — Specific date tied to business event"]
+  },
+  {
+    label: "Budget",
+    desc: "Commercial conversation progress",
+    options: ["1 — No budget conversation", "2 — Pricing delivered; awareness", "3 — Budget confirmed; DM involved"]
+  }
+];
+
+let scores = [0, 0, 0, 0, 0];
+
+function renderScorecard() {
+  const wrap = document.getElementById('scorecard-rows');
+  wrap.innerHTML = '';
+  scoreDimensions.forEach((dim, di) => {
+    const row = document.createElement('div');
+    row.className = 'criteria-row';
+    row.innerHTML = `
+      <div>
+        <div class="criteria-label">${dim.label}</div>
+        <div class="criteria-desc">${dim.desc}</div>
+      </div>
+      <div class="score-buttons">
+        ${dim.options.map((opt, oi) => `
+          <button class="score-btn" onclick="setScore(${di}, ${oi+1})" id="btn-${di}-${oi+1}">${opt}</button>
+        `).join('')}
+      </div>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+function setScore(dim, val) {
+  scores[dim] = val;
+  [1,2,3].forEach(v => {
+    const b = document.getElementById(`btn-${dim}-${v}`);
+    b.className = 'score-btn' + (v === val ? ` selected-${v}` : '');
+  });
+  updateScoreDisplay();
+}
+
+function updateScoreDisplay() {
+  const total = scores.reduce((a,b) => a+b, 0);
+  const filled = scores.filter(s => s > 0).length;
+  if (filled < 5) {
+    document.getElementById('total-score').textContent = filled + '/5 scored';
+    document.getElementById('score-status').textContent = `${5-filled} dimension(s) remaining`;
+    document.getElementById('score-bar').style.width = '0%';
+    document.getElementById('verdict-box').className = 'verdict-box';
+    return;
+  }
+  const pct = (total / 15) * 100;
+  document.getElementById('total-score').textContent = total;
+  const bar = document.getElementById('score-bar');
+  bar.style.width = pct + '%';
+
+  let color, verdict, cls;
+  if (total >= 13) {
+    color = '#74AA50'; cls = 'verdict-pursue';
+    verdict = `✅ Strong Pursuit — Score ${total}/15. This opportunity shows solid ICP fit and qualification signals. Advance with confidence and continue building breadth.`;
+    document.getElementById('score-status').textContent = '✅ Strong — Pursue';
+    document.getElementById('score-status').style.color = '#024638';
+  } else if (total >= 10) {
+    color = '#FED141'; cls = 'verdict-caution';
+    verdict = `⚠️ Proceed with Caution — Score ${total}/15. Real opportunity here, but gaps remain. Identify which dimensions are weakest and fix them before advancing stages. Don't forecast this yet.`;
+    document.getElementById('score-status').textContent = '⚠️ Caution — Address Gaps';
+    document.getElementById('score-status').style.color = '#9a7000';
+  } else {
+    color = '#FF8888'; cls = 'verdict-pass';
+    verdict = `🚨 Do Not Advance — Score ${total}/15. Too many qualification gaps to justify forecasting. Invest time in strengthening ICP fit, identifying pain, and broadening your contacts before moving this deal forward.`;
+    document.getElementById('score-status').textContent = '🚨 Do Not Forecast';
+    document.getElementById('score-status').style.color = '#cc2200';
+  }
+
+  bar.style.background = color;
+  const vbox = document.getElementById('verdict-box');
+  vbox.className = 'verdict-box show ' + cls;
+  vbox.textContent = verdict;
+}
+
+// ─── PERSONA EXPLORER ────────────────────────────────────
+const personas = [
+  {
+    name: "Managing Partner",
+    focus: ["Overall firm leadership and strategic direction", "Client service excellence", "Partner and practice revenue budgets", "Growth and resource investment decisions"],
+    say: ["ROI and profitability impact", "One source of truth for firm data", "'Let your lawyers focus on lawyering, not admin'", "Competitive positioning vs. peer firms"],
+    avoid: ["Getting too granular on product features", "Anything that sounds like a 'big IT project'", "Long timelines before value is visible"]
+  },
+  {
+    name: "Practice Manager",
+    focus: ["Managing paralegal and associate workloads", "Matter/case progression efficiency", "Staff onboarding and professional development", "Client communications and billing targets"],
+    say: ["Task visibility and team performance dashboards", "Billing target tracking and notifications", "How easy it is to train new staff on Actionstep", "Reducing information silos between finance, CRM, and matter management"],
+    avoid: ["High-level strategic talk with no operational detail", "Abstract ROI without concrete workflow examples"]
+  },
+  {
+    name: "Executive Director / COO",
+    focus: ["Running all administrative functions (IT, finance, marketing)", "Efficiency across case/matter progression firm-wide", "Client relationship management and expansion", "Owns the expense budget"],
+    say: ["Reporting, KPIs, and billing dashboards across the firm", "Process design and automation across multiple practices", "Data accuracy and 'one source of truth' for the whole firm", "Change management support during implementation"],
+    avoid: ["Feature-level detail without tying to business outcome", "Vague implementation timelines"]
+  },
+  {
+    name: "IT Manager / CTO",
+    focus: ["Firm-wide systems and individual tech setup", "Remote working and cloud infrastructure", "Data security and compliance", "Integration with other systems (DMS, accounting, email)"],
+    say: ["Cloud security and data residency details", "How Actionstep fits the overall tech ecosystem", "API and integration options (QBO, NetDocuments, Outlook Add-in)", "Migration process and data cleansing support"],
+    avoid: ["Business strategy before addressing security/technical concerns", "Overpromising on integrations — be specific"]
+  },
+  {
+    name: "Finance Manager",
+    focus: ["Billing accuracy and revenue tracking", "Trust accounting compliance", "Expense management and cost control", "Financial reporting for partner distributions"],
+    say: ["Billing automation and invoice generation speed", "Trust accounting and three-way reconciliation", "QBO / NetSuite / Xero integration options", "Financial reporting and visibility across practices"],
+    avoid: ["Non-financial value propositions as the lead", "Underestimating accounting as a topic — it matters enormously to them"]
+  }
+];
+
+function renderPersonas() {
+  const tabsWrap = document.getElementById('persona-tabs');
+  const detailWrap = document.getElementById('persona-details');
+  tabsWrap.innerHTML = '';
+  detailWrap.innerHTML = '';
+
+  personas.forEach((p, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'persona-tab-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = p.name;
+    btn.onclick = () => {
+      document.querySelectorAll('.persona-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.persona-detail').forEach(d => d.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('persona-' + i).classList.add('active');
+    };
+    tabsWrap.appendChild(btn);
+
+    const detail = document.createElement('div');
+    detail.id = 'persona-' + i;
+    detail.className = 'persona-detail' + (i === 0 ? ' active' : '');
+    detail.innerHTML = `
+      <div class="card" style="grid-column:1/-1;margin-bottom:0">
+        <h3 style="font-size:1.3rem;color:var(--green)">👤 ${p.name}</h3>
+      </div>
+      <div class="info-block bg-green-light">
+        <h4 class="color-green">🎯 What They're Responsible For</h4>
+        <ul>${p.focus.map(f => `<li style="color:var(--green)">${f}</li>`).join('')}</ul>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div class="info-block bg-blue-light">
+          <h4 class="color-teal">✅ What to Say / Emphasize</h4>
+          <ul>${p.say.map(s => `<li style="color:var(--teal)">${s}</li>`).join('')}</ul>
+        </div>
+        <div class="info-block" style="background:#fff8f0">
+          <h4 class="color-orange">⚠️ What to Avoid</h4>
+          <ul>${p.avoid.map(a => `<li style="color:#885500">${a}</li>`).join('')}</ul>
+        </div>
+      </div>
+    `;
+    detailWrap.appendChild(detail);
+  });
+}
+
+// ─── SCENARIOS ────────────────────────────────────────────
+const scenarios = [
+  {
+    tag: "ICP Identification",
+    title: "The Inbound Lead",
+    prompt: "You receive an inbound inquiry from Hartley & Associates — a 28-user family law firm in your territory. Their website features online client intake forms. The inquiry was submitted by their Practice Manager, Jordan, who mentions they're currently on Clio but 'need more workflow customization as they grow.' What is your first instinct about this opportunity?",
+    options: [
+      { text: "A) Strong ICP fit — move to immediate demo to capitalize on the inbound momentum.", correct: false },
+      { text: "B) Strong ICP fit — schedule discovery to document pain, confirm stakeholders, and understand their growth timeline.", correct: true },
+      { text: "C) Weak ICP fit — family law is only a 'Good' practice area fit for Actionstep.", correct: false },
+      { text: "D) Unclear fit — Practice Managers don't usually have budget authority, so wait for the managing partner.", correct: false }
+    ],
+    feedback: {
+      correct: "Correct! This is a textbook ICP match: right size, right territory, B2C boutique, business-minded (Practice Manager-led, online intake), and they have a named pain (limited workflow customization). The move is NOT an immediate demo — it's disciplined discovery to document pain, identify all stakeholders, and establish value before demonstrating anything.",
+      incorrect: "Not quite. This firm checks almost every ICP box: 28 users, your territory, family law (Very Good fit), inbound with a named pain ('need more workflow customization'), and led by a Practice Manager — a clear sign of a business-minded firm. The right move is structured discovery, not an immediate demo. Skipping discovery is Common Mistake #1."
+    }
+  },
+  {
+    tag: "Stage Gate Qualification",
+    title: "The Stage Advancement Decision",
+    prompt: "You've had two great conversations with Marcus, the Managing Partner at a 35-user personal injury firm. He loves Actionstep, references specific features he wants, and seems ready to move quickly. You've shared pricing and sent the SOW. He says 'this looks great — let's keep talking.' You have no other contacts at the firm. Should you move this to Deal Review?",
+    options: [
+      { text: "A) Yes — he's the decision-maker, he loves it, and you've sent the SOW. All signals are green.", correct: false },
+      { text: "B) Yes — SOW is out, which means you've confirmed value. Deal Review is the right stage.", correct: false },
+      { text: "C) No — you only have one contact. You have not met with at least 3 stakeholders, and there's no confirmed go-live date.", correct: true },
+      { text: "D) No — you should wait until the SOW is signed before advancing.", correct: false }
+    ],
+    feedback: {
+      correct: "Exactly right. The gate for Confirming Value → Deal Review requires that ALL key stakeholders have engaged with Actionstep. One enthusiastic managing partner is not enough. You need to get wide — identify the Practice Manager, office admin, or IT manager and engage them too. You also haven't confirmed a go-live date. Do not advance.",
+      incorrect: "This is a common trap. Marcus is enthusiastic, but you only have one contact. The gate for Deal Review requires all key stakeholders to have engaged with Actionstep, a confirmed go-live date, and list pricing communicated. 'This looks great' from one person is not confirmed value from the firm. Getting wide is not optional — it's a stage gate."
+    }
+  },
+  {
+    tag: "Green vs. Red Flag",
+    title: "Reading the Signal",
+    prompt: "You're on a discovery call with a 60-user multi-practice firm. The COO runs the call and mentions they're evaluating 4 vendors. They've built a scoring matrix, have a 90-day decision timeline driven by a contract renewal, and the COO confirms the Executive Committee will make the final call. Which assessment is most accurate?",
+    options: [
+      { text: "A) Red flag — 60 users is outside primary ICP, and committee decisions always stall.", correct: false },
+      { text: "B) Green flag — COO-led evaluation, defined timeline, defined process, and urgency driver (contract renewal).", correct: true },
+      { text: "C) Red flag — they're evaluating 4 vendors; they're shopping and may not be serious about Actionstep.", correct: false },
+      { text: "D) Neutral — you need more information before making any assessment.", correct: false }
+    ],
+    feedback: {
+      correct: "Correct! Every signal here is a green flag: COO leading the evaluation (professional admin layer), defined vendor scoring process (organized buying), specific 90-day timeline (not vague), urgency driver tied to a contract renewal (real event creating real urgency). Yes, there's a committee, but you know who's in it. This is worth significant investment.",
+      incorrect: "Look again at the signals: COO-led (professional admin layer ✅), scoring matrix (organized buying process ✅), 90-day timeline tied to a contract renewal (urgency ✅), executive committee with identified members (you can get wide ✅). Evaluating multiple vendors is normal — in fact it confirms they're serious buyers. This is a strong green flag opportunity."
+    }
+  },
+  {
+    tag: "Persona Messaging",
+    title: "The Audience Pivot",
+    prompt: "You're scheduled to demo Actionstep to Brennan & Cole, a 40-user family law firm. The attendees are: (1) the Managing Partner, (2) the Practice Manager, and (3) the IT Manager. The Practice Manager has been your champion. Which opening is most effective?",
+    options: [
+      { text: "A) Lead with technical integration capabilities, since IT is in the room and needs to validate the platform.", correct: false },
+      { text: "B) Lead with feature breadth — show everything to impress all three stakeholders at once.", correct: false },
+      { text: "C) Lead with business outcomes: revenue impact, operational efficiency, and the end-to-end client journey — then connect to each role's specific interests.", correct: true },
+      { text: "D) Since the Practice Manager is your champion, present the demo as if she's the only one in the room.", correct: false }
+    ],
+    feedback: {
+      correct: "Right approach. With three different roles in the room, you need to lead with business value that speaks to all of them — then layer in role-specific depth. The Managing Partner cares about ROI and competitive advantage. The Practice Manager cares about billing targets and team efficiency. IT cares about integrations and security. A feature-first demo leaves all three underwhelmed.",
+      incorrect: "With three stakeholders in the room, there's no single 'right feature' to lead with. Business outcomes are the common language: improved client service (Managing Partner), operational efficiency (Practice Manager), and modern tech ecosystem (IT). Start with outcomes, then drill into role-specific proof points. Never lead with features — they don't mean anything without a business context."
+    }
+  },
+  {
+    tag: "Practice Area Fit",
+    title: "Pipeline Prioritization",
+    prompt: "You have three prospects to follow up with today, all around 30 users. Firm A is a civil litigation (plaintiff) boutique with a Practice Manager leading the evaluation. Firm B is a corporate law firm with no admin layer — the senior partner decides everything. Firm C is an immigration firm whose owner saw your ad online and wants 'a quick chat.' How do you prioritize?",
+    options: [
+      { text: "A) Firm C first — they're the most recent inquiry and represent fresh momentum.", correct: false },
+      { text: "B) Firm A first — best practice area fit (Excellent) and business-minded signals (Practice Manager-led).", correct: true },
+      { text: "C) Firm B first — corporate law clients spend more money, making it the highest ACV opportunity.", correct: false },
+      { text: "D) All three equally — you should never pre-qualify based on practice area.", correct: false }
+    ],
+    feedback: {
+      correct: "Exactly right. Firm A is a strong ICP match: right size, Excellent practice area fit (civil litigation plaintiff), and business-minded (Practice Manager-led). Firm C (immigration + online ad + 'quick chat') is more exploratory — worth a call, but lower priority. Firm B (corporate law + partner decides alone) has lower practice area fit (OK) and a traditional buying structure that will be harder to move quickly. Prioritize your highest-fit, most business-minded opportunities.",
+      incorrect: "Practice area fit matters. Civil litigation (plaintiff) is Excellent fit for Actionstep — workflow, client intake, deadline tracking, and case status reporting all hit their exact pain points. Business law (B2B, corporate) is only OK fit and has no admin layer, meaning a longer, harder cycle. An online inquiry for a 'quick chat' is exploratory until proven otherwise. Prioritize by ICP quality, not recency or revenue assumption."
+    }
+  },
+  {
+    tag: "Disqualification Instinct",
+    title: "When to Walk Away",
+    prompt: "Lakewood Law has been in your pipeline for 118 days. They're a 15-user mixed-practice firm. Your only contact is the founding partner, who repeatedly cancels calls and last month said, 'We're happy with what we have, but let's stay in touch.' You've never met anyone else at the firm. What's the right call?",
+    options: [
+      { text: "A) Keep nurturing — they'll be ready eventually, and you've invested 118 days already.", correct: false },
+      { text: "B) Send one final email with a clear decision deadline. If no response, disqualify and close the opportunity.", correct: true },
+      { text: "C) Schedule a full demo — showing them more of the product will create urgency.", correct: false },
+      { text: "D) Loop in your manager and ask for a joint call to save the deal.", correct: false }
+    ],
+    feedback: {
+      correct: "The right call. Every signal here is a red flag: 118 days with no movement, single contact (founding partner), cancellation pattern, and explicitly stated satisfaction with the status quo ('we're happy with what we have'). Send one last clear email — 'I want to respect your time. If now isn't the right time, I'm happy to reconnect when it is. Otherwise I'll close this out.' Then close it. Sunk cost is not a reason to continue investing.",
+      incorrect: "Every signal here is a red flag. 118 days in pipeline, one contact who cancels, 'we're happy with what we have' — this is a dead deal, not a nurture opportunity. A demo won't create urgency when there's no pain acknowledged. Escalating to your manager wastes both your time and theirs. Send one crisp final email, offer a clear decision, and close the opportunity if no response. A full pipeline is worth more than a hopeful one."
+    }
+  }
+];
+
+let currentScenario = 0;
+let answered = false;
+
+function renderScenarioDots() {
+  const wrap = document.getElementById('progress-dots');
+  wrap.innerHTML = '';
+  scenarios.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i < currentScenario ? ' done' : i === currentScenario ? ' current' : '');
+    wrap.appendChild(dot);
+  });
+}
+
+function renderScenario() {
+  const sc = scenarios[currentScenario];
+  document.getElementById('sc-current').textContent = currentScenario + 1;
+  document.getElementById('sc-total').textContent = scenarios.length;
+  renderScenarioDots();
+
+  const container = document.getElementById('scenario-container');
+  container.innerHTML = `
+    <div class="scenario-card">
+      <div class="scenario-header">
+        <div class="tag">${sc.tag}</div>
+        <h3>${sc.title}</h3>
+      </div>
+      <div class="scenario-body">
+        <p class="scenario-prompt">${sc.prompt}</p>
+        <div class="scenario-options">
+          ${sc.options.map((o, i) => `
+            <button class="option-btn" onclick="selectOption(this, ${o.correct}, ${i})">${o.text}</button>
+          `).join('')}
+        </div>
+        <div class="feedback-box" id="feedback"></div>
+        <button class="next-btn" id="next-btn" onclick="nextScenario()">
+          ${currentScenario < scenarios.length - 1 ? 'Next Scenario →' : 'Restart Scenarios'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function selectOption(btn, isCorrect, idx) {
+  if (answered) return;
+  answered = true;
+
+  const sc = scenarios[currentScenario];
+  const allBtns = btn.closest('.scenario-options').querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  sc.options.forEach((o, i) => {
+    if (o.correct) allBtns[i].classList.add('correct');
+  });
+  if (!isCorrect) btn.classList.add('incorrect');
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback-box show ' + (isCorrect ? 'correct' : 'incorrect');
+  fb.textContent = isCorrect ? sc.feedback.correct : sc.feedback.incorrect;
+
+  document.getElementById('next-btn').classList.add('show');
+}
+
+function nextScenario() {
+  if (currentScenario < scenarios.length - 1) {
+    currentScenario++;
+  } else {
+    currentScenario = 0;
+  }
+  answered = false;
+  renderScenario();
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+renderScorecard();
+renderPersonas();
+renderScenario();
+</script>
+</body>
+</html>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outreach.io Mastery | Module 3 — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780; --lblue:#7BA7BC;
+    --ltgreen:#E3F7E4; --ltblue:#E3F5F7; --gray:#F5F7F5; --border:#C8E0C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .logo-mark{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .logo-text{font-size:17px;font-weight:700;color:white;}
+  .logo-text span{color:var(--leaf);}
+  .mod-tag{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .main{max-width:1100px;margin:0 auto;padding:40px 20px;}
+  .hero{text-align:center;margin-bottom:44px;}
+  .hero h1{font-size:40px;font-weight:900;color:white;margin-bottom:10px;letter-spacing:-0.5px;}
+  .hero p{color:#89B89A;font-size:15px;max-width:600px;margin:0 auto;}
+
+  /* TABS */
+  .tabs{display:flex;gap:4px;background:rgba(255,255,255,0.06);border-radius:12px;padding:5px;margin-bottom:32px;border:1px solid rgba(255,255,255,0.08);flex-wrap:wrap;}
+  .tab-btn{flex:1;min-width:120px;padding:11px 12px;border:none;background:transparent;color:#89B89A;font-family:'Red Hat Display',sans-serif;font-size:12px;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .tab-btn.active{background:var(--green);color:white;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+  .tab-btn:hover:not(.active){color:white;}
+
+  /* SECTION INTRO */
+  .section-intro{background:white;border-radius:14px;padding:28px 36px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .section-intro h2{font-size:22px;font-weight:900;color:var(--green);margin-bottom:10px;}
+  .section-intro p{color:var(--mid);font-size:14px;line-height:1.75;}
+
+  /* ACCORDION */
+  .acc-grid{display:flex;flex-direction:column;gap:10px;}
+  .acc-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.15);transition:all 0.2s;cursor:pointer;border:2px solid transparent;}
+  .acc-card:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,0.22);}
+  .acc-card.open{border-color:var(--leaf);}
+  .acc-hdr{display:flex;align-items:center;gap:16px;padding:18px 24px;}
+  .acc-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .acc-title{flex:1;}
+  .acc-title h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:2px;}
+  .acc-title .acc-sub{font-size:12px;color:var(--mid);}
+  .acc-arrow{font-size:18px;color:var(--mid);transition:transform 0.25s;font-weight:700;}
+  .acc-card.open .acc-arrow{transform:rotate(180deg);}
+  .acc-body{display:none;padding:0 24px 24px;border-top:1px solid var(--border);}
+  .acc-card.open .acc-body{display:block;}
+  .acc-body p{color:var(--mid);font-size:14px;line-height:1.75;margin-bottom:12px;}
+  .acc-body ul{list-style:none;margin:0 0 14px;padding:0;}
+  .acc-body ul li{font-size:14px;color:var(--mid);padding:6px 0;display:flex;align-items:flex-start;gap:10px;line-height:1.55;border-bottom:1px solid #f0f0f0;}
+  .acc-body ul li:last-child{border-bottom:none;}
+  .acc-body ul li::before{content:'→';color:var(--leaf);font-weight:900;flex-shrink:0;margin-top:1px;}
+  .rule-box{background:var(--ltgreen);border-left:4px solid var(--leaf);padding:12px 16px;border-radius:6px;font-size:13px;color:var(--text);line-height:1.65;margin-bottom:10px;}
+  .warn-box{background:#FFF8E7;border-left:4px solid var(--yellow);padding:12px 16px;border-radius:6px;font-size:13px;color:#5C4400;line-height:1.65;margin-bottom:10px;}
+  .alert-box{background:#FFF0E6;border-left:4px solid var(--orange);padding:12px 16px;border-radius:6px;font-size:13px;color:#883300;line-height:1.65;margin-bottom:10px;}
+  .info-box{background:var(--ltblue);border-left:4px solid var(--lblue);padding:12px 16px;border-radius:6px;font-size:13px;color:#1A3A5C;line-height:1.65;margin-bottom:10px;}
+
+  /* STEP FLOW (sequences) */
+  .step-flow{display:flex;flex-direction:column;gap:0;margin-bottom:16px;}
+  .step-item{display:flex;gap:16px;align-items:flex-start;}
+  .step-line{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+  .step-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:white;flex-shrink:0;z-index:1;}
+  .step-connector{width:2px;flex:1;min-height:20px;background:var(--border);margin:0 auto;}
+  .step-content{padding:0 0 20px;flex:1;}
+  .step-content h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+  .step-content p{font-size:13px;color:var(--mid);line-height:1.65;}
+  .step-content .step-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:2px 8px;border-radius:10px;margin-bottom:6px;}
+
+  /* CADENCE BUILDER */
+  .cadence-builder{background:white;border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.18);margin-bottom:24px;}
+  .cb-hdr{background:var(--green);padding:20px 28px;border-bottom:3px solid var(--leaf);}
+  .cb-hdr h3{font-size:18px;font-weight:900;color:white;margin-bottom:4px;}
+  .cb-hdr p{color:#A8D5A8;font-size:13px;}
+  .cb-body{padding:24px 28px;}
+  .day-row{display:flex;gap:12px;align-items:center;margin-bottom:14px;padding:12px 16px;background:var(--gray);border-radius:10px;border-left:4px solid transparent;transition:all 0.2s;cursor:default;}
+  .day-row:hover{background:var(--ltgreen);border-left-color:var(--leaf);}
+  .day-badge{width:52px;height:52px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+  .day-badge .day-num{font-size:18px;font-weight:900;color:white;line-height:1;}
+  .day-badge .day-lbl{font-size:9px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,0.8);letter-spacing:1px;}
+  .day-detail{flex:1;}
+  .day-detail h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px;}
+  .day-detail p{font-size:13px;color:var(--mid);line-height:1.55;}
+  .day-type{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;text-transform:uppercase;letter-spacing:1px;flex-shrink:0;}
+
+  /* KAIA CARD */
+  .kaia-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:20px;}
+  .kaia-card{background:white;border-radius:13px;padding:22px 20px;box-shadow:0 6px 24px rgba(0,0,0,0.18);transition:all 0.2s;}
+  .kaia-card:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(0,0,0,0.26);}
+  .kaia-icon{font-size:30px;margin-bottom:10px;}
+  .kaia-card h3{font-size:14px;font-weight:900;color:var(--green);margin-bottom:6px;}
+  .kaia-card p{font-size:13px;color:var(--mid);line-height:1.6;}
+
+  /* FORECAST SECTION */
+  .forecast-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  @media(max-width:600px){.forecast-grid{grid-template-columns:1fr;}}
+  .fc-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.2);}
+  .fc-hdr{padding:20px 22px 16px;}
+  .fc-hdr .fc-cat{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.8);font-weight:700;margin-bottom:4px;}
+  .fc-hdr .fc-label{font-size:24px;font-weight:900;color:white;font-style:italic;}
+  .fc-body{padding:16px 22px;}
+  .fc-body p{font-size:13px;color:var(--mid);line-height:1.65;margin-bottom:10px;}
+  .fc-body ul{list-style:none;padding:0;}
+  .fc-body ul li{font-size:12px;color:var(--mid);padding:3px 0;display:flex;gap:8px;align-items:flex-start;line-height:1.5;}
+  .fc-body ul li::before{content:'→';color:var(--leaf);font-weight:700;flex-shrink:0;}
+
+  /* TWO COL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  @media(max-width:700px){.two-col{grid-template-columns:1fr;}}
+
+  /* SCENARIO ENGINE */
+  .scenario-wrap{background:white;border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.2);}
+  .sch{padding:22px 28px;background:var(--green);border-bottom:3px solid var(--leaf);display:flex;justify-content:space-between;align-items:center;}
+  .sch h2{font-size:20px;font-weight:900;color:white;}
+  .sch .sct2{color:var(--leaf);font-size:13px;font-weight:600;}
+  .sb{padding:28px 30px;}
+  .score-b{display:flex;gap:20px;align-items:center;padding:14px 20px;background:var(--gray);border-radius:10px;margin-bottom:24px;}
+  .ss .sv{font-size:26px;font-weight:900;color:var(--green);}
+  .ss .sl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;}
+  .pw{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+  .pf{height:100%;background:linear-gradient(90deg,var(--green),var(--leaf));border-radius:4px;transition:width 0.5s ease;}
+  .sp-box{background:var(--ltgreen);border-radius:10px;padding:20px 22px;margin-bottom:24px;border-left:4px solid var(--leaf);}
+  .sp-box .pl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .sp-box p{color:var(--text);font-size:15px;line-height:1.75;}
+  .og{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+  @media(max-width:600px){.og{grid-template-columns:1fr;}}
+  .opt{padding:14px 18px;border-radius:9px;border:2px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:14px;color:var(--text);cursor:pointer;transition:all 0.18s;text-align:left;line-height:1.4;}
+  .opt:hover:not(:disabled){border-color:var(--green);color:var(--green);background:var(--ltgreen);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--leaf);background:#EBF5E3;color:#1A5C1A;}
+  .opt.incorrect{border-color:var(--orange);background:#FFF0E6;color:#883300;}
+  .opt.show-right{border-color:var(--leaf);background:#EBF5E3;color:#1A5C1A;opacity:0.6;}
+  .fb2{padding:18px 22px;border-radius:10px;margin-bottom:20px;display:none;}
+  .fb2.vis{display:block;animation:up 0.28s ease;}
+  .fb2.ok{background:#EBF5E3;border:1.5px solid var(--leaf);}
+  .fb2.ng{background:#FFF0E6;border:1.5px solid var(--orange);}
+  .fb2 .ft{font-weight:700;font-size:14px;margin-bottom:6px;}
+  .fb2.ok .ft{color:#1A5C1A;}
+  .fb2.ng .ft{color:#883300;}
+  .fb2 p{font-size:13px;line-height:1.65;color:var(--mid);}
+  .btn-ns{display:none;width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-ns:hover{background:var(--teal);}
+  .btn{padding:10px 22px;border-radius:8px;border:none;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-p{background:var(--green);color:white;}
+  .btn-p:hover{background:var(--teal);}
+  .res-wrap{text-align:center;padding:48px 28px;}
+  .big-s{font-size:80px;font-weight:900;color:var(--green);line-height:1;margin-bottom:6px;}
+  .pfl{font-size:17px;font-weight:700;margin-bottom:14px;}
+  .pfl.pass{color:var(--leaf);}
+  .pfl.fail{color:var(--orange);}
+  .res-wrap p{color:var(--mid);font-size:14px;max-width:420px;margin:0 auto 26px;line-height:1.7;}
+
+  @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">Actíonstep <span>Sales Academy</span></div>
+  </div>
+  <div class="mod-tag">Module 3 · Outreach.io Mastery</div>
+</header>
+
+<div class="main">
+  <div class="hero">
+    <h1>Outreach.io Mastery</h1>
+    <p>Learn how to use Outreach for sequencing, prospecting, forecasting, and call intelligence — and how it connects with Salesforce to keep everything in sync.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('overview',this)">🗺️&nbsp; Platform Overview</button>
+    <button class="tab-btn" onclick="showTab('sequences',this)">📨&nbsp; Sequences</button>
+    <button class="tab-btn" onclick="showTab('kaia',this)">🤖&nbsp; Kaia AI</button>
+    <button class="tab-btn" onclick="showTab('forecasting',this)">📊&nbsp; Forecasting</button>
+    <button class="tab-btn" onclick="showTab('setup',this)">⚙️&nbsp; Setup & Sync</button>
+    <button class="tab-btn" onclick="showTab('scenarios',this)">🎯&nbsp; Scenarios</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 1: PLATFORM OVERVIEW
+  ════════════════════════════════════════════ -->
+  <div id="tab-overview">
+    <div class="section-intro">
+      <h2>What Is Outreach — and Why Do We Use It?</h2>
+      <p>Outreach is Actionstep's <strong>sales engagement platform</strong>. It sits on top of Salesforce and handles the things Salesforce wasn't built for: multi-touch sequencing, email open/click tracking, call intelligence, meeting booking, and pipeline forecasting. Think of Salesforce as your system of record and Outreach as the engine that drives activity against it.</p>
+    </div>
+    <div class="acc-grid" id="overview-grid"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 2: SEQUENCES
+  ════════════════════════════════════════════ -->
+  <div id="tab-sequences" style="display:none">
+    <div class="section-intro">
+      <h2>Sequences — Your Automated Multi-Touch Playbook</h2>
+      <p>A Sequence is a pre-built series of touchpoints — emails, calls, LinkedIn steps, tasks — that Outreach executes on a schedule. You enroll a prospect and Outreach handles the pacing, reminders, and tracking. High-performing reps don't wing their outreach — they run structured sequences and refine what works.</p>
+    </div>
+    <div class="acc-grid" id="sequences-grid"></div>
+
+    <div class="cadence-builder">
+      <div class="cb-hdr">
+        <h3>📋 Example SDR Prospecting Sequence — 10 Days, 7 Touches</h3>
+        <p>This is the structure of a well-built cold outreach sequence. Each touch has a purpose. No filler steps.</p>
+      </div>
+      <div class="cb-body" id="cadence-days"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 3: KAIA AI
+  ════════════════════════════════════════════ -->
+  <div id="tab-kaia" style="display:none">
+    <div class="section-intro">
+      <h2>Kaia — Your AI Meeting Assistant</h2>
+      <p>Kaia is Outreach's built-in AI that joins your calls, takes notes, surfaces content in real time, and gives you a full transcript after. It's not a nice-to-have — it's how you ensure nothing important is missed and how your manager can coach you on real conversations.</p>
+    </div>
+    <div class="kaia-grid" id="kaia-features"></div>
+    <div class="acc-grid" id="kaia-setup"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 4: FORECASTING
+  ════════════════════════════════════════════ -->
+  <div id="tab-forecasting" style="display:none">
+    <div class="section-intro">
+      <h2>Forecasting in Outreach</h2>
+      <p>Forecasting has moved from the old "Commit" tool directly into Outreach under <strong>Opportunities</strong>. This is where you manage your Month and Quarter Forecast categories — the same categories that sync back to Salesforce. Get comfortable here; you'll use it every week.</p>
+    </div>
+    <div class="forecast-grid" id="forecast-cards"></div>
+    <div class="acc-grid" id="forecast-how"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 5: SETUP & SYNC
+  ════════════════════════════════════════════ -->
+  <div id="tab-setup" style="display:none">
+    <div class="section-intro">
+      <h2>Setup, Mailboxes & Salesforce Sync</h2>
+      <p>Outreach only works if it's properly connected. Before you send your first sequence, you need to configure your mailbox, connect Salesforce, verify Kaia, and set up your calendar. Do these on Day 1 — none of your activity will sync otherwise.</p>
+    </div>
+    <div class="acc-grid" id="setup-grid"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB 6: SCENARIOS
+  ════════════════════════════════════════════ -->
+  <div id="tab-scenarios" style="display:none">
+    <div class="scenario-wrap">
+      <div class="sch">
+        <h2>Outreach Scenarios</h2>
+        <span class="sct2">Test your knowledge — 10 questions</span>
+      </div>
+      <div class="sb" id="scWrap"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+════════════════════════════════════════════ */
+
+const OVERVIEW = [
+  {
+    icon:'🔗',color:'#024638',
+    title:'Outreach + Salesforce — How They Work Together',
+    sub:'Salesforce is the record. Outreach is the engine.',
+    body:`<p>Outreach sits on top of Salesforce and <strong>reads from and writes to it in real time</strong>. When you log a call in Outreach, it appears in Salesforce. When you advance a prospect through a sequence, their Contact record is updated. When you update a forecast category in Outreach Opportunities, it syncs to the Quarter Forecast field in Salesforce.</p><p>You don't have to choose between tools — but you do have to make sure they're connected. If your Outreach isn't synced, your Salesforce data will be stale.</p>`,
+    rule:'Never use Outreach and Salesforce as separate tools. They are one system. Outreach activity = Salesforce activity.',
+    warn:'',
+    bullets:[
+      'Outreach reads Contacts, Leads, Accounts, and Opportunities from Salesforce',
+      'Calls, emails, and meetings logged in Outreach auto-sync to the Salesforce activity log',
+      'Forecast categories updated in Outreach push to the Quarter Forecast field in Salesforce',
+      'The Salesforce Outlook Integration handles email sync from Outlook side — Outreach handles sequence execution',
+    ]
+  },
+  {
+    icon:'📬',color:'#255C4E',
+    title:'Core Use Cases — What Outreach Is For',
+    sub:'The five things you\'ll use Outreach for every single day',
+    body:`<p>New reps sometimes treat Outreach as an email tool. It's not — it's a full engagement platform. These are the five things you'll use it for daily.</p>`,
+    rule:'',warn:'',
+    bullets:[
+      '1. Sequencing — enroll prospects in multi-touch cadences and let Outreach manage the pacing',
+      '2. Email tracking — see who opened, clicked, or replied to your emails in real time',
+      '3. Call logging — place calls through Outreach and have them auto-recorded and transcribed via Kaia',
+      '4. Forecasting — manage your Month/Quarter Forecast pipeline view under Opportunities',
+      '5. Meeting intelligence — review Kaia call recordings, transcripts, and coaching feedback',
+    ]
+  },
+  {
+    icon:'📋',color:'#285780',
+    title:'Key Concepts — Prospects, Sequences & Tasks',
+    sub:'The three objects you\'ll work with inside Outreach every day',
+    body:`<p>Outreach has its own object model that maps to (but doesn't replace) Salesforce records. Understanding these three concepts is the foundation of working in Outreach effectively.</p>`,
+    rule:'A Prospect in Outreach = a Contact or Lead in Salesforce. They are the same person — but Outreach tracks their engagement history separately.',
+    warn:'',
+    bullets:[
+      'Prospect — a person (Contact or Lead) enrolled in Outreach. Tracks opens, clicks, replies, calls, and meeting attendance.',
+      'Sequence — an ordered set of steps (emails, calls, tasks, LinkedIn) that execute on a schedule. You enroll prospects; Outreach executes.',
+      'Task — a manual action Outreach queues up for you: "make a call today," "send a LinkedIn message," "complete follow-up." Tasks are your daily to-do list.',
+    ]
+  },
+  {
+    icon:'📊',color:'#74AA50',
+    title:'Outreach Analytics — What to Watch',
+    sub:'The metrics that tell you whether your outreach is working',
+    body:`<p>Outreach gives you visibility into your outreach performance that Salesforce simply can't. Use these metrics to understand what's working and improve over time.</p>`,
+    rule:'Check your sequence analytics weekly. If your open rate is strong but your reply rate is low, your subject lines are working but your body copy isn\'t. If neither is strong, reconsider your targeting.',
+    warn:'',
+    bullets:[
+      'Open Rate — what % of your emails are being opened. Industry benchmark: 40–60% for targeted outbound.',
+      'Reply Rate — what % of prospects respond. A good sequence should hit 5–15% reply rate.',
+      'Positive Reply Rate — replies that aren\'t opt-outs. This is the metric that actually matters.',
+      'Meeting Booked Rate — prospects who book a call. The only metric that feeds your pipeline.',
+      'Call Connect Rate — % of dials that connect to a live person. Influences your daily call volume targets.',
+    ]
+  },
+];
+
+const SEQUENCES_CONTENT = [
+  {
+    icon:'🗂️',color:'#024638',
+    title:'What Makes a Good Sequence',
+    sub:'Structure, spacing, and variety — the three pillars of sequence design',
+    body:`<p>A sequence is not a batch of emails sent in bulk. It's a structured, multi-channel conversation designed to get a response. The best sequences at Actionstep follow three principles: they use <strong>multiple channels</strong>, they're <strong>spaced appropriately</strong>, and every step has a <strong>clear purpose</strong>.</p>`,
+    rule:'Every step in a sequence should have a job. If you can\'t answer "why is this step here and what is it trying to do?" — cut it.',
+    warn:'Don\'t over-sequence. More steps do not mean better results. A tight 7-step sequence outperforms a bloated 20-step sequence every time.',
+    bullets:[
+      'Multi-channel: mix emails, phone calls, and LinkedIn touches — don\'t rely on email alone',
+      'Appropriate spacing: early steps closer together (days 1, 3, 5), then spread out (day 10, 14)',
+      'Personalization: use Outreach variables (first name, firm name, practice area) — generic blasts get deleted',
+      'Clear subject lines: one idea per email, under 7 words in the subject line',
+      'Value-first: every email should offer something — a question, an insight, a relevant reference',
+    ]
+  },
+  {
+    icon:'📤',color:'#255C4E',
+    title:'Enrolling Prospects in a Sequence',
+    sub:'How to add someone to a sequence — from Outreach or from Salesforce',
+    body:`<p>You can enroll a prospect in a sequence from three places: directly from the Outreach Prospects view, from the Salesforce Contact/Lead record (via the Outreach panel), or in bulk from a saved list. Each method syncs back the same way.</p>`,
+    rule:'Before enrolling someone, check whether they\'re already active in another sequence. Outreach will warn you — but double-check. Enrolling a prospect in two competing sequences creates a bad experience.',
+    warn:'',
+    bullets:[
+      'From Outreach: Prospects → search for the person → Actions → Add to Sequence',
+      'From Salesforce Contact: Outreach panel on the right sidebar → Add to Sequence',
+      'Bulk enroll: Outreach Prospects list view → filter → select all → Add to Sequence',
+      'After enrolling: Outreach queues the first step immediately or on the schedule you set',
+      'Check "Active in Sequence" status before enrolling to avoid duplicate outreach',
+    ]
+  },
+  {
+    icon:'⏸️',color:'#285780',
+    title:'Pausing, Finishing & Removing Prospects',
+    sub:'How to manage prospects mid-sequence without breaking the sync',
+    body:`<p>Not every prospect should run to the end of a sequence. Knowing when and how to pause, finish, or remove someone is as important as knowing how to enroll them.</p>`,
+    rule:'When a prospect replies — even negatively — remove them from the sequence immediately. Auto-continue after a reply is a common mistake that damages relationships.',
+    warn:'Never manually email someone who is active in a sequence outside of Outreach without pausing or finishing them first. You\'ll create duplicate outreach and break the engagement tracking.',
+    bullets:[
+      'Replied positively: finish them from the sequence → move to active deal conversation',
+      'Replied "not interested": mark as Opted Out in Outreach — respects their request and stops future sequences',
+      'Gone quiet mid-sequence: let the sequence run unless you have a specific reason to intervene',
+      'Prospects who book a meeting: Outreach can auto-finish sequences when a meeting is booked — check if this is configured',
+    ]
+  },
+  {
+    icon:'🧪',color:'#FF6900',
+    title:'A/B Testing & Optimizing Your Sequences',
+    sub:'How to use Outreach data to improve your outreach over time',
+    body:`<p>Outreach lets you run A/B tests on sequence steps — testing different subject lines, body copy, or even call scripts. This is how high-performing reps improve their sequences from "okay" to elite.</p>`,
+    rule:'Test one variable at a time. If you change the subject line AND the body copy, you won\'t know which change drove the improvement.',
+    warn:'',
+    bullets:[
+      'Step-level A/B: create two versions of an email step — Outreach splits traffic and tracks performance separately',
+      'What to test first: subject lines have the highest impact on open rate — start there',
+      'Test body copy second: once your open rate is strong, optimize your reply rate by testing value propositions',
+      'Minimum sample size: don\'t conclude a test with fewer than 50 sends per variant — small samples give misleading results',
+      'Review in Outreach Analytics → Sequences → select your sequence → click on the step',
+    ]
+  },
+];
+
+const CADENCE_DAYS = [
+  {day:1, label:'DAY', type:'Email', typeColor:'#285780', title:'First Touch — Pattern Interrupt', desc:'Short, personalized cold email. Reference something specific about their firm (practice area, firm size, a challenge common in their market). Subject line under 7 words. Body under 100 words. One ask: are you the right person to talk to about [specific pain]?'},
+  {day:2, label:'DAY', type:'LinkedIn', typeColor:'#0077B5', title:'LinkedIn Connection Request', desc:'Send a connection request with a brief note (not a pitch). Reference the email you just sent. Keep it human — "I sent you a note yesterday about X — wanted to connect here too."'},
+  {day:4, label:'DAY', type:'Call', typeColor:'#FF6900', title:'First Call Attempt', desc:'Reference the email in your voicemail if you leave one. Keep voicemail under 20 seconds: name, company, specific reason you\'re calling, callback number. No voicemail? Log the attempt in Outreach — it still counts.'},
+  {day:5, label:'DAY', type:'Email', typeColor:'#285780', title:'Second Email — Different Angle', desc:'Take a completely different value angle from Day 1. If Day 1 was about efficiency, Day 5 is about risk or compliance or client experience. Reply to your original email thread (increases open rate) with a new subject.'},
+  {day:7, label:'DAY', type:'Call', typeColor:'#FF6900', title:'Second Call Attempt', desc:'Try different times of day — if you called at 10am on Day 4, try 8am or 4pm today. Prospects are more reachable at the ends of the workday.'},
+  {day:8, label:'DAY', type:'LinkedIn', typeColor:'#0077B5', title:'LinkedIn Message (if connected)', desc:'If they accepted your connection request, send a brief value message. Not a pitch — a question or an insight. Something that prompts a reply, not a presentation.'},
+  {day:10, label:'DAY', type:'Email', typeColor:'#285780', title:'Break-Up Email', desc:'The most powerful email in the sequence. Subject: "Should I stop reaching out?" Body: 2–3 sentences acknowledging you\'ve reached out a few times, it\'s okay if the timing isn\'t right, and a clear opt-out option. Break-up emails generate the highest reply rates of any sequence step — often from prospects who were interested but busy.'},
+];
+
+const KAIA_FEATURES = [
+  {icon:'📝',name:'Live Transcription',desc:'Kaia transcribes your call in real time. Every word spoken is captured and timestamped — no manual note-taking required.'},
+  {icon:'💡',name:'Content Card Suggestions',desc:'Kaia listens for keywords and surfaces relevant battle cards, competitor info, objection responses, and product details live on screen.'},
+  {icon:'💬',name:'Quote Saving',desc:'Highlight and save key quotes during the call with one click. These become searchable and shareable after the call.'},
+  {icon:'⏱️',name:'Talk Time Analytics',desc:'See in real time who is talking — you or the prospect. The goal: more prospect talk time. Kaia shows you the ratio live.'},
+  {icon:'📋',name:'Call Notes & Summary',desc:'After the call, Kaia generates a structured summary with next steps, action items, and key moments. Push them to Salesforce with one click.'},
+  {icon:'🎥',name:'Recording & Coaching',desc:'Every call is recorded and indexed. Your manager can review calls, leave timestamps comments, and coach on specific moments.'},
+];
+
+const KAIA_SETUP = [
+  {
+    icon:'⚙️',color:'#255C4E',
+    title:'Setting Up Kaia — Step by Step',
+    sub:'Do this on Day 1 before your first prospect call',
+    body:`<p>Kaia requires a one-time setup before she can join your calls. If you skip this, she won't auto-join and you'll lose call intelligence from your early conversations. Follow these steps exactly.</p>`,
+    rule:'',warn:'',
+    bullets:[
+      '1. Log into Outreach at web.outreach.io',
+      '2. Click your initials (bottom-left of the nav) → Personal Settings',
+      '3. Go to Calendar Settings → ensure Video Conferencing is set to Zoom',
+      '4. Go back → click Kaia in the left nav',
+      '5. Set your Auto-Join preferences: choose from "Join all meetings," "Only when I\'m the organizer," or "Do not auto-join"',
+      '6. If "Do not auto-join" is selected: you must manually click "Join with Kaia" from the meeting in Outreach → Meetings section',
+      '7. Once Kaia joins your call, she sends you a link — click it to open the Kaia Live experience window',
+    ]
+  },
+  {
+    icon:'📞',color:'#024638',
+    title:'Using Kaia During a Call — What to Actually Do',
+    sub:'The live experience: what you see and how to use it',
+    body:`<p>Once Kaia joins and you click her link, the Kaia Live window opens alongside your video call. Here's how to use it without getting distracted from the conversation.</p>`,
+    rule:'Keep the Kaia window visible but in the background. Glance at it for content card suggestions — don\'t stare at it. Your presence with the prospect is more important than any real-time card.',
+    warn:'Don\'t rely on Kaia to take all your notes. Still capture your key takeaways manually — Kaia is a safety net, not a replacement for active listening.',
+    bullets:[
+      'Content Cards: appear automatically when Kaia hears trigger words (competitor names, objection phrases, product terms)',
+      'Quote Save: click the quote icon next to any transcript line to save it for your CRM notes',
+      'Talk Time: the bar at the top shows your talk ratio — aim for 40% you, 60% prospect',
+      'Note Box: type context notes live — they timestamp automatically against the transcript',
+      'After the call: review the AI summary, edit for accuracy, then push to Salesforce as an activity',
+    ]
+  },
+];
+
+const FORECAST_CARDS = [
+  {cat:'COMMIT',label:'I KNOW',bg:'#024638',def:'Neck on the line. This deal closes this quarter by the listed close date. Every signal confirms it — legal engaged, champion confirmed, no outstanding blockers.',bullets:['Decision-maker has confirmed close verbally or in writing','No unresolved blockers','Legal/procurement actively engaged','You\'d put your credibility on the line for this one']},
+  {cat:'FORECAST',label:'I THINK',bg:'#285780',def:'Strong confidence. Clear path. Not fully locked — but no red flags and the buyer is engaged and moving.',bullets:['Buyer responsive and engaged','Pricing discussed without major pushback','Clear path to close documented','Timeline aligned — buyer is moving forward']},
+  {cat:'STRETCH — YES',label:'I HOPE',bg:'#C87800',def:'Aspirational. You\'re actively working to pull this into the quarter. The timing isn\'t confirmed from the buyer\'s side yet.',bullets:['Active outreach to accelerate','No confirmed close date from buyer','Could close — requires effort and favorable conditions','Slip to next quarter is a real possibility']},
+  {cat:'STRETCH — NO',label:'I DON\'T THINK',bg:'#B03020',def:'Honest flag. From today\'s information, this deal will not close by the listed close date. It\'s real — just not this quarter.',bullets:['Buyer disengaged or unresponsive','No confirmed next step','Multiple date slips without clear reason','Deal exists but the quarter timing is gone']},
+];
+
+const FORECAST_HOW = [
+  {
+    icon:'📍',color:'#024638',
+    title:'Where to Manage Forecast in Outreach',
+    sub:'Opportunities tab → your in-quarter pipeline view',
+    body:`<p>Forecasting in Outreach lives under the <strong>Opportunities</strong> section in the left nav. This is where you'll manage your Month Forecast and Quarter Forecast for every open deal with a current-quarter close date. Changes you make here sync directly to Salesforce.</p>`,
+    rule:'Make your forecast updates in Outreach — they will appear in Salesforce automatically. You do not need to update both places.',
+    warn:'',
+    bullets:[
+      'Navigate to Outreach → Opportunities in the left nav',
+      'Filter by "Close Date: This Quarter" to see your in-quarter pipeline',
+      'Click any opportunity → update the Month Forecast and Quarter Forecast fields',
+      'Changes sync to Salesforce\'s Month Forecast and Quarter Forecast fields within minutes',
+      'Your manager views the team forecast from Outreach Opportunities — this is what they see on your forecast calls',
+    ]
+  },
+  {
+    icon:'📅',color:'#255C4E',
+    title:'The Weekly Forecast Rhythm — What Outreach Makes Visible',
+    sub:'How your manager uses Outreach data to review your forecast',
+    body:`<p>Before every weekly forecast call, your manager will review your Outreach Opportunities view. They can see your forecast categories, your last activity date on each deal, your Kaia call history, and your Next Step field — all in one place. This is why activity discipline matters: silence in Outreach is as visible as silence in Salesforce.</p>`,
+    rule:'Before every forecast call: review all in-quarter deals in Outreach, update forecast categories, confirm Next Step is current, and be ready to explain any deal that has had no activity in 7+ days.',
+    warn:'A deal with no Outreach activity in 2+ weeks and a Commit forecast category will stand out to your manager. Don\'t let your forecast say one thing while your activity says another.',
+    bullets:[
+      'Last Activity Date is visible on every Opp in Outreach — stale = visible',
+      'Kaia call recordings are accessible directly from the Opportunity — your manager can review them',
+      'Sequence activity (opens, clicks, replies) is also visible on the Opportunity timeline',
+      'Forecast categories updated in Outreach = updated in Salesforce = what leadership sees',
+    ]
+  },
+];
+
+const SETUP_CONTENT = [
+  {
+    icon:'📧',color:'#024638',
+    title:'Connecting Your Mailbox — Required Before Sending Anything',
+    sub:'Outreach → Settings → Mailboxes',
+    body:`<p>Your mailbox is how Outreach sends emails on your behalf and how Salesforce captures the activity. Without a connected mailbox, nothing syncs and you can't execute sequences. This is <strong>Day 1, first thing</strong>.</p>`,
+    rule:'Connect your Outlook mailbox via Outreach Settings → Mailboxes before you send your first email or enroll your first prospect.',
+    warn:'',
+    bullets:[
+      'Log into Outreach → click your initials (bottom-left) → Settings',
+      'Go to Mailboxes → Add Mailbox → select Microsoft Outlook',
+      'Authenticate with your Actionstep Microsoft credentials',
+      'Once connected: all emails sent from Outreach sequences appear as sent from your Outlook address',
+      'Activity (sent emails, replies received) will auto-sync to Salesforce contact activity log',
+    ]
+  },
+  {
+    icon:'🔗',color:'#255C4E',
+    title:'Verifying Salesforce Sync',
+    sub:'Make sure Outreach is reading and writing to Salesforce correctly',
+    body:`<p>Outreach connects to Salesforce via a configured integration managed by your admin. You don't need to set this up yourself — but you do need to verify it's working before you rely on it.</p>`,
+    rule:'After your first sequence email goes out, check the Contact record in Salesforce. The email should appear in the Activity section within a few minutes. If it doesn\'t appear after 10 minutes, flag to your manager.',
+    warn:'',
+    bullets:[
+      'Outreach → Settings → Salesforce → check "Connected" status (admin configures this)',
+      'After sending a sequence email: check SF Contact Activity → should appear within 5 min',
+      'After logging a call in Outreach: check SF Contact Activity → call log should appear',
+      'If sync is broken: Outreach activity will NOT appear in Salesforce — this is a critical problem to fix immediately',
+    ]
+  },
+  {
+    icon:'📅',color:'#285780',
+    title:'Calendar & Zoom Integration',
+    sub:'Required for Kaia and meeting booking to work',
+    body:`<p>Outreach needs to read your calendar to show meeting availability and to enable Kaia's auto-join. Without this, Kaia can't join calls and you can't use Outreach's meeting booking features.</p>`,
+    rule:'Set video conferencing to Zoom in Personal Settings. This is the only configuration Kaia needs from your side to auto-join calls.',
+    warn:'',
+    bullets:[
+      'Outreach → Initials (bottom-left) → Personal Settings → Calendar Settings',
+      'Connect your Google or Microsoft calendar (use your Actionstep Microsoft account)',
+      'Set Video Conferencing = Zoom',
+      'This enables: Kaia auto-join, meeting sync, and the Outreach meeting scheduling page',
+    ]
+  },
+  {
+    icon:'🔔',color:'#74AA50',
+    title:'Outreach Everywhere Chrome Extension',
+    sub:'The browser extension that brings Outreach into your daily workflow',
+    body:`<p>Outreach Everywhere is a Chrome extension that surfaces Outreach data and actions directly in Gmail, Outlook Web, LinkedIn, and Salesforce — without having to switch tabs. It's one of the highest-leverage setup steps for daily productivity.</p>`,
+    rule:'Install Outreach Everywhere in Chrome on Day 1. It will save you significant time switching between tools.',
+    warn:'',
+    bullets:[
+      'Install from: Chrome Web Store → search "Outreach Everywhere" → Add to Chrome',
+      'What it does: shows Outreach prospect info, sequence status, and email tracking directly in LinkedIn and Outlook',
+      'In LinkedIn: see if a prospect is already in Outreach, enroll them in a sequence without leaving LinkedIn',
+      'In Outlook Web: see email open/click notifications as they happen in real time',
+    ]
+  },
+];
+
+const SCENARIOS = [
+  {
+    q:"You enrolled a prospect in a 10-step sequence on Monday. On Wednesday (Day 3, before their first response), they reply to your email with 'Thanks, but we're locked in with our current vendor.' What should you do in Outreach?",
+    opts:["Let the sequence continue — they may change their mind by step 7","Pause the sequence and wait 30 days before re-enrolling","Remove them from the sequence immediately and mark as Opted Out","Reply to their email directly but leave them in the sequence"],
+    ans:2,
+    exp:"When a prospect replies — even with a 'not interested' — you remove them from the sequence immediately. Auto-continuing after a reply is a common mistake that damages the relationship. Mark them as Opted Out to prevent future sequences. You can still reply to their email, but outside of the active sequence."
+  },
+  {
+    q:"Your manager asks why your Commit deal (expected close this Friday) shows no Outreach activity in the last 10 days. What is the core problem this reveals?",
+    opts:["It reveals nothing — some deals close without needing outreach activity","It shows that your forecast category doesn't match your actual engagement level — a credibility risk","It means the deal will definitely not close","It means you need to add more steps to the sequence"],
+    ans:1,
+    exp:"A Commit deal with zero activity is a red flag. Your forecast says 'I know this closes' but your activity says 'I'm not engaging with this deal.' These signals contradict each other. Your manager will ask about this on the forecast call. Either your category should be lower, or you need to show the engagement that supports the Commit."
+  },
+  {
+    q:"Kaia joined your discovery call. After the call, she sends you a link. What does clicking that link open?",
+    opts:["A Salesforce activity log of the call","The Kaia Live experience: transcription, content cards, talk time, and quote-saving — all in real time","A recording of the call that you review post-call only","The prospect's Outreach engagement history"],
+    ans:1,
+    exp:"Clicking Kaia's link opens the Kaia Live experience window — which shows real-time transcription, surfaces content card suggestions when keywords are mentioned, tracks talk-time ratio, and lets you save quotes with a click. Post-call, Kaia also generates a structured summary you can push to Salesforce."
+  },
+  {
+    q:"You're building a 7-step SDR prospecting sequence. You decide to test whether a shorter vs. longer subject line drives better open rates. You also change the first paragraph of the email body at the same time. What's wrong with this test design?",
+    opts:["Nothing — more changes give you more data","You can't run A/B tests on subject lines in Outreach","You're testing two variables simultaneously — you won't know which change drove the result","You need at least 100 sends before starting any test"],
+    ans:2,
+    exp:"A/B testing rule: one variable at a time. If you change the subject line AND the body copy in the same test, you can't isolate what drove the improvement (or the drop). Test subject lines first — they have the biggest impact on open rate. Once that's optimized, test body copy."
+  },
+  {
+    q:"A prospect hasn't responded to any of your 6 outreach attempts. The sequence ends tomorrow with a break-up email. Your manager suggests skipping the break-up email to avoid 'burning the bridge.' What do you know about break-up emails that your manager might be missing?",
+    opts:["Your manager is right — break-up emails are unprofessional and should be avoided","Break-up emails are the highest reply-rate step in most sequences — many prospects who were interested but busy respond at this stage","Break-up emails should only be sent to prospects who specifically requested follow-up","Break-up emails automatically mark the prospect as opted out"],
+    ans:1,
+    exp:"Break-up emails ('Should I stop reaching out?') consistently generate the highest reply rates of any sequence step. Many prospects who were genuinely interested but just too busy finally respond at this moment. Far from burning a bridge, a well-written break-up email is respectful, honest, and gives the prospect an easy way to re-engage if they want to."
+  },
+  {
+    q:"You update a deal's Quarter Forecast from 'Stretch Yes' to 'Commit' in Outreach Opportunities. Where does this change appear?",
+    opts:["Only in Outreach — Salesforce must be updated separately","In both Outreach and Salesforce — they sync automatically","Only in Salesforce after you manually push the update","In your manager's Outreach view only — not in Salesforce"],
+    ans:1,
+    exp:"Forecast updates made in Outreach Opportunities sync automatically to Salesforce's Quarter Forecast field. You don't need to update both places. This is by design — Outreach is where you manage your forecast view, and Salesforce is where leadership and finance consume the data."
+  },
+  {
+    q:"Before enrolling a prospect in a cold outreach sequence, what is the first thing you should check in Outreach?",
+    opts:["Whether their firm is in Salesforce","Whether they are already active in another sequence","Whether they've opened a previous email","Whether their LinkedIn profile is public"],
+    ans:1,
+    exp:"Always check whether a prospect is already active in a sequence before enrolling them. Outreach will warn you, but always verify manually. Enrolling someone in two competing sequences creates a confusing, unprofessional experience and can trigger multiple emails on the same day from different threads."
+  },
+  {
+    q:"You want to connect Outreach to your Outlook email. Where do you go in Outreach to do this?",
+    opts:["Outreach → Opportunities → Sync Settings","Outreach → Initials → Settings → Mailboxes → Add Mailbox","Outreach → Kaia → Calendar Settings → Add Email","Outreach → Sequences → Email Accounts"],
+    ans:1,
+    exp:"Mailbox connection is in: Outreach → click your initials (bottom-left) → Settings → Mailboxes → Add Mailbox → select Microsoft Outlook. This is a Day 1 required setup step. Without a connected mailbox, sequences can't send emails and activity won't sync to Salesforce."
+  },
+  {
+    q:"What is the purpose of the Outreach Everywhere Chrome Extension?",
+    opts:["It replaces Salesforce for logging calls and emails","It surfaces Outreach prospect data and actions directly in LinkedIn, Outlook Web, and Salesforce without switching tabs","It allows you to record Zoom calls independently of Kaia","It automatically enrolls LinkedIn connections in your default sequence"],
+    ans:1,
+    exp:"Outreach Everywhere is a Chrome extension that brings Outreach into your daily workflow — surfacing prospect info, sequence status, and email tracking directly in LinkedIn and Outlook Web. From LinkedIn, you can see if a prospect is already in Outreach and enroll them in a sequence without switching tabs. It's a major time-saver."
+  },
+  {
+    q:"During a Kaia-recorded discovery call, the prospect mentions their current vendor, 'MyCase.' What would you expect Kaia to do in the Live window?",
+    opts:["Automatically log the competitor in the Salesforce Existing Software Used field","Nothing — Kaia only responds to Actionstep product keywords","Surface a content card with competitive positioning information for MyCase vs. Actionstep","Pause the transcription until the competitor discussion is complete"],
+    ans:2,
+    exp:"Kaia listens for trigger keywords — including competitor names like MyCase, Clio, or Filevine — and surfaces relevant content cards in the Live window. In this case, you'd expect a competitive battle card to appear with Actionstep vs. MyCase positioning. This is exactly the kind of in-call intelligence Kaia provides so you can respond to competitive mentions confidently without breaking your conversational flow."
+  },
+];
+
+/* ═══════════════════════════════════════════
+   RENDER FUNCTIONS
+════════════════════════════════════════════ */
+
+function buildAccordion(containerId, items){
+  const wrap = document.getElementById(containerId);
+  if(!wrap) return;
+  items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'acc-card';
+    let bodyHTML = `<div class="acc-body">`;
+    bodyHTML += item.body || '';
+    if(item.rule) bodyHTML += `<div class="rule-box">✅ <strong>The Rule:</strong> ${item.rule}</div>`;
+    if(item.warn) bodyHTML += `<div class="warn-box">⚠️ <strong>Watch Out:</strong> ${item.warn}</div>`;
+    if(item.bullets && item.bullets.length){
+      bodyHTML += `<ul>${item.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>`;
+    }
+    bodyHTML += `</div>`;
+    card.innerHTML = `
+      <div class="acc-hdr" onclick="toggleCard(this.parentElement)">
+        <div class="acc-icon" style="background:${item.color}20;color:${item.color};">${item.icon}</div>
+        <div class="acc-title">
+          <h3>${item.title}</h3>
+          <div class="acc-sub">${item.sub}</div>
+        </div>
+        <div class="acc-arrow">▼</div>
+      </div>
+      ${bodyHTML}`;
+    wrap.appendChild(card);
+  });
+}
+
+function toggleCard(card){
+  const wasOpen = card.classList.contains('open');
+  card.closest('.acc-grid').querySelectorAll('.acc-card').forEach(c => c.classList.remove('open'));
+  if(!wasOpen) card.classList.add('open');
+}
+
+function buildCadence(){
+  const wrap = document.getElementById('cadence-days');
+  CADENCE_DAYS.forEach((d, i) => {
+    const isLast = i === CADENCE_DAYS.length - 1;
+    const item = document.createElement('div');
+    item.className = 'day-row';
+    item.innerHTML = `
+      <div class="day-badge" style="background:${d.typeColor};">
+        <div class="day-num">${d.day}</div>
+        <div class="day-lbl">${d.label}</div>
+      </div>
+      <div class="day-detail">
+        <h4>${d.title}</h4>
+        <p>${d.desc}</p>
+      </div>
+      <div class="day-type" style="background:${d.typeColor}20;color:${d.typeColor};">${d.type}</div>`;
+    wrap.appendChild(item);
+  });
+}
+
+function buildKaiaFeatures(){
+  const grid = document.getElementById('kaia-features');
+  KAIA_FEATURES.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'kaia-card';
+    card.innerHTML = `<div class="kaia-icon">${f.icon}</div><h3>${f.name}</h3><p>${f.desc}</p>`;
+    grid.appendChild(card);
+  });
+}
+
+function buildForecastCards(){
+  const grid = document.getElementById('forecast-cards');
+  FORECAST_CARDS.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'fc-card';
+    card.innerHTML = `
+      <div class="fc-hdr" style="background:${f.bg};">
+        <div class="fc-cat">${f.cat}</div>
+        <div class="fc-label">${f.label}</div>
+      </div>
+      <div class="fc-body">
+        <p>${f.def}</p>
+        <ul>${f.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ═══════════════════════════════════════════
+   SCENARIO ENGINE
+════════════════════════════════════════════ */
+let scQ=0, scScores=[], scAnswered=false;
+
+function buildQ(){
+  if(scQ >= SCENARIOS.length){ showResult(); return; }
+  const q = SCENARIOS[scQ];
+  const score = scScores.filter(x=>x).length;
+  const pct = Math.round((scQ/SCENARIOS.length)*100);
+  document.getElementById('scWrap').innerHTML = `
+    <div class="score-b">
+      <div class="ss"><div class="sv">${score}</div><div class="sl">Correct</div></div>
+      <div class="ss"><div class="sv">${scQ-score}</div><div class="sl">Incorrect</div></div>
+      <div class="pw"><div class="pf" style="width:${pct}%"></div></div>
+      <div class="ss"><div class="sv">${SCENARIOS.length-scQ}</div><div class="sl">Remaining</div></div>
+    </div>
+    <div class="sp-box">
+      <div class="pl">Question ${scQ+1} of ${SCENARIOS.length}</div>
+      <p>${q.q}</p>
+    </div>
+    <div class="og" id="og">${q.opts.map((o,i)=>`<button class="opt" onclick="pick(${i})">${o}</button>`).join('')}</div>
+    <div class="fb2" id="fb"><div class="ft" id="ft"></div><p id="fp"></p></div>
+    <button class="btn-ns" id="ns" onclick="nextQ()">${scQ < SCENARIOS.length-1 ? 'Next Question →' : 'See Your Results'}</button>`;
+  scAnswered = false;
+}
+
+function pick(i){
+  if(scAnswered) return;
+  scAnswered = true;
+  const q = SCENARIOS[scQ];
+  const ok = i === q.ans;
+  scScores.push(ok);
+  document.querySelectorAll('.opt').forEach((b,j) => {
+    b.disabled = true;
+    if(j===q.ans && ok) b.classList.add('correct');
+    else if(j===q.ans && !ok) b.classList.add('show-right');
+    else if(j===i && !ok) b.classList.add('incorrect');
+  });
+  const fb = document.getElementById('fb');
+  fb.className = 'fb2 vis '+(ok?'ok':'ng');
+  document.getElementById('ft').textContent = ok ? '✓ Correct!' : '✗ Not quite.';
+  document.getElementById('fp').textContent = q.exp;
+  document.getElementById('ns').style.display = 'block';
+}
+
+function nextQ(){ scQ++; buildQ(); }
+
+function showResult(){
+  const score = scScores.filter(x=>x).length;
+  const pct = Math.round((score/SCENARIOS.length)*100);
+  const pass = pct >= 80;
+  document.getElementById('scWrap').innerHTML = `
+    <div class="res-wrap">
+      <div class="big-s">${pct}%</div>
+      <div class="pfl ${pass?'pass':'fail'}">${pass?'✓ Module Passed!':'Review & Retry'}</div>
+      <p>${score} of ${SCENARIOS.length} correct. ${pass
+        ? 'Strong Outreach knowledge — you\'re ready to build sequences, use Kaia, and manage your forecast like a pro. Show your manager to certify.'
+        : 'Review the Sequences, Kaia, and Forecasting tabs, then try again. 80% required to pass.'
+      }</p>
+      <button class="btn btn-p" onclick="retryScenarios()">Try Again</button>
+    </div>`;
+}
+
+function retryScenarios(){ scQ=0; scScores=[]; buildQ(); }
+
+/* ═══════════════════════════════════════════
+   TAB SWITCHING
+════════════════════════════════════════════ */
+function showTab(n, btn){
+  ['overview','sequences','kaia','forecasting','setup','scenarios'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = (t===n ? 'block' : 'none');
+  });
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if(n === 'scenarios' && scScores.length === 0) buildQ();
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+════════════════════════════════════════════ */
+buildAccordion('overview-grid', OVERVIEW);
+buildAccordion('sequences-grid', SEQUENCES_CONTENT);
+buildCadence();
+buildKaiaFeatures();
+buildAccordion('kaia-setup', KAIA_SETUP);
+buildForecastCards();
+buildAccordion('forecast-how', FORECAST_HOW);
+buildAccordion('setup-grid', SETUP_CONTENT);
+</script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 | Pipeline & Forecast Discipline — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780;
+    --ltgreen:#E3F7E4; --gray:#F5F7F5; --border:#C8E0C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .logo-mark{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .logo-text{font-size:17px;font-weight:700;color:white;}
+  .logo-text span{color:var(--leaf);}
+  .mod-tag{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .main{max-width:1080px;margin:0 auto;padding:40px 20px;}
+  .hero{text-align:center;margin-bottom:40px;}
+  .hero h1{font-size:40px;font-weight:900;color:white;margin-bottom:10px;letter-spacing:-0.5px;}
+  .hero p{color:#89B89A;font-size:15px;max-width:560px;margin:0 auto;}
+
+  .tabs{display:flex;gap:4px;background:rgba(255,255,255,0.06);border-radius:12px;padding:5px;margin-bottom:32px;border:1px solid rgba(255,255,255,0.08);}
+  .tab-btn{flex:1;padding:11px 18px;border:none;background:transparent;color:#89B89A;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+  .tab-btn.active{background:var(--green);color:white;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+  .tab-btn:hover:not(.active){color:white;}
+
+  /* ── TAB: HYGIENE ── */
+  #tab-hygiene{}
+  .hygiene-intro{background:white;border-radius:14px;padding:28px 36px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .hygiene-intro h2{font-size:22px;font-weight:900;color:var(--green);margin-bottom:10px;}
+  .hygiene-intro p{color:var(--mid);font-size:14px;line-height:1.75;}
+
+  .hygiene-grid{display:flex;flex-direction:column;gap:10px;}
+  .hygiene-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.15);transition:all 0.2s;cursor:pointer;border:2px solid transparent;}
+  .hygiene-card:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(0,0,0,0.22);}
+  .hygiene-card.open{border-color:var(--leaf);}
+  .hc-header{display:flex;align-items:center;gap:16px;padding:18px 24px;}
+  .hc-num{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;flex-shrink:0;}
+  .hc-title{flex:1;}
+  .hc-title h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:3px;}
+  .hc-title .hc-sub{font-size:12px;color:var(--mid);}
+  .hc-arrow{font-size:18px;color:var(--mid);transition:transform 0.25s;font-weight:700;}
+  .hygiene-card.open .hc-arrow{transform:rotate(180deg);}
+  .hc-body{display:none;padding:0 24px 22px;border-top:1px solid var(--border);}
+  .hygiene-card.open .hc-body{display:block;}
+  .hc-body p{color:var(--mid);font-size:14px;line-height:1.75;margin-bottom:12px;}
+  .hc-body .hc-rule{background:var(--ltgreen);border-left:4px solid var(--leaf);padding:12px 16px;border-radius:6px;font-size:13px;color:var(--text);line-height:1.65;}
+  .hc-body .hc-warn{background:#FFF8E7;border-left:4px solid var(--yellow);padding:12px 16px;border-radius:6px;font-size:13px;color:#5C4400;line-height:1.65;margin-top:10px;}
+
+  /* ── TAB: FORECAST ── */
+  .fc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+  .fc-card{background:white;border-radius:13px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.2);transition:all 0.2s;cursor:pointer;border:2px solid transparent;}
+  .fc-card:hover{transform:translateY(-4px);box-shadow:0 16px 44px rgba(0,0,0,0.3);}
+  .fc-card.selected{border-color:var(--yellow);}
+  .fc-hdr{padding:22px 24px 18px;}
+  .fc-hdr .fc-cat{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.75);font-weight:700;margin-bottom:6px;}
+  .fc-hdr .fc-label{font-size:28px;font-weight:900;color:white;font-style:italic;}
+  .fc-body{padding:18px 24px;}
+  .fc-body .fc-def{color:var(--text);font-size:14px;font-weight:600;margin-bottom:10px;line-height:1.6;}
+  .fc-body .fc-signals{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+  .fc-body .fc-signals h4{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .fc-signals ul{list-style:none;}
+  .fc-signals li{font-size:12px;color:var(--mid);padding:3px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+  .fc-signals li::before{content:'→';color:var(--leaf);font-weight:700;flex-shrink:0;}
+
+  .fc-compare{background:white;border-radius:13px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.15);padding:24px 28px;}
+  .fc-compare h3{font-size:14px;font-weight:900;color:var(--green);margin-bottom:16px;}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .compare-col h4{font-size:12px;font-weight:700;margin-bottom:10px;}
+  .compare-col ul{list-style:none;}
+  .compare-col li{font-size:13px;color:var(--mid);padding:5px 0;display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid var(--border);line-height:1.5;}
+  .compare-col li:last-child{border-bottom:none;}
+
+  /* ── TAB: SCENARIOS ── */
+  .sw{background:white;border-radius:14px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,0.3);}
+  .sh{background:var(--green);padding:22px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--leaf);}
+  .sh h2{font-size:20px;font-weight:900;color:white;}
+  .sh .sct2{color:var(--leaf);font-size:13px;font-weight:600;}
+  .sb{padding:28px 30px;}
+  .score-b{display:flex;gap:20px;align-items:center;padding:14px 20px;background:var(--gray);border-radius:10px;margin-bottom:24px;}
+  .ss .sv{font-size:26px;font-weight:900;color:var(--green);}
+  .ss .sl{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;}
+  .pw{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+  .pf{height:100%;background:linear-gradient(90deg,var(--green),var(--leaf));border-radius:4px;transition:width 0.5s ease;}
+  .sp-box{background:var(--ltgreen);border-radius:10px;padding:20px 22px;margin-bottom:24px;border-left:4px solid var(--leaf);}
+  .sp-box .pl{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .sp-box p{color:var(--text);font-size:15px;line-height:1.75;}
+  .og{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+  .opt{padding:14px 18px;border-radius:9px;border:2px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:14px;color:var(--text);cursor:pointer;transition:all 0.18s;text-align:left;line-height:1.4;}
+  .opt:hover:not(:disabled){border-color:var(--green);color:var(--green);background:var(--ltgreen);}
+  .opt:disabled{cursor:default;}
+  .opt.correct{border-color:var(--leaf);background:#EBF5E3;color:#1A5C1A;}
+  .opt.incorrect{border-color:var(--orange);background:#FFF0E6;color:#883300;}
+  .opt.show-right{border-color:var(--leaf);background:#EBF5E3;color:#1A5C1A;opacity:0.6;}
+  .fb2{padding:18px 22px;border-radius:10px;margin-bottom:20px;display:none;}
+  .fb2.vis{display:block;animation:up 0.28s ease;}
+  .fb2.ok{background:#EBF5E3;border:1.5px solid var(--leaf);}
+  .fb2.ng{background:#FFF0E6;border:1.5px solid var(--orange);}
+  .fb2 .ft{font-weight:700;font-size:14px;margin-bottom:6px;}
+  .fb2.ok .ft{color:#1A5C1A;}
+  .fb2.ng .ft{color:#883300;}
+  .fb2 p{font-size:13px;line-height:1.65;color:var(--mid);}
+  .btn-ns{display:none;width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-ns:hover{background:var(--teal);}
+  .btn{padding:10px 22px;border-radius:8px;border:none;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-p{background:var(--green);color:white;}
+  .btn-p:hover{background:var(--teal);}
+  .res-wrap{text-align:center;padding:48px 28px;}
+  .big-s{font-size:80px;font-weight:900;color:var(--green);line-height:1;margin-bottom:6px;}
+  .pfl{font-size:17px;font-weight:700;margin-bottom:14px;}
+  .pfl.pass{color:var(--leaf);}
+  .pfl.fail{color:var(--orange);}
+  .res-wrap p{color:var(--mid);font-size:14px;max-width:400px;margin:0 auto 26px;line-height:1.7;}
+
+  @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">Actíonstep <span>Sales Academy</span></div>
+  </div>
+  <div class="mod-tag">Module 2 · Interactive</div>
+</header>
+<div class="main">
+  <div class="hero">
+    <h1>Pipeline & Forecast Discipline</h1>
+    <p>Master the five hygiene standards, understand every forecast category, and test yourself with real deal scenarios.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('hygiene',this)">🧹&nbsp; Pipeline Hygiene</button>
+    <button class="tab-btn" onclick="showTab('forecast',this)">📊&nbsp; Forecast Categories</button>
+    <button class="tab-btn" onclick="showTab('scenarios',this)">🎯&nbsp; Deal Scenarios</button>
+  </div>
+
+  <div id="tab-hygiene">
+    <div class="hygiene-intro">
+      <h2>The Five Pipeline Hygiene Standards</h2>
+      <p>Pipeline hygiene is not about keeping your CRM tidy — it's about keeping it true. These five standards must be met for every open opportunity at all times. Click each card to explore the full definition, the rule, and the risk.</p>
+    </div>
+    <div class="hygiene-grid" id="hygiene-grid"></div>
+  </div>
+
+  <div id="tab-forecast" style="display:none">
+    <div class="fc-grid" id="fcg"></div>
+    <div class="fc-compare">
+      <h3>Forecast vs. Stretch Yes — The Key Distinction</h3>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <h4 style="color:var(--green)">✓ FORECAST (I THINK)</h4>
+          <ul>
+            <li>Buyer is engaged and responding to outreach</li>
+            <li>No unresolved blockers standing in the way</li>
+            <li>Pricing reviewed — no objection raised</li>
+            <li>Both sides aligned on timeline and next steps</li>
+            <li>Clear, documented path to close</li>
+          </ul>
+        </div>
+        <div class="compare-col">
+          <h4 style="color:var(--orange)">⚡ STRETCH YES (I HOPE)</h4>
+          <ul>
+            <li>You are driving — buyer has not confirmed close date</li>
+            <li>No formal next step confirmed from buyer's side</li>
+            <li>Timing uncertain — could slip to next quarter</li>
+            <li>Pricing has not been formally reviewed</li>
+            <li>Working to accelerate — outcome not guaranteed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-scenarios" style="display:none">
+    <div class="sw" id="swrap"></div>
+  </div>
+</div>
+
+<script>
+const HYGIENE = [
+  {
+    num:1, color:'#024638',
+    title:'Stage Accuracy',
+    sub:'Does the stage reflect genuine evidence, not optimism?',
+    body:'Every deal must be in the correct Salesforce stage based on real, documented gate criteria. A deal advances only when you can point to specific evidence that all gates have been met — not because the timeline feels right, not because the close date is approaching, and not because you hope it\'s further along than it is.',
+    rule:'If you cannot articulate what gate criteria have been met, the deal belongs in the earlier stage. Stage your deals based on what you KNOW, not what you WANT.',
+    warn:'Advancing a deal without meeting gate criteria creates a false picture of pipeline health. It sets you up for stalls and regressions — and destroys your manager\'s trust in your numbers.',
+  },
+  {
+    num:2, color:'#255C4E',
+    title:'Close Date Discipline',
+    sub:'Is the close date real — and updated when circumstances change?',
+    body:'Every opportunity must have a close date that reflects the actual expected close. A close date in the past is a hygiene failure. A close date that has moved three times without a documented reason is a credibility failure. Any time a close date changes, update it in Salesforce AND add a note explaining why.',
+    rule:'Never let a close date slip silently. Log the reason every single time a date moves. Silent slippage is the fastest way to lose credibility with your manager.',
+    warn:null,
+  },
+  {
+    num:3, color:'#285780',
+    title:'Next Step Always Present',
+    sub:'Does every open deal have a specific next action with a date?',
+    body:'"Following up soon" is not a next step. A proper next step is specific, dated, and documented in Salesforce: "Discovery call on [date]" or "SOW review call scheduled for [date]." If a deal has no next step, it is stalled — and stalled deals are invisible. They inflate your pipeline and distract your focus.',
+    rule:'After every interaction, the next step must be agreed upon, dated, and logged before you close your CRM. If you couldn\'t confirm a next step on the call, your first action after hanging up is to get one.',
+    warn:'Deals without next steps should not live in the pipeline. Either reactivate them or disqualify them. Phantom deals distort your pipeline health.',
+  },
+  {
+    num:4, color:'#74AA50',
+    title:'Activity Logging',
+    sub:'Are all meaningful interactions logged within 24 hours?',
+    body:'Every meaningful interaction with a prospect must be logged: calls, emails, meetings, and demos. This creates a deal history that protects you, helps your manager coach you, and provides context if a deal is reassigned. It also reveals patterns — if your last touch was three weeks ago and the close date is next month, that\'s a signal you can only see if the data is there.',
+    rule:'Log within 24 hours of every interaction. Not after the quarter. Not when you get around to it. The deal history is only useful if it\'s current.',
+    warn:null,
+  },
+  {
+    num:5, color:'#FF6900',
+    title:'Forecast Category Current',
+    sub:'Does the forecast category reflect today\'s reality, updated weekly?',
+    body:'Every opportunity with a current-quarter close date must have an up-to-date forecast category. This is reviewed every week. A deal marked Commit that has gone dark is a hygiene failure that directly impacts the entire team\'s forecast accuracy. The forecast category is not a "set it and forget it" label — it changes as the deal changes.',
+    rule:'Review all current-quarter deals before every forecast call. If the category doesn\'t reflect today\'s reality — update it before you get on the call, not during it.',
+    warn:'An outdated Commit that doesn\'t close destroys your credibility. Forecast conservatively and surprise to the upside.',
+  },
+];
+
+const FC = [
+  {
+    cat:'COMMIT', label:'I KNOW', bg:'#024638',
+    def:'Neck on the line — this deal closes this quarter by the listed close date. Only place a deal here if you would stake your credibility on it in front of leadership.',
+    signals:['Legal/finance engaged — no outstanding blockers','Authorized decision-maker has given verbal or written confirmation','Both sides aligned on close date','You\'d put your own money on this closing'],
+  },
+  {
+    cat:'FORECAST', label:'I THINK', bg:'#285780',
+    def:'I believe this deal WILL close this quarter by the listed close date. Strong confidence, clear path — not fully locked but no red flags.',
+    signals:['Buyer engaged and responsive','Clear path to close documented','Pricing reviewed without objection','Aligned on timeline — buyer is moving'],
+  },
+  {
+    cat:'STRETCH — YES', label:'I HOPE', bg:'#C87800',
+    def:'I am actively working to pull this deal into the quarter. Aspirational but possible — I\'m driving conversations to accelerate close.',
+    signals:['Active outreach — you\'re working to accelerate','No formal confirmed close date from buyer','Timing uncertain — could slip to Q+1','Possible with effort and some luck'],
+  },
+  {
+    cat:'STRETCH — NO', label:'I DON\'T THINK', bg:'#B03020',
+    def:'From today\'s information, I do NOT believe this deal will close by the listed date. Honest flag — proactive communication required.',
+    signals:['Radio silence or buyer disengaged','No confirmed next step','Multiple slips without explanation','Deal exists but unlikely this quarter'],
+  },
+];
+
+const SC = [
+  {
+    q:'A deal has been sitting in Confirming Value for 3 weeks. Your champion hasn\'t responded in 10 business days. The close date is in 2 weeks. What is the correct forecast category?',
+    opts:['Commit — they were excited last time we spoke','Forecast — I believe it will come through','Stretch Yes — I\'m actively trying to re-engage','Stretch No — radio silence with no next step'],
+    ans:3,
+    exp:'Stretch No is the honest answer. Radio silence for 10 business days with a close date in 2 weeks is a serious warning sign. Forecast conservatively. Surface the risk proactively and reclassify. Don\'t hide bad news.',
+  },
+  {
+    q:'You log a Salesforce activity note that says "Spoke with prospect. Things look good. Will follow up." What is wrong with this activity log?',
+    opts:['Nothing — that\'s a perfectly fine log','It\'s too short — needs a specific next step with a date','It shouldn\'t be logged until the deal closes','Activity logs aren\'t required for phone calls'],
+    ans:1,
+    exp:'A proper activity log includes what was discussed, what was learned, and most importantly — the specific next step with a confirmed date. "Will follow up" is not a next step. It\'s a hope.',
+  },
+  {
+    q:'A close date on a Commit deal has slipped for the third time. The rep updated the date without logging a reason. What pipeline hygiene standard was violated?',
+    opts:['Stage Accuracy','Close Date Discipline','Next Step Always Present','Activity Logging'],
+    ans:1,
+    exp:'Close Date Discipline requires that any time a close date changes, the rep logs the reason in Salesforce notes. Silent slippage — especially on a Commit deal — is a significant credibility failure. Three slips without documentation is a major red flag.',
+  },
+  {
+    q:'You have a deal where the buyer responded positively to your demo last week and asked for a proposal. Close date is end of quarter. There is no confirmed next step from their side. What forecast category applies?',
+    opts:['Commit — they loved the demo','Forecast — I think this closes','Stretch Yes — I hope to get it in this quarter','Stretch No — not going to happen'],
+    ans:2,
+    exp:'Stretch Yes is correct. A positive demo with a proposal request is encouraging, but the buyer hasn\'t confirmed a timeline or next step. You\'re actively working to pull this into the quarter — that\'s the definition of Stretch Yes.',
+  },
+  {
+    q:'A deal is in Deal Review. Your champion confirmed the SOW is "fine" via email. Legal hasn\'t been engaged on the buyer side. The rep advances the deal to Negotiation. What went wrong?',
+    opts:['Nothing — email confirmation is sufficient','The rep advanced without meeting the Negotiation gate: legal/finance engaged on buyer side','The deal should go to Contracted first','Negotiation requires a signed Letter of Intent'],
+    ans:1,
+    exp:'Negotiation\'s gate criteria require legal and/or finance to be engaged on the buyer side. An email from the champion saying "fine" does not meet this. The rep moved the deal forward without gate criteria being met — a Stage Accuracy failure.',
+  },
+  {
+    q:'A rep has 4 Commit deals this quarter. Two have gone silent, one champion just changed roles, and one is genuinely on track. What is the correct action?',
+    opts:['Keep all in Commit — moving them down looks bad to management','Reclassify the 3 at-risk deals and surface the issues proactively','Only reclassify the ones that are definitely not closing','Wait until end of quarter — things often resolve on their own'],
+    ans:1,
+    exp:'Reclassify immediately and surface the issues proactively. Your manager needs accurate information to help you. Hiding bad news until end of quarter destroys credibility and leaves deals without support. The right move is always honesty plus a plan.',
+  },
+];
+
+let curQ=0, scores=[], ans=false;
+
+// Build hygiene cards
+function buildHygiene() {
+  const g = document.getElementById('hygiene-grid');
+  HYGIENE.forEach((h,i) => {
+    const d = document.createElement('div');
+    d.className = 'hygiene-card';
+    d.id = 'hc'+i;
+    d.innerHTML = `
+      <div class="hc-header" onclick="toggleH(${i})">
+        <div class="hc-num" style="background:${h.color}">${h.num}</div>
+        <div class="hc-title">
+          <h3>${h.title}</h3>
+          <div class="hc-sub">${h.sub}</div>
+        </div>
+        <div class="hc-arrow">▼</div>
+      </div>
+      <div class="hc-body">
+        <p style="margin-top:14px">${h.body}</p>
+        <div class="hc-rule"><strong>The Rule:</strong> ${h.rule}</div>
+        ${h.warn ? `<div class="hc-warn"><strong>⚠️ Watch Out:</strong> ${h.warn}</div>` : ''}
+      </div>`;
+    g.appendChild(d);
+  });
+}
+
+function toggleH(i) {
+  const c = document.getElementById('hc'+i);
+  c.classList.toggle('open');
+}
+
+// Build forecast cards
+function buildFC() {
+  const g = document.getElementById('fcg');
+  FC.forEach(f => {
+    const d = document.createElement('div');
+    d.className = 'fc-card';
+    d.innerHTML = `
+      <div class="fc-hdr" style="background:${f.bg}">
+        <div class="fc-cat">${f.cat}</div>
+        <div class="fc-label">"${f.label}"</div>
+      </div>
+      <div class="fc-body">
+        <p class="fc-def">${f.def}</p>
+        <div class="fc-signals">
+          <h4>When to Use It</h4>
+          <ul>${f.signals.map(s=>`<li>${s}</li>`).join('')}</ul>
+        </div>
+      </div>`;
+    g.appendChild(d);
+  });
+}
+
+// Build scenarios
+function buildQ() {
+  if(curQ >= SC.length) { showRes(); return; }
+  ans = false;
+  const s = SC[curQ];
+  const score = scores.filter(x=>x).length;
+  const pct = Math.round((curQ/SC.length)*100);
+  document.getElementById('swrap').innerHTML = `
+    <div class="sh"><h2>Deal Scenario ${curQ+1}</h2><span class="sct2">${curQ+1} of ${SC.length}</span></div>
+    <div class="sb">
+      <div class="score-b">
+        <div class="ss"><div class="sv">${score}</div><div class="sl">Correct</div></div>
+        <div class="ss"><div class="sv">${curQ-score}</div><div class="sl">Incorrect</div></div>
+        <div class="pw"><div class="pf" style="width:${pct}%"></div></div>
+        <div class="ss"><div class="sv">${SC.length-curQ}</div><div class="sl">Remaining</div></div>
+      </div>
+      <div class="sp-box"><div class="pl">Scenario</div><p>${s.q}</p></div>
+      <div class="og" id="og">${s.opts.map((o,i)=>`<button class="opt" onclick="pick(${i})">${o}</button>`).join('')}</div>
+      <div class="fb2" id="fb2"><div class="ft" id="ft2"></div><p id="fp2"></p></div>
+      <button class="btn-ns" id="ns" onclick="nextQ()">${curQ<SC.length-1?'Next Scenario →':'See Your Results'}</button>
+    </div>`;
+}
+
+function pick(i) {
+  if(ans) return;
+  ans = true;
+  const s = SC[curQ];
+  const ok = i===s.ans;
+  scores.push(ok);
+  document.querySelectorAll('.opt').forEach((b,j) => {
+    b.disabled = true;
+    if(j===s.ans && ok) b.classList.add('correct');
+    else if(j===s.ans && !ok) b.classList.add('show-right');
+    else if(j===i && !ok) b.classList.add('incorrect');
+  });
+  const fb = document.getElementById('fb2');
+  fb.className = 'fb2 vis '+(ok?'ok':'ng');
+  document.getElementById('ft2').textContent = ok?'✓ Correct!':'✗ Not quite.';
+  document.getElementById('fp2').textContent = s.exp;
+  document.getElementById('ns').style.display = 'block';
+}
+
+function nextQ(){curQ++;buildQ();}
+
+function showRes(){
+  const score = scores.filter(x=>x).length;
+  const pct = Math.round((score/SC.length)*100);
+  const pass = pct >= 80;
+  document.getElementById('swrap').innerHTML = `
+    <div class="sh"><h2>Your Results</h2></div>
+    <div class="sb res-wrap">
+      <div class="big-s">${pct}%</div>
+      <div class="pfl ${pass?'pass':'fail'}">${pass?'✓ Scenario Exercise Passed!':'✗ Review & Retry'}</div>
+      <p>${score} of ${SC.length} correct. ${pass?"Great work — bring this to your manager for certification sign-off.":"Review the Pipeline Hygiene and Forecast Categories tabs, then try again. You need 80%+ to pass."}</p>
+      <button class="btn btn-p" onclick="restart()">Try Again</button>
+    </div>`;
+}
+
+function restart(){curQ=0;scores=[];buildQ();}
+
+function showTab(n, btn) {
+  document.querySelectorAll('[id^="tab-"]').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+n).style.display='block';
+  btn.classList.add('active');
+}
+
+buildHygiene();
+buildFC();
+buildQ();
+</script>
+</body>
+</html>

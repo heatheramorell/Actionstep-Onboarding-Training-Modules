@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5 Assessment — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780;
+    --ltgreen:#E3F7E4; --gray:#F5F7F5; --border:#C8E0C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);min-height:100vh;color:var(--text);}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .lm{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .lt{font-size:17px;font-weight:700;color:white;}
+  .lt span{color:var(--leaf);}
+  .mt{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .shell{max-width:820px;margin:0 auto;padding:40px 20px 80px;}
+
+  /* START SCREEN */
+  .start{background:white;border-radius:18px;overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,0.4);}
+  .sh2{background:var(--green);padding:48px 48px 36px;position:relative;overflow:hidden;}
+  .sh2::after{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%;}
+  .sh2 .ey{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--leaf);font-weight:700;margin-bottom:14px;}
+  .sh2 h1{font-size:42px;font-weight:900;color:white;line-height:1.12;margin-bottom:16px;}
+  .sh2 p{color:#A8D5A8;font-size:15px;line-height:1.7;font-weight:400;max-width:480px;}
+  .sm{padding:34px 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-bottom:1px solid var(--border);}
+  .mi{text-align:center;}
+  .mi .mv{font-size:36px;font-weight:900;color:var(--green);display:block;margin-bottom:4px;}
+  .mi .ml{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;}
+  .si{padding:26px 48px;border-bottom:1px solid var(--border);}
+  .si h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:12px;}
+  .si ul{list-style:none;}
+  .si li{padding:6px 0;font-size:14px;color:var(--mid);display:flex;align-items:center;gap:10px;}
+  .si li::before{content:'→';color:var(--leaf);font-weight:700;}
+  .sc2{padding:32px 48px;display:flex;justify-content:center;}
+  .btn-s{background:var(--green);color:white;border:none;padding:16px 48px;border-radius:10px;font-family:'Red Hat Display',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 24px rgba(2,70,56,0.4);}
+  .btn-s:hover{background:var(--teal);transform:translateY(-2px);}
+
+  /* QUESTION SCREEN */
+  .qscreen{display:none;}
+  .qtop{background:var(--green);border-radius:12px;padding:16px 26px;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:20px;border-bottom:3px solid var(--leaf);}
+  .qpl{color:#A8D5A8;font-size:13px;font-weight:600;white-space:nowrap;}
+  .qpw{flex:1;height:6px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;}
+  .qpf{height:100%;background:linear-gradient(90deg,var(--yellow),var(--leaf));border-radius:3px;transition:width 0.4s ease;}
+  .qpr{color:var(--yellow);font-size:13px;font-weight:700;white-space:nowrap;}
+
+  .qcard{background:white;border-radius:14px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,0.3);animation:up 0.32s ease;}
+  @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .qh{padding:26px 34px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:18px;}
+  .qn{background:var(--green);color:white;font-size:18px;font-weight:900;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .qm .qcat{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .qm .qtxt{font-size:17px;line-height:1.7;color:var(--text);}
+  .qopts{padding:22px 34px;display:flex;flex-direction:column;gap:9px;}
+  .opt2{padding:15px 18px;border-radius:9px;border:2px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:15px;color:var(--text);cursor:pointer;transition:all 0.18s;text-align:left;display:flex;align-items:center;gap:14px;line-height:1.5;}
+  .ol{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--mid);flex-shrink:0;transition:all 0.18s;}
+  .opt2:hover:not(:disabled){border-color:var(--green);background:var(--ltgreen);}
+  .opt2:hover:not(:disabled) .ol{border-color:var(--green);color:var(--green);}
+  .opt2:disabled{cursor:default;}
+  .opt2.ca{border-color:var(--leaf);background:#EBF5E3;}
+  .opt2.ca .ol{background:var(--leaf);border-color:var(--leaf);color:white;}
+  .opt2.ca .ot{color:#1A5C1A;font-weight:600;}
+  .opt2.wa{border-color:var(--orange);background:#FFF0E6;}
+  .opt2.wa .ol{background:var(--orange);border-color:var(--orange);color:white;}
+  .opt2.wa .ot{color:#883300;}
+  .opt2.rr{border-color:var(--leaf);background:#EBF5E3;opacity:0.6;}
+  .opt2.rr .ol{background:var(--leaf);border-color:var(--leaf);color:white;}
+
+  .qfb{margin:0 34px;padding:16px 20px;border-radius:10px;font-size:14px;line-height:1.7;display:none;gap:12px;margin-bottom:6px;}
+  .qfb.show{display:flex;animation:up 0.28s ease;}
+  .qfb.ok2{background:#EBF5E3;border:1.5px solid var(--leaf);color:#1A5C1A;}
+  .qfb.ng2{background:#FFF0E6;border:1.5px solid var(--orange);color:#883300;}
+  .qfb .fi{font-size:20px;flex-shrink:0;}
+  .qfb .ftit{font-weight:700;margin-bottom:4px;}
+
+  .qnav{padding:22px 34px;display:flex;justify-content:flex-end;border-top:1px solid var(--border);}
+  .btn-n{background:var(--green);color:white;border:none;padding:13px 34px;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.18s;display:none;}
+  .btn-n:hover{background:var(--teal);}
+  .btn-n.vis{display:block;}
+
+  /* RESULTS SCREEN */
+  .rscreen{display:none;}
+  .rc{background:white;border-radius:18px;overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,0.4);}
+  .rh{padding:42px 48px;text-align:center;}
+  .rs{font-size:72px;font-weight:900;display:block;margin-bottom:8px;}
+  .rs.pass{color:var(--green);}
+  .rs.fail{color:var(--orange);}
+  .rb{font-size:20px;font-weight:700;color:var(--mid);margin-bottom:8px;}
+  .rv{font-size:15px;color:var(--mid);line-height:1.7;}
+  .rbadge{display:inline-block;padding:7px 24px;border-radius:30px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:18px;}
+  .rbadge.pass{background:#EBF5E3;color:var(--green);}
+  .rbadge.fail{background:#FFF0E6;color:var(--orange);}
+  .rg{padding:28px 48px;background:var(--gray);display:grid;grid-template-columns:repeat(3,1fr);gap:20px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .rgi{text-align:center;}
+  .rgi .rv2{font-size:30px;font-weight:900;color:var(--green);display:block;margin-bottom:4px;}
+  .rgi .rl{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;}
+
+  /* REVIEW */
+  .rev{padding:34px 48px;}
+  .rev h3{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--leaf);font-weight:700;margin-bottom:22px;}
+  .ri{margin-bottom:20px;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);}
+  .rih{padding:14px 18px;display:flex;align-items:flex-start;gap:14px;}
+  .rih.ok3{background:#EBF5E3;border-bottom:1px solid #B8D8B8;}
+  .rih.ng3{background:#FFF0E6;border-bottom:1px solid #F5C9A0;}
+  .riq{font-size:13px;line-height:1.6;color:var(--text);flex:1;}
+  .ric{font-size:18px;flex-shrink:0;}
+  .rib{padding:12px 18px;background:var(--gray);}
+  .rib .rit{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;margin-bottom:6px;}
+  .rib .ria{font-size:13px;color:var(--text);line-height:1.6;}
+  .rib .rie{font-size:13px;color:var(--mid);line-height:1.6;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);}
+
+  .rbtns{padding:28px 48px;display:flex;gap:14px;justify-content:center;border-top:1px solid var(--border);}
+  .btn-r{padding:13px 34px;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.18s;border:2px solid var(--green);color:var(--green);background:white;}
+  .btn-r:hover{background:var(--ltgreen);}
+  .btn-r.prim{background:var(--green);color:white;}
+  .btn-r.prim:hover{background:var(--teal);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="lm">A</div>
+    <div class="lt">Actionstep <span>Sales Academy</span></div>
+  </div>
+  <div class="mt">Module 5 · Assessment</div>
+</header>
+
+<div class="shell">
+
+  <!-- START SCREEN -->
+  <div class="start" id="startScreen">
+    <div class="sh2">
+      <div class="ey">Phase 1 · Week 5 · Core Fundamentals</div>
+      <h1>ICP &amp; Qualification</h1>
+      <p>Test your knowledge of Actionstep's Ideal Customer Profile, how to identify and qualify the right prospects, and how to engage key personas at law firms.</p>
+    </div>
+    <div class="sm">
+      <div class="mi"><span class="mv">15</span><span class="ml">Questions</span></div>
+      <div class="mi"><span class="mv">80%</span><span class="ml">Pass Mark</span></div>
+      <div class="mi"><span class="mv">~12</span><span class="ml">Minutes</span></div>
+    </div>
+    <div class="si">
+      <h3>Topics Covered</h3>
+      <ul>
+        <li>Ideal Customer Profile — Midsize Moderns criteria</li>
+        <li>Four customer segments and their profiles</li>
+        <li>Business-minded vs. Traditional firm diagnosis</li>
+        <li>Practice area fit and size targeting</li>
+        <li>Key personas and how to engage them</li>
+        <li>Qualification signals, green flags &amp; red flags</li>
+        <li>US market segment strategy</li>
+      </ul>
+    </div>
+    <div class="sc2">
+      <button class="btn-s" onclick="startQuiz()">Begin Assessment →</button>
+    </div>
+  </div>
+
+  <!-- QUESTION SCREEN -->
+  <div class="qscreen" id="qScreen">
+    <div class="qtop">
+      <span class="qpl" id="qLabel">Question 1 of 15</span>
+      <div class="qpw"><div class="qpf" id="qProg" style="width:0%"></div></div>
+      <span class="qpr" id="qScore">0 / 0 correct</span>
+    </div>
+    <div class="qcard" id="qCard">
+      <div class="qh">
+        <div class="qn" id="qNum">1</div>
+        <div class="qm">
+          <div class="qcat" id="qCat"></div>
+          <div class="qtxt" id="qTxt"></div>
+        </div>
+      </div>
+      <div class="qopts" id="qOpts"></div>
+      <div class="qfb" id="qFb"><span class="fi" id="fbIco"></span><div><div class="ftit" id="fbTit"></div><div id="fbTxt"></div></div></div>
+      <div class="qnav"><button class="btn-n" id="btnNext" onclick="nextQ()">Next Question →</button></div>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div class="rscreen" id="rScreen">
+    <div class="rc">
+      <div class="rh">
+        <span class="rs" id="rPct"></span>
+        <div class="rb" id="rLabel"></div>
+        <div class="rv" id="rMsg"></div>
+        <div class="rbadge" id="rBadge"></div>
+      </div>
+      <div class="rg">
+        <div class="rgi"><span class="rv2" id="rCorrect"></span><span class="rl">Correct</span></div>
+        <div class="rgi"><span class="rv2" id="rWrong"></span><span class="rl">Incorrect</span></div>
+        <div class="rgi"><span class="rv2">15</span><span class="rl">Total</span></div>
+      </div>
+      <div class="rev">
+        <h3>Answer Review</h3>
+        <div id="revList"></div>
+      </div>
+      <div class="rbtns">
+        <button class="btn-r" onclick="retakeQuiz()">Retake Assessment</button>
+        <button class="btn-r prim" onclick="window.scrollTo(0,0)">Back to Top</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    cat: "Ideal Customer Profile",
+    q: "Which label does Actionstep use to describe its Ideal Customer Profile — the type of firm that is the core sales target?",
+    opts: ["Established Players", "Midsize Moderns", "Multi-Tasking Solos", "Growth Champions"],
+    ans: 1,
+    fb: "Actionstep's ICP is called 'Midsize Moderns' — business-minded law firms typically in the 20–200 user range (with FY24 focus on 20–50 users) that are B2C or case-based boutiques with a strong administrative cohort."
+  },
+  {
+    cat: "ICP Criteria",
+    q: "Which of the following is NOT part of the Midsize Moderns ICP definition?",
+    opts: ["Business-minded law firm with active growth", "Has a strong administrative cohort (practice manager, ops/IT manager) with influence", "Primarily serves B2B corporate clients with 500+ employees", "Discovery cues show business drivers aligned with Actionstep's USPs"],
+    ans: 2,
+    fb: "Midsize Moderns are typically B2C or case-based boutiques — not B2B corporate firms. The ICP criteria include business-mindedness, a strong admin layer, active growth, and aligned discovery cues."
+  },
+  {
+    cat: "Customer Segments",
+    q: "A 30-user family law firm with a practice manager, active social media presence, and a wish list of must-have workflows comes to you ready to engage. Which segment best describes them?",
+    opts: ["Survivors", "Established Players", "Mid-Market Moderns", "Multi-Tasking Solos"],
+    ans: 2,
+    fb: "Mid-Market Moderns are B2C boutiques that are ambitious, have professional admin staff driving change, and come to the sales process armed with a wish list. They match all the signals described."
+  },
+  {
+    cat: "Customer Segments",
+    q: "Established Players are best described as:",
+    opts: ["Solo/small firms frantically trying to handle everything with quick-win tools", "Comfortable, well-established firms that know change is coming but are wary of disruption", "Innovative boutiques actively modernizing and ready to engage immediately", "Firms that won't change unless forced by a major ecosystem event"],
+    ans: 1,
+    fb: "Established Players are successful, well-established firms (typically 40–200 users) who are comfortable where they are but feel pressure to keep up. They are often on-prem switchers with long (6+ month) decision cycles and fear the disruption of changing software."
+  },
+  {
+    cat: "Business-Minded vs. Traditional",
+    q: "You're researching a prospect firm. Which combination of signals most strongly indicates a BUSINESS-FOCUSED firm?",
+    opts: ["Old-style website, lockstep partner model, server-based system", "Modern updated website + active LinkedIn + a practice manager driving the evaluation + a clear shortlist of vendors", "Single partner contact, no admin staff, no defined buying process", "Raises concerns about security and monthly costs, afraid of change"],
+    ans: 1,
+    fb: "Business-focused firms show three types of cues: Organizational (professional admin layer like practice manager, ops/exec dir), Research (modern website, active social media, online lead forms), and Buying (clear buying team, defined process, known decision maker, shortlist of competitors)."
+  },
+  {
+    cat: "Business-Minded vs. Traditional",
+    q: "Which statement best describes a TRADITIONAL law firm prospect?",
+    opts: ["They have a non-lawyer operations manager driving the software evaluation", "They are coming off a lighter cloud PMS and need broader capability", "They run a lockstep/rainmaker compensation model, use a server-based system, and raise fears about the change process", "They already have a checklist of must-haves and are savvy about the legaltech landscape"],
+    ans: 2,
+    fb: "Traditional firms show cues like a lockstep/rainmaker model, server-based tech, fear of the change process, concerns about security and monthly costs, and a polished-but-dated website. They want something similar to what they already have."
+  },
+  {
+    cat: "Practice Area Fit",
+    q: "Which practice area has the HIGHEST fit rating with Actionstep?",
+    opts: ["Immigration", "Business & Corporate", "Civil Litigation (Plaintiff)", "Intellectual Property"],
+    ans: 2,
+    fb: "Civil Litigation (Plaintiff) is rated Excellent — the top fit for Actionstep. Key value drivers include smooth client intake, deadline tracking, critical case info in one place, and case status visibility and reporting. B2C Litigation practices in general are Actionstep's best fit category."
+  },
+  {
+    cat: "Practice Area Fit",
+    q: "Family Law and Real Estate / Conveyancing are both rated as:",
+    opts: ["Excellent", "Very Good", "Good", "OK"],
+    ans: 1,
+    fb: "Both Family Law and Real Estate/Conveyancing are rated 'Very Good' — strong fits for Actionstep. Family Law benefits from templates, workflow automation, and fixed-fee efficiency. Real Estate benefits from lead tracking, high-volume transaction management, and document templates."
+  },
+  {
+    cat: "US Market Segments",
+    q: "According to the FY23/24 target segment grid, which segment is ranked #1 — Actionstep's best current target?",
+    opts: ["MM 20–50, Business Approach (Innovative)", "MM 50–100, Business Approach (Innovative)", "S/MM 5–20, Business Approach (Innovative)", "M/ENT 100–200, Business Approach (Innovative)"],
+    ans: 2,
+    fb: "S/MM 5–20 innovative firms are the #1 current target. These firms are inbound, ready to engage, easiest to sell to, and represent Actionstep's most successful current segment. The average deal is ~11 users with a clear, manageable sales process."
+  },
+  {
+    cat: "US Market Segments",
+    q: "For the MM 20–50 segment (innovative), what is the primary sales message to lead with?",
+    opts: ["Focus on cloud security and avoiding being left behind", "Sell them on efficiency gains and the profit calculator", "Sell them on the modern, client-centered firm dream and workflow-driven competitive gains", "Emphasize the strength of Actionstep's partner ecosystem"],
+    ans: 2,
+    fb: "For innovative MM 20–50 firms: 'Sell them on modern, client centered firm dream.' The big picture is about building a modern, scaling firm with an engaged team where workflow configuration means no compromise on the best process."
+  },
+  {
+    cat: "Personas & Org Structure",
+    q: "In a 60-user midsized firm, who typically owns the shortlist and project management of a software evaluation?",
+    opts: ["The Managing Partner, who controls all final decisions", "The Exec Committee — senior partners who hold the budget", "The Administrative leader (Exec Director, Practice Manager, or Firm Administrator)", "The IT Manager, who has full authority over technology decisions"],
+    ans: 2,
+    fb: "In midsized firms, administrative leaders (Executive Director, Firm Administrator, Practice Manager) typically gather the shortlist and manage the evaluation process. However, the Exec Committee of senior partners holds the budget and makes the final decision. Get wide — engage BOTH groups."
+  },
+  {
+    cat: "Personas & Org Structure",
+    q: "You're speaking with a Practice Manager. Which topic is MOST likely to resonate with them?",
+    opts: ["Revenue growth strategy and new business development", "Visibility across work status, task completion reports, billing targets, and how tech reduces information silos", "Whether Actionstep integrates with NetSuite or Sage for large-scale accounting", "Being seen as a legal industry innovator and early adopter"],
+    ans: 1,
+    fb: "Practice Managers care about tracking team performance, visibility across work status (reports, KPIs, billing targets), team collaboration, reducing admin silos between finance/CRM/matter management, and reassurance that data migration is doable."
+  },
+  {
+    cat: "Qualification — Green & Red Flags",
+    q: "Which of the following is a STRONG GREEN FLAG indicating a well-qualified prospect?",
+    opts: ["They are currently running a server-based system and are afraid of what cloud migration involves", "They came to you with a checklist of must-haves, have a practice manager leading the evaluation, and have already shortlisted competitors", "They have one partner contact who handles all decisions but can't confirm a budget", "They haven't implemented any major tech project before and are nervous about the process"],
+    ans: 1,
+    fb: "Strong green flags include: already using modern tech (or outgrown current system), arriving with a checklist of must-haves, having an influential admin/ops layer leading the process, and being savvy about the legaltech landscape. These signal a business-minded, purchase-ready firm."
+  },
+  {
+    cat: "Qualification — Green & Red Flags",
+    q: "A prospect firm raises concerns about security, monthly subscription costs, and whether the system will work the same way their current one does. This is most consistent with which profile?",
+    opts: ["Mid-Market Modern — business-minded boutique with professional admin layer", "Established Player — traditional firm that's wary of change and unfamiliar with cloud", "Multi-Tasking Solo — solo practitioner needing a quick out-of-the-box win", "High-growth MM 50–100 innovative firm expanding across multiple practices"],
+    ans: 1,
+    fb: "These are classic Established Player (Traditional) cues: concerns about security, monthly costs, impact on business, and wanting to replicate their current system. Their fear of the change process is a defining characteristic. You'll need a different approach — social proof, peer comparisons, and strong implementation assurance."
+  },
+  {
+    cat: "Qualification — Segment Strategy",
+    q: "A 150-user multi-practice firm reaches out inbound. They seem interested but have no clear buying process defined. Based on segment strategy, what is the BEST approach?",
+    opts: ["Fast-track them — inbound at this size means they're ready to close quickly", "Treat as a #1 priority — larger firms always mean higher ACV and should jump the queue", "Approach with caution — 100–200 user firms require enterprise sales tactics, broad exec engagement, and have many product gaps to navigate; establish exact needs and power relationships early", "Disqualify immediately — 100–200 users is not an Actionstep target at all"],
+    ans: 2,
+    fb: "M/ENT 100–200 firms require a 90–180+ day enterprise sales approach. Deals can get lost in time/priority without broad exec support. You should identify and connect with power and champion early, find out which practices drive decisions, and establish exact product needs upfront. They are ranked #7 or #8 on the segment priority list."
+  }
+];
+
+let cur = 0, correct = 0, userAnswers = [];
+
+function startQuiz() {
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('qScreen').style.display = 'block';
+  renderQ();
+}
+
+function renderQ() {
+  const q = questions[cur];
+  document.getElementById('qLabel').textContent = `Question ${cur+1} of ${questions.length}`;
+  document.getElementById('qProg').style.width = `${((cur)/questions.length)*100}%`;
+  document.getElementById('qScore').textContent = `${correct} / ${cur} correct`;
+  document.getElementById('qNum').textContent = cur+1;
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qTxt').textContent = q.q;
+
+  const opts = document.getElementById('qOpts');
+  opts.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  q.opts.forEach((o,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt2';
+    btn.innerHTML = `<span class="ol">${labels[i]}</span><span class="ot">${o}</span>`;
+    btn.onclick = () => selectOpt(i);
+    opts.appendChild(btn);
+  });
+
+  document.getElementById('qFb').className = 'qfb';
+  document.getElementById('qFb').style.display = 'none';
+  document.getElementById('btnNext').classList.remove('vis');
+}
+
+function selectOpt(chosen) {
+  const q = questions[cur];
+  const btns = document.querySelectorAll('.opt2');
+  btns.forEach(b => b.disabled = true);
+
+  const isCorrect = chosen === q.ans;
+  if (isCorrect) correct++;
+  userAnswers.push({ chosen, correct: q.ans, isCorrect });
+
+  btns.forEach((b,i) => {
+    if (i === q.ans) b.classList.add('ca');
+    else if (i === chosen && !isCorrect) b.classList.add('wa');
+  });
+
+  const fb = document.getElementById('qFb');
+  fb.style.display = 'flex';
+  fb.className = `qfb show ${isCorrect ? 'ok2' : 'ng2'}`;
+  document.getElementById('fbIco').textContent = isCorrect ? '✅' : '❌';
+  document.getElementById('fbTit').textContent = isCorrect ? 'Correct!' : 'Not quite.';
+  document.getElementById('fbTxt').textContent = q.fb;
+
+  document.getElementById('btnNext').classList.add('vis');
+  const label = cur + 1 < questions.length ? 'Next Question →' : 'See Results →';
+  document.getElementById('btnNext').textContent = label;
+}
+
+function nextQ() {
+  cur++;
+  if (cur >= questions.length) {
+    showResults();
+  } else {
+    document.getElementById('qCard').style.animation = 'none';
+    void document.getElementById('qCard').offsetWidth;
+    document.getElementById('qCard').style.animation = 'up 0.32s ease';
+    renderQ();
+  }
+}
+
+function showResults() {
+  document.getElementById('qScreen').style.display = 'none';
+  document.getElementById('rScreen').style.display = 'block';
+
+  const pct = Math.round((correct / questions.length) * 100);
+  const passed = pct >= 80;
+  const wrong = questions.length - correct;
+
+  document.getElementById('rPct').textContent = pct + '%';
+  document.getElementById('rPct').className = `rs ${passed ? 'pass' : 'fail'}`;
+  document.getElementById('rLabel').textContent = passed ? 'Assessment Passed' : 'Assessment Not Yet Passed';
+  document.getElementById('rMsg').textContent = passed
+    ? `Excellent work. You've demonstrated strong knowledge of Actionstep's ICP, customer segments, and qualification framework. You're ready to apply these in the field.`
+    : `You need 80% (12/15) to pass. Review the sections where you missed questions — particularly segment strategy, persona engagement, and green/red flag identification — then retake the assessment.`;
+  document.getElementById('rBadge').textContent = passed ? '✓ Module 5 Complete' : '↻ Review & Retake';
+  document.getElementById('rBadge').className = `rbadge ${passed ? 'pass' : 'fail'}`;
+  document.getElementById('rCorrect').textContent = correct;
+  document.getElementById('rWrong').textContent = wrong;
+
+  const list = document.getElementById('revList');
+  list.innerHTML = '';
+  questions.forEach((q, i) => {
+    const ua = userAnswers[i];
+    const ok = ua.isCorrect;
+    const div = document.createElement('div');
+    div.className = 'ri';
+    div.innerHTML = `
+      <div class="rih ${ok ? 'ok3' : 'ng3'}">
+        <div class="riq"><strong>Q${i+1}.</strong> ${q.q}</div>
+        <span class="ric">${ok ? '✅' : '❌'}</span>
+      </div>
+      <div class="rib">
+        ${!ok ? `<div class="rit">Your Answer</div><div class="ria" style="color:var(--orange)">${q.opts[ua.chosen]}</div>` : ''}
+        <div class="rit" style="margin-top:${ok?'0':'10px'}">Correct Answer</div>
+        <div class="ria"><strong>${q.opts[q.ans]}</strong></div>
+        <div class="rie">${q.fb}</div>
+      </div>`;
+    list.appendChild(div);
+  });
+
+  window.scrollTo(0,0);
+}
+
+function retakeQuiz() {
+  cur = 0; correct = 0; userAnswers = [];
+  document.getElementById('rScreen').style.display = 'none';
+  document.getElementById('qScreen').style.display = 'block';
+  renderQ();
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

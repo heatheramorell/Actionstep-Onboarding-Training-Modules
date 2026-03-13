@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 Assessment — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780;
+    --ltgreen:#E3F7E4; --gray:#F5F7F5; --border:#C8E0C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);min-height:100vh;color:var(--text);}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .lm{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .lt{font-size:17px;font-weight:700;color:white;}
+  .lt span{color:var(--leaf);}
+  .mt{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .shell{max-width:820px;margin:0 auto;padding:40px 20px 80px;}
+
+  .start{background:white;border-radius:18px;overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,0.4);}
+  .sh2{background:var(--green);padding:48px 48px 36px;position:relative;overflow:hidden;}
+  .sh2::after{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%;}
+  .sh2 .ey{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--leaf);font-weight:700;margin-bottom:14px;}
+  .sh2 h1{font-size:42px;font-weight:900;color:white;line-height:1.12;margin-bottom:16px;}
+  .sh2 p{color:#A8D5A8;font-size:15px;line-height:1.7;font-weight:400;max-width:480px;}
+  .sm{padding:34px 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-bottom:1px solid var(--border);}
+  .mi{text-align:center;}
+  .mi .mv{font-size:36px;font-weight:900;color:var(--green);display:block;margin-bottom:4px;}
+  .mi .ml{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;}
+  .si{padding:26px 48px;border-bottom:1px solid var(--border);}
+  .si h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:12px;}
+  .si ul{list-style:none;}
+  .si li{padding:6px 0;font-size:14px;color:var(--mid);display:flex;align-items:center;gap:10px;}
+  .si li::before{content:'→';color:var(--leaf);font-weight:700;}
+  .sc2{padding:32px 48px;display:flex;justify-content:center;}
+  .btn-s{background:var(--green);color:white;border:none;padding:16px 48px;border-radius:10px;font-family:'Red Hat Display',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 24px rgba(2,70,56,0.4);}
+  .btn-s:hover{background:var(--teal);transform:translateY(-2px);}
+
+  .qscreen{display:none;}
+  .qtop{background:var(--green);border-radius:12px;padding:16px 26px;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:20px;border-bottom:3px solid var(--leaf);}
+  .qpl{color:#A8D5A8;font-size:13px;font-weight:600;white-space:nowrap;}
+  .qpw{flex:1;height:6px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;}
+  .qpf{height:100%;background:linear-gradient(90deg,var(--yellow),var(--leaf));border-radius:3px;transition:width 0.4s ease;}
+  .qpr{color:var(--yellow);font-size:13px;font-weight:700;white-space:nowrap;}
+
+  .qcard{background:white;border-radius:14px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,0.3);animation:up 0.32s ease;}
+  @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .qh{padding:26px 34px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:18px;}
+  .qn{background:var(--green);color:white;font-size:18px;font-weight:900;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .qm .qcat{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .qm .qtxt{font-size:17px;line-height:1.7;color:var(--text);}
+  .qopts{padding:22px 34px;display:flex;flex-direction:column;gap:9px;}
+  .opt2{padding:15px 18px;border-radius:9px;border:2px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:15px;color:var(--text);cursor:pointer;transition:all 0.18s;text-align:left;display:flex;align-items:center;gap:14px;line-height:1.5;}
+  .ol{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--mid);flex-shrink:0;transition:all 0.18s;}
+  .opt2:hover:not(:disabled){border-color:var(--green);background:var(--ltgreen);}
+  .opt2:hover:not(:disabled) .ol{border-color:var(--green);color:var(--green);}
+  .opt2:disabled{cursor:default;}
+  .opt2.ca{border-color:var(--leaf);background:#EBF5E3;}
+  .opt2.ca .ol{background:var(--leaf);border-color:var(--leaf);color:white;}
+  .opt2.ca .ot{color:#1A5C1A;font-weight:600;}
+  .opt2.wa{border-color:var(--orange);background:#FFF0E6;}
+  .opt2.wa .ol{background:var(--orange);border-color:var(--orange);color:white;}
+  .opt2.wa .ot{color:#883300;}
+  .opt2.rr{border-color:var(--leaf);background:#EBF5E3;opacity:0.6;}
+  .opt2.rr .ol{background:var(--leaf);border-color:var(--leaf);color:white;}
+
+  .qfb{margin:0 34px;padding:16px 20px;border-radius:10px;font-size:14px;line-height:1.7;display:none;gap:12px;margin-bottom:6px;}
+  .qfb.show{display:flex;animation:up 0.28s ease;}
+  .qfb.ok2{background:#EBF5E3;border:1.5px solid var(--leaf);color:#1A5C1A;}
+  .qfb.ng2{background:#FFF0E6;border:1.5px solid var(--orange);color:#883300;}
+  .qfb .fi{font-size:20px;flex-shrink:0;}
+  .qfb .ftit{font-weight:700;margin-bottom:4px;}
+
+  .qfoot{padding:18px 34px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;background:var(--gray);}
+  .btn-n{background:var(--green);color:white;border:none;padding:12px 30px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:none;transition:all 0.18s;}
+  .btn-n:hover{background:var(--teal);}
+
+  .rscreen{display:none;}
+  .rcard{background:white;border-radius:18px;overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,0.4);}
+  .rhero{padding:48px;text-align:center;}
+  .ring{width:160px;height:160px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 24px;}
+  .ring .rp{font-size:52px;font-weight:900;line-height:1;}
+  .ring .rl{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+  .pbadge{display:inline-block;padding:8px 22px;border-radius:30px;font-size:15px;font-weight:700;margin-bottom:18px;}
+  .rhero p{color:var(--mid);font-size:15px;line-height:1.7;max-width:480px;margin:0 auto;}
+  .rbdown{padding:28px 48px;border-top:1px solid var(--border);}
+  .rbdown h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:18px;}
+  .ar{display:flex;flex-direction:column;gap:10px;}
+  .ri{padding:14px 18px;border-radius:10px;border:1.5px solid var(--border);display:flex;gap:14px;align-items:flex-start;}
+  .ri.ci{border-color:var(--leaf);background:#EBF5E3;}
+  .ri.wi{border-color:var(--orange);background:#FFF0E6;}
+  .ri .ric{font-size:18px;flex-shrink:0;margin-top:1px;}
+  .ri .rq{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:3px;}
+  .ri .ra{font-size:12px;color:var(--mid);line-height:1.5;}
+  .ri .ra strong{color:var(--text);}
+  .rcta{padding:24px 48px;display:flex;gap:14px;border-top:1px solid var(--border);background:var(--gray);justify-content:center;}
+  .btn-rt{background:white;color:var(--green);border:2px solid var(--green);padding:12px 30px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-rt:hover{background:var(--green);color:white;}
+  .btn-ct{background:var(--yellow);color:var(--navy);border:none;padding:12px 30px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-ct:hover{background:#D4B030;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="lm">A</div><div class="lt">Actíonstep <span>Sales Academy</span></div></div>
+  <div class="mt">Module 2 · Assessment</div>
+</header>
+<div class="shell">
+  <div class="start" id="start">
+    <div class="sh2">
+      <div class="ey">Actionstep Sales Academy  ·  Module 2</div>
+      <h1>Pipeline & Forecast<br>Certification Quiz</h1>
+      <p>Test your knowledge of pipeline hygiene standards, forecast categories, weekly cadence, and at-risk deal management before earning your Module 2 certification.</p>
+    </div>
+    <div class="sm">
+      <div class="mi"><span class="mv">15</span><span class="ml">Questions</span></div>
+      <div class="mi"><span class="mv">80%</span><span class="ml">Passing Score</span></div>
+      <div class="mi"><span class="mv">~10</span><span class="ml">Minutes</span></div>
+    </div>
+    <div class="si">
+      <h3>What's Covered</h3>
+      <ul>
+        <li>The five pipeline hygiene standards</li>
+        <li>Forecast categories: Commit, Forecast, Stretch Yes, Stretch No</li>
+        <li>Weekly forecast cadence expectations</li>
+        <li>Identifying and managing at-risk deals</li>
+        <li>Common pipeline and forecast mistakes</li>
+      </ul>
+    </div>
+    <div class="sc2"><button class="btn-s" onclick="startQuiz()">Begin Assessment →</button></div>
+  </div>
+
+  <div class="qscreen" id="qscreen">
+    <div class="qtop">
+      <span class="qpl" id="qctr">Question 1 of 15</span>
+      <div class="qpw"><div class="qpf" id="qpf" style="width:0%"></div></div>
+      <span class="qpr" id="qst">Score: 0/0</span>
+    </div>
+    <div id="qmount"></div>
+  </div>
+
+  <div class="rscreen" id="rscreen"></div>
+</div>
+
+<script>
+const L=['A','B','C','D'];
+const QS=[
+  {
+    cat:"Pipeline Hygiene",
+    q:"Which of the following is NOT one of the five pipeline hygiene standards?",
+    opts:["Stage Accuracy","Close Date Discipline","Opportunity Value Currency","Activity Logging"],
+    ans:2,
+    exp:"The five hygiene standards are: Stage Accuracy, Close Date Discipline, Next Step Always Present, Activity Logging, and Forecast Category Current. Opportunity Value Currency is not one of them."
+  },
+  {
+    cat:"Pipeline Hygiene",
+    q:"A deal has a close date from two weeks ago that hasn't been updated. What hygiene standard has been violated?",
+    opts:["Stage Accuracy","Close Date Discipline","Activity Logging","Forecast Category Current"],
+    ans:1,
+    exp:"Close Date Discipline requires that close dates reflect the actual expected close and are updated when circumstances change. A past close date that hasn't been updated is a textbook hygiene failure."
+  },
+  {
+    cat:"Pipeline Hygiene",
+    q:"What is the correct definition of a 'next step' in Salesforce?",
+    opts:["A general note that you plan to follow up","A specific action with a confirmed date documented in Salesforce","An email sent to the prospect at any point in the deal","A stage-advance in the pipeline"],
+    ans:1,
+    exp:"A proper next step is specific, dated, and documented. 'Following up soon' is not a next step. The next step must be a concrete action with a confirmed date — e.g. 'SOW review call on [date].'"
+  },
+  {
+    cat:"Pipeline Hygiene",
+    q:"Why is activity logging required for every meaningful interaction?",
+    opts:["It is required by Salesforce licensing rules","It creates deal history for coaching, context, and pattern recognition","It generates automatic reminders for follow-up","It determines the probability percentage in Salesforce"],
+    ans:1,
+    exp:"Activity logs create a deal history that protects you, enables coaching, and reveals patterns. Without activity logs, there is no record of what happened — making it impossible to identify issues or coach effectively."
+  },
+  {
+    cat:"Forecast Categories",
+    q:"What is the defining characteristic that makes a deal appropriate for the 'Commit' category?",
+    opts:["The rep really wants this deal to close","The deal is in the Negotiation stage","The rep would stake their credibility on the deal closing by the listed close date","The deal has been in the pipeline for more than 30 days"],
+    ans:2,
+    exp:"Commit means 'neck on the line.' You would stake your credibility on this deal closing by the listed close date. It is not about wanting it to close — it's about knowing it will. Any doubt moves it to Forecast."
+  },
+  {
+    cat:"Forecast Categories",
+    q:"A rep has a deal where pricing is agreed, legal is in final review, and the champion has confirmed expected signing this week. What is the correct forecast category?",
+    opts:["Stretch Yes","Stretch No","Forecast","Commit"],
+    ans:3,
+    exp:"This is a Commit. Pricing agreed, legal in review, champion confirmed signing this week — the rep can stake their credibility on this. Every indicator points to a known close."
+  },
+  {
+    cat:"Forecast Categories",
+    q:"What is the key difference between 'Forecast' and 'Stretch Yes'?",
+    opts:["Forecast requires a signed order form; Stretch Yes does not","Forecast means the buyer is aligned and engaged; Stretch Yes means the rep is driving to pull the deal into the quarter","Forecast is for Q1 deals; Stretch Yes is for end-of-quarter deals","Forecast has a 50%+ probability; Stretch Yes has under 50%"],
+    ans:1,
+    exp:"Forecast means the buyer is engaged, aligned, and the rep believes it will close. Stretch Yes means the rep is actively working to accelerate — the buyer has not confirmed a timeline and the deal may slip to next quarter."
+  },
+  {
+    cat:"Forecast Categories",
+    q:"A rep's champion went quiet 2 weeks ago with no response to 3 outreach attempts. Close date is end of quarter. What forecast category applies?",
+    opts:["Commit","Forecast","Stretch Yes","Stretch No"],
+    ans:3,
+    exp:"Stretch No is the honest answer. Two weeks of silence and three unanswered outreach attempts means the deal is not progressing toward this quarter's close. Forecast conservatively — surface the risk proactively."
+  },
+  {
+    cat:"Forecast Categories",
+    q:"Why is 'Stretch No' described as 'the most honest category' in the Actionstep framework?",
+    opts:["Because it guarantees the deal won't close","Because it accurately flags a real deal that isn't expected to close this quarter — helping leadership plan accurately","Because it allows reps to remove deals from the pipeline entirely","Because it automatically moves the close date to next quarter"],
+    ans:1,
+    exp:"Stretch No is honest because it acknowledges reality: the deal exists but won't close this quarter based on current information. This protects leadership's ability to plan and protects the rep's credibility compared to hiding a struggling deal in Forecast."
+  },
+  {
+    cat:"Weekly Cadence",
+    q:"What must a rep do BEFORE every weekly forecast call?",
+    opts:["Only review deals marked Commit","Review all current-quarter close date deals and update categories based on latest information","Send an email to all open prospects confirming close dates","Ask the champion in each deal for a written commitment"],
+    ans:1,
+    exp:"Before every forecast call, reps must review ALL opportunities with a current-quarter close date, update forecast categories based on the latest information, confirm next steps, and prepare to defend every Commit and Forecast deal."
+  },
+  {
+    cat:"Weekly Cadence",
+    q:"A Commit deal goes at risk on a Tuesday — 4 days before the weekly forecast call. What is the correct action?",
+    opts:["Wait until the Friday forecast call to surface the issue","Surface the risk to your manager immediately — don't wait for the weekly meeting","Reclassify to Stretch No quietly without telling anyone","Move the close date back 30 days and keep it in Commit"],
+    ans:1,
+    exp:"Proactive communication is required. If a Commit deal changes status between calls, surface it immediately. Waiting for the weekly meeting to share bad news surprises everyone — including you — and is a credibility failure."
+  },
+  {
+    cat:"At-Risk Deals",
+    q:"Which of the following is a warning sign of an at-risk deal?",
+    opts:["The deal has been in Discovery for 2 weeks","The champion is requesting a group demo","The deal has been in the same stage for 4+ weeks with no movement","The prospect asked for a reference customer"],
+    ans:2,
+    exp:"A deal in the same stage for 4+ weeks without movement is stalling. This is one of the clearest at-risk indicators. Other warning signs include radio silence, multiple close date slips, and no confirmed next step."
+  },
+  {
+    cat:"At-Risk Deals",
+    q:"What is the FIRST action a rep should take when a deal becomes at-risk?",
+    opts:["Close it as Lost immediately","Reclassify the forecast category to reflect reality","Send a 'just checking in' email","Ask the manager to take over the deal"],
+    ans:1,
+    exp:"The first action is to reclassify honestly. An at-risk Commit should immediately become Forecast or Stretch. An at-risk Forecast that's gone dark becomes Stretch No. Never let category optimism persist after evidence changes."
+  },
+  {
+    cat:"Pipeline Mistakes",
+    q:"A rep moves a deal from Discovery to Confirming Value because it's been 3 weeks and they feel it should be further along. What mistake is this?",
+    opts:["Wishful Forecasting","Updating Stages Based on Time, Not Evidence","Leaving Close Dates Unchanged After Slippage","Hiding Stretch No Deals"],
+    ans:1,
+    exp:"This is stage movement based on time, not evidence. A deal advances only when gate criteria have been genuinely met — not because the rep feels it should be further along. This is a Stage Accuracy failure."
+  },
+  {
+    cat:"Pipeline Mistakes",
+    q:"A rep keeps a deal in Forecast despite zero response from the prospect for 3 weeks — because surfacing the issue 'looks bad.' What is wrong with this thinking?",
+    opts:["Nothing — it's better to stay optimistic until proven otherwise","Hiding at-risk deals destroys credibility when they don't close. Honest forecasting always outperforms wishful forecasting.","The rep should just move it to Commit to trigger manager attention","Pipeline categories don't impact the rep's credibility"],
+    ans:1,
+    exp:"Hiding bad news to avoid looking bad is a forecasting integrity failure. Surfacing an at-risk deal proactively — and coming with a plan — builds credibility. Being 'surprised' at quarter end destroys it. Honest forecasting always wins."
+  },
+];
+
+let cq=0, answers=[], qAns=false;
+
+function startQuiz(){
+  document.getElementById('start').style.display='none';
+  document.getElementById('qscreen').style.display='block';
+  renderQ();
+}
+
+function renderQ(){
+  if(cq>=QS.length){showRes();return;}
+  qAns=false;
+  const q=QS[cq];
+  const pct=Math.round((cq/QS.length)*100);
+  const score=answers.filter(a=>a.c).length;
+  document.getElementById('qctr').textContent=`Question ${cq+1} of ${QS.length}`;
+  document.getElementById('qpf').style.width=pct+'%';
+  document.getElementById('qst').textContent=`Score: ${score}/${cq}`;
+  const opts=q.opts.map((o,i)=>`<button class="opt2" onclick="selOpt(${i})" id="o${i}"><span class="ol">${L[i]}</span><span class="ot">${o}</span></button>`).join('');
+  document.getElementById('qmount').innerHTML=`
+    <div class="qcard">
+      <div class="qh">
+        <div class="qn">${cq+1}</div>
+        <div class="qm"><div class="qcat">${q.cat}</div><div class="qtxt">${q.q}</div></div>
+      </div>
+      <div class="qopts">${opts}</div>
+      <div class="qfb" id="qfb"><span class="fi" id="fic"></span><div><div class="ftit" id="ftt"></div><div id="fbd">${q.exp}</div></div></div>
+      <div class="qfoot"><button class="btn-n" id="bnn" onclick="nextQ()">${cq<QS.length-1?'Next Question →':'See Results'}</button></div>
+    </div>`;
+}
+
+function selOpt(i){
+  if(qAns)return;
+  qAns=true;
+  const q=QS[cq];
+  const ok=i===q.ans;
+  answers.push({q:cq,ch:i,c:ok});
+  document.querySelectorAll('.opt2').forEach((b,j)=>{
+    b.disabled=true;
+    if(j===q.ans&&ok)b.classList.add('ca');
+    else if(j===q.ans&&!ok)b.classList.add('rr');
+    else if(j===i&&!ok)b.classList.add('wa');
+  });
+  const fb=document.getElementById('qfb');
+  fb.className='qfb show '+(ok?'ok2':'ng2');
+  document.getElementById('fic').textContent=ok?'✓':'✗';
+  document.getElementById('ftt').textContent=ok?'Correct!':'Not quite — here\'s why:';
+  document.getElementById('bnn').style.display='block';
+}
+
+function nextQ(){cq++;renderQ();}
+
+function showRes(){
+  document.getElementById('qscreen').style.display='none';
+  const rs=document.getElementById('rscreen');
+  rs.style.display='block';
+  const score=answers.filter(a=>a.c).length;
+  const pct=Math.round((score/QS.length)*100);
+  const pass=pct>=80;
+  const rc=pass?'#024638':'#B03020';
+  const rb=pass?'#EBF5E3':'#FFF0E6';
+  const rev=answers.map(a=>{
+    const q=QS[a.q];
+    return `<div class="ri ${a.c?'ci':'wi'}">
+      <span class="ric">${a.c?'✓':'✗'}</span>
+      <div>
+        <div class="rq">${q.q}</div>
+        <div class="ra">${a.c?`<strong>Correct:</strong> ${q.opts[q.ans]}`:`<strong>Your answer:</strong> ${q.opts[a.ch]} &nbsp;·&nbsp; <strong>Correct:</strong> ${q.opts[q.ans]}`}</div>
+      </div>
+    </div>`;
+  }).join('');
+  rs.innerHTML=`
+    <div class="rcard">
+      <div class="rhero">
+        <div class="ring" style="background:${rb};border:5px solid ${rc}">
+          <span class="rp" style="color:${rc}">${pct}%</span>
+          <span class="rl" style="color:${rc}">${score}/${QS.length}</span>
+        </div>
+        <div class="pbadge" style="background:${rb};color:${rc}">${pass?'✓ PASSED — Module 2 Quiz Complete':'✗ Not Passed — Review & Retry'}</div>
+        <p>${pass?"You've demonstrated solid knowledge of pipeline hygiene and forecast discipline. Bring these results to your manager to complete your Module 2 certification.":"You need 80% or higher to pass. Review your incorrect answers below, revisit the training materials, then retry."}</p>
+      </div>
+      <div class="rbdown"><h3>Answer Review</h3><div class="ar">${rev}</div></div>
+      <div class="rcta">
+        <button class="btn-rt" onclick="retry()">Retake Quiz</button>
+        ${pass?'<button class="btn-ct">Submit for Certification ✓</button>':''}
+      </div>
+    </div>`;
+}
+
+function retry(){
+  cq=0;answers=[];qAns=false;
+  document.getElementById('rscreen').style.display='none';
+  document.getElementById('qscreen').style.display='block';
+  renderQ();
+}
+</script>
+</body>
+</html>
