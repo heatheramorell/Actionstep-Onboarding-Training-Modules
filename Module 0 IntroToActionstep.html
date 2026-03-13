@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Welcome to Actionstep — New Employee Orientation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,700;0,900;1,400;1,700;1,900&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780;
+    --ltgreen:#E3F7E4; --gray:#F5F7F5; --border:#C8E0C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+  /* ====== HEADER ====== */
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);position:sticky;top:0;z-index:100;}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .lm{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .lt{font-size:17px;font-weight:700;color:white;} .lt span{color:var(--leaf);}
+  .mt{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  /* ====== SCREENS ====== */
+  .screen{display:none;animation:fadeUp 0.4s ease;}
+  .screen.active{display:block;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ====== PROGRESS NAV ====== */
+  .prog-nav{max-width:900px;margin:0 auto;padding:24px 20px 0;display:flex;align-items:center;gap:8px;}
+  .step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;cursor:pointer;transition:all 0.2s;flex-shrink:0;border:2px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.4);}
+  .step-dot.done{background:var(--leaf);border-color:var(--leaf);color:white;}
+  .step-dot.active{background:var(--yellow);border-color:var(--yellow);color:var(--navy);transform:scale(1.15);}
+  .step-line{flex:1;height:2px;background:rgba(255,255,255,0.12);border-radius:1px;transition:all 0.4s;}
+  .step-line.done{background:var(--leaf);}
+
+  /* ====== SHELL ====== */
+  .shell{max-width:900px;margin:0 auto;padding:32px 20px 80px;}
+
+  /* ====== SECTION LABEL ====== */
+  .sec-label{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--leaf);font-weight:700;margin-bottom:12px;}
+
+  /* ====== WELCOME SCREEN ====== */
+  .welcome-hero{background:var(--green);border-radius:20px;padding:60px 52px;position:relative;overflow:hidden;margin-bottom:24px;}
+  .welcome-hero::before{content:'';position:absolute;right:-80px;top:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.04);}
+  .welcome-hero::after{content:'';position:absolute;right:60px;bottom:-60px;width:180px;height:180px;border-radius:50%;background:rgba(116,170,80,0.12);}
+  .welcome-hero .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:2.5px;color:var(--leaf);font-weight:700;margin-bottom:16px;}
+  .welcome-hero h1{font-size:52px;font-weight:900;color:white;line-height:1.08;margin-bottom:20px;letter-spacing:-1px;}
+  .welcome-hero h1 em{color:var(--yellow);font-style:normal;}
+  .welcome-hero p{color:#A8D5A8;font-size:16px;line-height:1.75;max-width:520px;margin-bottom:32px;}
+  .welcome-stats{display:flex;gap:32px;}
+  .wstat{text-align:left;}
+  .wstat .wv{font-size:32px;font-weight:900;color:var(--yellow);line-height:1;}
+  .wstat .wl{font-size:12px;color:#A8D5A8;font-weight:500;margin-top:2px;}
+
+  .modules-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
+  .mod-preview{background:white;border-radius:12px;padding:20px;border:2px solid transparent;transition:all 0.2s;cursor:pointer;}
+  .mod-preview:hover{border-color:var(--leaf);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,0.2);}
+  .mp-icon{font-size:28px;margin-bottom:10px;}
+  .mp-title{font-size:14px;font-weight:700;color:var(--green);margin-bottom:4px;}
+  .mp-sub{font-size:12px;color:var(--mid);line-height:1.5;}
+
+  .btn-start{background:var(--yellow);color:var(--navy);border:none;padding:16px 44px;border-radius:10px;font-family:'Red Hat Display',sans-serif;font-size:16px;font-weight:900;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;}
+  .btn-start:hover{background:#E5C038;transform:translateY(-2px);box-shadow:0 8px 24px rgba(254,209,65,0.35);}
+
+  /* ====== CONTENT CARD ====== */
+  .card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,0.3);margin-bottom:20px;}
+  .card-hdr{padding:28px 36px;border-bottom:1px solid var(--border);}
+  .card-hdr h2{font-size:28px;font-weight:900;color:var(--green);margin-bottom:6px;}
+  .card-hdr p{color:var(--mid);font-size:14px;line-height:1.7;}
+  .card-body{padding:28px 36px;}
+  .card-foot{padding:18px 36px;border-top:1px solid var(--border);background:var(--gray);display:flex;justify-content:space-between;align-items:center;}
+
+  /* ====== MISSION SCREEN ====== */
+  .mission-quote{background:var(--green);border-radius:14px;padding:32px 36px;margin-bottom:20px;position:relative;}
+  .mission-quote::before{content:'"';position:absolute;top:-10px;left:28px;font-size:100px;color:rgba(116,170,80,0.25);font-family:Georgia,serif;line-height:1;}
+  .mission-quote p{font-size:20px;font-weight:700;color:white;line-height:1.65;font-style:italic;}
+  .mission-quote .attr{font-size:12px;color:var(--leaf);font-weight:600;margin-top:14px;font-style:normal;text-transform:uppercase;letter-spacing:1.5px;}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .info-box{background:var(--gray);border-radius:12px;padding:22px 24px;border-left:4px solid var(--leaf);}
+  .info-box h4{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:10px;}
+  .info-box p{color:var(--text);font-size:14px;line-height:1.75;}
+
+  .email-box{background:#FFFDE7;border-radius:12px;padding:24px 28px;border-left:4px solid var(--yellow);margin-top:16px;}
+  .email-box .from{font-size:11px;font-weight:700;color:#7A5A00;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:12px;}
+  .email-box p{font-size:14px;color:var(--text);line-height:1.8;}
+  .email-box p + p{margin-top:12px;}
+
+  /* ====== WHAT WE DO ====== */
+  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+  .feat-card{background:var(--gray);border-radius:12px;padding:20px;text-align:center;border:2px solid var(--border);transition:all 0.2s;}
+  .feat-card:hover{border-color:var(--leaf);background:var(--ltgreen);}
+  .feat-card .fi{font-size:32px;margin-bottom:10px;}
+  .feat-card h4{font-size:13px;font-weight:700;color:var(--green);margin-bottom:6px;}
+  .feat-card p{font-size:12px;color:var(--mid);line-height:1.55;}
+
+  .problems-accordion{display:flex;flex-direction:column;gap:8px;}
+  .prob-item{border-radius:10px;border:2px solid var(--border);overflow:hidden;transition:all 0.2s;}
+  .prob-item.open{border-color:var(--leaf);}
+  .prob-hdr{padding:14px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;background:white;transition:all 0.15s;}
+  .prob-hdr:hover{background:var(--ltgreen);}
+  .prob-hdr .ph-icon{font-size:20px;flex-shrink:0;}
+  .prob-hdr .ph-title{font-size:14px;font-weight:700;color:var(--text);flex:1;}
+  .prob-hdr .ph-arr{font-size:16px;color:var(--mid);transition:transform 0.2s;}
+  .prob-item.open .ph-arr{transform:rotate(180deg);}
+  .prob-body{display:none;padding:16px 20px;background:var(--ltgreen);border-top:1px solid var(--border);}
+  .prob-item.open .prob-body{display:block;}
+  .prob-body h5{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .prob-body p{font-size:13px;color:var(--text);line-height:1.7;}
+
+  /* ====== DIFFERENTIATION ====== */
+  .diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .diff-card{border-radius:12px;padding:22px 24px;border:2px solid var(--border);}
+  .diff-card.as{background:var(--green);border-color:var(--green);}
+  .diff-card.comp{background:var(--gray);border-color:var(--border);}
+  .diff-card .dc-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px;}
+  .diff-card.as .dc-label{color:var(--leaf);}
+  .diff-card.comp .dc-label{color:var(--mid);}
+  .diff-card .dc-title{font-size:20px;font-weight:900;margin-bottom:12px;}
+  .diff-card.as .dc-title{color:white;}
+  .diff-card.comp .dc-title{color:var(--mid);}
+  .diff-card ul{list-style:none;}
+  .diff-card li{font-size:13px;padding:5px 0;display:flex;gap:8px;line-height:1.5;}
+  .diff-card.as li{color:#A8D5A8;}
+  .diff-card.as li::before{content:'✓';color:var(--leaf);font-weight:900;flex-shrink:0;}
+  .diff-card.comp li{color:var(--mid);}
+  .diff-card.comp li::before{content:'·';color:#A0AEC0;font-weight:900;flex-shrink:0;}
+
+  .values-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+  .val-card{border-radius:10px;padding:16px 14px;text-align:center;}
+  .val-card:nth-child(1){background:var(--green);}
+  .val-card:nth-child(2){background:var(--teal);}
+  .val-card:nth-child(3){background:var(--steel);}
+  .val-card:nth-child(4){background:#74AA50;}
+  .val-card:nth-child(5){background:#FF6900;}
+  .val-card .vi{font-size:24px;margin-bottom:8px;}
+  .val-card .vt{font-size:12px;font-weight:700;color:white;margin-bottom:4px;line-height:1.3;}
+  .val-card .vs{font-size:10px;color:rgba(255,255,255,0.75);line-height:1.45;font-style:italic;}
+
+  /* ====== QUIZ SCREEN ====== */
+  .quiz-hdr{background:var(--green);border-radius:14px;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;border-bottom:3px solid var(--leaf);}
+  .quiz-hdr .ql{color:#A8D5A8;font-size:13px;font-weight:600;}
+  .quiz-hdr .qr{color:var(--yellow);font-size:13px;font-weight:700;}
+  .qpw{flex:1;height:5px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;margin:0 16px;}
+  .qpf{height:100%;background:linear-gradient(90deg,var(--yellow),var(--leaf));border-radius:3px;transition:width 0.4s;}
+
+  .qcard{background:white;border-radius:14px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,0.3);}
+  .qh{padding:24px 32px 18px;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start;}
+  .qnum{background:var(--green);color:white;font-size:18px;font-weight:900;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .qcat{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .qtxt{font-size:17px;line-height:1.7;color:var(--text);}
+  .qopts{padding:20px 32px;display:flex;flex-direction:column;gap:8px;}
+  .qopt{padding:14px 18px;border-radius:9px;border:2px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:14px;color:var(--text);cursor:pointer;transition:all 0.18s;text-align:left;display:flex;align-items:center;gap:12px;line-height:1.5;}
+  .qopt:hover:not(:disabled){border-color:var(--green);background:var(--ltgreen);}
+  .qopt:disabled{cursor:default;}
+  .qopt.ca{border-color:var(--leaf);background:#EBF5E3;}
+  .qopt.ca .ql{background:var(--leaf);border-color:var(--leaf);color:white;}
+  .qopt.wa{border-color:var(--orange);background:#FFF0E6;}
+  .qopt.rr{border-color:var(--leaf);background:#EBF5E3;opacity:0.6;}
+  .ql2{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--mid);flex-shrink:0;transition:all 0.18s;}
+  .qfb{margin:0 32px 4px;padding:14px 18px;border-radius:10px;font-size:13px;line-height:1.7;display:none;gap:10px;}
+  .qfb.show{display:flex;}
+  .qfb.ok{background:#EBF5E3;border:1.5px solid var(--leaf);color:#1A5C1A;}
+  .qfb.ng{background:#FFF0E6;border:1.5px solid var(--orange);color:#883300;}
+  .qfb .fi{font-size:18px;flex-shrink:0;}
+  .qfb .ftit{font-weight:700;margin-bottom:3px;}
+  .qfoot{padding:16px 32px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;background:var(--gray);}
+  .btn-next{background:var(--green);color:white;border:none;padding:11px 28px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:none;transition:all 0.18s;}
+  .btn-next:hover{background:var(--teal);}
+
+  /* ====== RESULTS ====== */
+  .res-card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,0.4);}
+  .res-hero{padding:48px;text-align:center;}
+  .score-ring{width:150px;height:150px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 20px;}
+  .score-ring .sp{font-size:48px;font-weight:900;line-height:1;}
+  .score-ring .sl2{font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+  .badge{display:inline-block;padding:8px 22px;border-radius:30px;font-size:15px;font-weight:700;margin-bottom:16px;}
+  .res-hero p{color:var(--mid);font-size:15px;line-height:1.7;max-width:440px;margin:0 auto;}
+  .res-review{padding:24px 40px;border-top:1px solid var(--border);}
+  .res-review h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:16px;}
+  .ri2{padding:12px 16px;border-radius:10px;border:1.5px solid var(--border);display:flex;gap:12px;align-items:flex-start;margin-bottom:8px;}
+  .ri2.ci{border-color:var(--leaf);background:#EBF5E3;}
+  .ri2.wi{border-color:var(--orange);background:#FFF0E6;}
+  .ri2 .ric{font-size:16px;flex-shrink:0;}
+  .ri2 .rq{font-size:13px;color:var(--text);margin-bottom:2px;}
+  .ri2 .ra{font-size:12px;color:var(--mid);}
+  .res-cta{padding:24px 40px;border-top:1px solid var(--border);background:var(--gray);display:flex;gap:12px;justify-content:center;}
+  .btn-retry{background:white;color:var(--green);border:2px solid var(--green);padding:11px 28px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-retry:hover{background:var(--green);color:white;}
+  .btn-finish{background:var(--yellow);color:var(--navy);border:none;padding:11px 28px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-finish:hover{background:#D4B030;}
+
+  /* ====== NAV BUTTONS ====== */
+  .nav-btns{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+  .btn-back{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:1.5px solid rgba(255,255,255,0.15);padding:11px 24px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-back:hover{background:rgba(255,255,255,0.14);color:white;}
+  .btn-fwd{background:var(--green);color:white;border:none;padding:12px 32px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 6px 20px rgba(2,70,56,0.4);}
+  .btn-fwd:hover{background:var(--teal);transform:translateY(-2px);}
+
+  /* ====== TAGLINE FLIP ====== */
+  .tagline-explorer{background:white;border-radius:14px;padding:28px 32px;margin-bottom:16px;}
+  .tag-main{font-size:34px;font-weight:900;color:var(--green);text-align:center;margin-bottom:20px;line-height:1.2;}
+  .tag-meaning{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .tm-item{padding:14px;border-radius:10px;background:var(--gray);text-align:center;border:2px solid var(--border);cursor:pointer;transition:all 0.2s;}
+  .tm-item:hover,.tm-item.active{background:var(--ltgreen);border-color:var(--leaf);}
+  .tm-item .tmi-word{font-size:14px;font-weight:900;color:var(--green);margin-bottom:4px;}
+  .tm-item .tmi-def{font-size:11px;color:var(--mid);line-height:1.5;}
+  .tm-explain{background:var(--ltgreen);border-radius:10px;padding:16px 20px;border-left:4px solid var(--leaf);margin-top:12px;display:none;}
+  .tm-explain p{font-size:14px;color:var(--text);line-height:1.7;}
+
+  /* ====== PERSONA PILL ====== */
+  .persona-strip{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
+  .persona-card{border-radius:12px;padding:22px 24px;background:var(--gray);border:2px solid var(--border);}
+  .persona-card h4{font-size:13px;font-weight:900;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .persona-card p{font-size:13px;color:var(--mid);line-height:1.65;}
+
+  /* SCROLL FADE IN */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.5s,transform 0.5s;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="lm">A</div><div class="lt">Actíonstep <span>Sales Academy</span></div></div>
+  <div class="mt">New Employee Orientation</div>
+</header>
+
+<!-- PROGRESS NAV -->
+<div class="prog-nav" id="prog-nav">
+  <div class="step-dot active" id="dot-0" onclick="goTo(0)">1</div>
+  <div class="step-line" id="line-0"></div>
+  <div class="step-dot" id="dot-1" onclick="goTo(1)">2</div>
+  <div class="step-line" id="line-1"></div>
+  <div class="step-dot" id="dot-2" onclick="goTo(2)">3</div>
+  <div class="step-line" id="line-2"></div>
+  <div class="step-dot" id="dot-3" onclick="goTo(3)">4</div>
+  <div class="step-line" id="line-3"></div>
+  <div class="step-dot" id="dot-4" onclick="goTo(4)">5</div>
+</div>
+
+<div class="shell">
+
+  <!-- ===== SCREEN 0: WELCOME ===== -->
+  <div class="screen active" id="s0">
+    <div class="welcome-hero">
+      <div class="eyebrow">Actionstep Sales Academy · Orientation</div>
+      <h1>Welcome to<br><em>Actionstep.</em></h1>
+      <p>You're joining a team that genuinely believes lawyers are awesome — and that they deserve better technology. This module will get you up to speed on who we are, what we do, why we exist, and what makes us different.</p>
+      <div class="welcome-stats">
+        <div class="wstat"><div class="wv">38K+</div><div class="wl">Users Globally</div></div>
+        <div class="wstat"><div class="wv">4</div><div class="wl">Chapters Ahead</div></div>
+        <div class="wstat"><div class="wv">~15min</div><div class="wl">Estimated Time</div></div>
+      </div>
+    </div>
+
+    <div class="modules-grid">
+      <div class="mod-preview" onclick="goTo(1)">
+        <div class="mp-icon">⚖️</div>
+        <div class="mp-title">Our Mission & Why</div>
+        <div class="mp-sub">Why we exist and what drives us every day</div>
+      </div>
+      <div class="mod-preview" onclick="goTo(2)">
+        <div class="mp-icon">🏗️</div>
+        <div class="mp-title">What We Build</div>
+        <div class="mp-sub">The platform, the problems we solve, who we serve</div>
+      </div>
+      <div class="mod-preview" onclick="goTo(3)">
+        <div class="mp-icon">🎯</div>
+        <div class="mp-title">What Makes Us Different</div>
+        <div class="mp-sub">Our positioning, values, and brand identity</div>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <button class="btn-start" onclick="goTo(1)">Let's Get Started →</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 1: MISSION ===== -->
+  <div class="screen" id="s1">
+    <div class="sec-label">Chapter 1 of 4 · Our Mission & Why</div>
+
+    <div class="mission-quote">
+      <p>Law firms provide an essential service to our society. Lawyers protect people and assets, reduce collective risk, and help businesses grow. And they deserve technology that helps them do that work — powerfully, efficiently, and on their own terms.</p>
+      <div class="attr">— The Actionstep Purpose</div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-hdr">
+        <h2>We Think Lawyers Are Awesome</h2>
+        <p>That's not a marketing line. It's the genuine belief that started this company.</p>
+      </div>
+      <div class="card-body">
+        <div class="email-box">
+          <div class="from">📧 An email from our founders to the global team — 2019</div>
+          <p>Think about the major milestones in your life — good and bad. Buying a home. Settling a dispute. Starting a business. Protecting your family. They are all enabled and eased by what lawyers do.</p>
+          <p>Lawyers sometimes get a raw deal. Yes, they are meticulous, they like control, they choose their words carefully and love to be right — but we know these super smart professionals are passionate about their client's success above all else. And WE are all their clients at one time or another.</p>
+          <p>What's holding them back? Poorly defined processes, clunky technology, and the distractions of "the busy-ness" of running a law firm. <strong>That's where we come in.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal">
+      <div class="info-box">
+        <h4>🎯 Our Mission</h4>
+        <p>Actionstep provides powerful technology that enables law firms to thrive as essential advocates, advisors, and businesses in our society.</p>
+      </div>
+      <div class="info-box">
+        <h4>👤 Who We Do It For</h4>
+        <p>Midsize law firms who want to modernize and systemize how they practice law — ambitious firms with a clear idea about where they want to go.</p>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goTo(0)">← Back</button>
+      <button class="btn-fwd" onclick="goTo(2)">What We Build →</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 2: WHAT WE DO ===== -->
+  <div class="screen" id="s2">
+    <div class="sec-label">Chapter 2 of 4 · What We Build</div>
+
+    <div class="card reveal">
+      <div class="card-hdr">
+        <h2>One Platform. Total Control.</h2>
+        <p>Actionstep is a modern, adaptable law firm management platform for midsize firms. Everything a law firm needs — connected, automated, and built around the way they actually work.</p>
+      </div>
+      <div class="card-body">
+        <div class="features-grid">
+          <div class="feat-card">
+            <div class="fi">📋</div>
+            <h4>Client Intake</h4>
+            <p>Streamlined onboarding from first contact to matter creation — no dropped handoffs.</p>
+          </div>
+          <div class="feat-card">
+            <div class="fi">⚙️</div>
+            <h4>Matter Management</h4>
+            <p>Every case, document, task, and deadline in one connected place.</p>
+          </div>
+          <div class="feat-card">
+            <div class="fi">📄</div>
+            <h4>Document Management</h4>
+            <p>Assemble, store, and track documents without leaving the platform.</p>
+          </div>
+          <div class="feat-card">
+            <div class="fi">⏱️</div>
+            <h4>Time & Billing</h4>
+            <p>Capture every billable minute. No more hours left on the table.</p>
+          </div>
+          <div class="feat-card">
+            <div class="fi">💼</div>
+            <h4>Trust Accounting</h4>
+            <p>Compliant, integrated accounting purpose-built for law firms.</p>
+          </div>
+          <div class="feat-card">
+            <div class="fi">📊</div>
+            <h4>Business Reporting</h4>
+            <p>Real visibility into firm health, utilization, and profitability.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-hdr">
+        <h2>Problems We Solve</h2>
+        <p>We built Actionstep around the real, recurring frustrations of law firm management. Click each to see how we solve it.</p>
+      </div>
+      <div class="card-body">
+        <div class="problems-accordion" id="probs">
+          <div class="prob-item open" id="prob0">
+            <div class="prob-hdr" onclick="toggleProb(0)">
+              <span class="ph-icon">🕳️</span>
+              <span class="ph-title">Data silos — things fall through the cracks</span>
+              <span class="ph-arr">▼</span>
+            </div>
+            <div class="prob-body">
+              <h5>Actionstep's solution</h5>
+              <p>One connected platform centralizes all data, processes, and tasks. Enter data once — it flows correctly through documents, matters, and communications everywhere. No more switching between separate systems.</p>
+            </div>
+          </div>
+          <div class="prob-item" id="prob1">
+            <div class="prob-hdr" onclick="toggleProb(1)">
+              <span class="ph-icon">⏳</span>
+              <span class="ph-title">Hours lost to repetitive admin work</span>
+              <span class="ph-arr">▼</span>
+            </div>
+            <div class="prob-body">
+              <h5>Actionstep's solution</h5>
+              <p>Actionstep automates repetitive tasks through powerful workflow tools — email updates, document creation, task routing — that run without manual intervention. Your team focuses on billable, meaningful work.</p>
+            </div>
+          </div>
+          <div class="prob-item" id="prob2">
+            <div class="prob-hdr" onclick="toggleProb(2)">
+              <span class="ph-icon">📉</span>
+              <span class="ph-title">No visibility into how time and profit are flowing</span>
+              <span class="ph-arr">▼</span>
+            </div>
+            <div class="prob-body">
+              <h5>Actionstep's solution</h5>
+              <p>Advanced reporting and data views give firms real insight into team utilization, billing efficiency, and practice area profitability. Run any report in seconds — no manual data exports needed.</p>
+            </div>
+          </div>
+          <div class="prob-item" id="prob3">
+            <div class="prob-hdr" onclick="toggleProb(3)">
+              <span class="ph-icon">📏</span>
+              <span class="ph-title">Inconsistent client experience across the team</span>
+              <span class="ph-arr">▼</span>
+            </div>
+            <div class="prob-body">
+              <h5>Actionstep's solution</h5>
+              <p>Structured, automated workflows ensure everyone follows the same process every time. Clients get consistent, high-quality experiences regardless of which team member is working their matter.</p>
+            </div>
+          </div>
+          <div class="prob-item" id="prob4">
+            <div class="prob-hdr" onclick="toggleProb(4)">
+              <span class="ph-icon">🔒</span>
+              <span class="ph-title">Technology that limits — not enables — growth</span>
+              <span class="ph-arr">▼</span>
+            </div>
+            <div class="prob-body">
+              <h5>Actionstep's solution</h5>
+              <p>Cloud-based, subscription model, and open integrations mean firms never outgrow Actionstep. Scaling is as simple as adding a license — no servers, no infrastructure, no multi-year lock-in.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goTo(1)">← Mission</button>
+      <button class="btn-fwd" onclick="goTo(3)">What Makes Us Different →</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 3: DIFFERENTIATION ===== -->
+  <div class="screen" id="s3">
+    <div class="sec-label">Chapter 3 of 4 · What Makes Us Different</div>
+
+    <div class="tagline-explorer reveal">
+      <div style="text-align:center;margin-bottom:10px;">
+        <div class="sec-label" style="display:inline-block;">Our Primary Tagline</div>
+      </div>
+      <div class="tag-main">"Build Your Firm Advantage"</div>
+      <div class="tag-meaning">
+        <div class="tm-item active" onclick="showTagDef(0,this)">
+          <div class="tmi-word">Build</div>
+          <div class="tmi-def">A platform you grow upon</div>
+        </div>
+        <div class="tm-item" onclick="showTagDef(1,this)">
+          <div class="tmi-word">Your</div>
+          <div class="tmi-def">Adapts to each firm</div>
+        </div>
+        <div class="tm-item" onclick="showTagDef(2,this)">
+          <div class="tmi-word">Firm</div>
+          <div class="tmi-def">Steady, confident, unwavering</div>
+        </div>
+        <div class="tm-item" onclick="showTagDef(3,this)">
+          <div class="tmi-word">Advantage</div>
+          <div class="tmi-def">A sustained outcome</div>
+        </div>
+      </div>
+      <div class="tm-explain" id="tm-ex" style="display:block;">
+        <p id="tm-text">A platform is something you build upon — Actionstep allows firms to build and grow without switching software. It's the foundation for their future.</p>
+      </div>
+    </div>
+
+    <div class="diff-grid reveal">
+      <div class="diff-card as">
+        <div class="dc-label">✦ Actionstep</div>
+        <div class="dc-title">The Creator</div>
+        <ul>
+          <li>Empathy-first — we speak to their reality, ambition, and pain</li>
+          <li>Adaptable to each firm's unique processes</li>
+          <li>Innovative — we don't copy competitors, we develop what's right for our community</li>
+          <li>Friendly Expert voice — professional, simple, upbeat</li>
+          <li>No long-term lock-in — we want you to stay because you love it</li>
+        </ul>
+      </div>
+      <div class="diff-card comp">
+        <div class="dc-label">The competition</div>
+        <div class="dc-title">One-Size-Fits-All</div>
+        <ul>
+          <li>Feature-first messaging with little context for the buyer</li>
+          <li>Rigid workflows that force firms to adapt to the software</li>
+          <li>Multi-year lock-in contracts</li>
+          <li>Limited configurability and integration options</li>
+          <li>Treats all law firms the same — misses the midsize opportunity</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-hdr">
+        <h2>Our Values</h2>
+        <p>Through our values, we make our customers feel special, supported, understood, energized, confident, and empowered.</p>
+      </div>
+      <div class="card-body">
+        <div class="values-grid">
+          <div class="val-card">
+            <div class="vi">👟</div>
+            <div class="vt">Walk in Our Customers' Shoes</div>
+            <div class="vs">Their business is our business.</div>
+          </div>
+          <div class="val-card">
+            <div class="vi">🤝</div>
+            <div class="vt">One Team, Our Community</div>
+            <div class="vs">Gamechangers in the legal tech world.</div>
+          </div>
+          <div class="val-card">
+            <div class="vi">🙋</div>
+            <div class="vt">Step Up and Take It On</div>
+            <div class="vs">We confirm, lead, and collaborate.</div>
+          </div>
+          <div class="val-card">
+            <div class="vi">✅</div>
+            <div class="vt">Do It Right</div>
+            <div class="vs">No corners cut. Be proud of what you do.</div>
+          </div>
+          <div class="val-card">
+            <div class="vi">💡</div>
+            <div class="vt">Dare to Be Different</div>
+            <div class="vs">Find new, creative ways to make an impact.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-hdr">
+        <h2>Our Ideal Customer</h2>
+        <p>Not every law firm is right for Actionstep. Here's exactly who we're built for.</p>
+      </div>
+      <div class="card-body">
+        <div class="persona-strip">
+          <div class="persona-card">
+            <h4>✅ Our People</h4>
+            <p>Midsize law firms. Business-minded, ambitious. Want to modernize and systemize how they practice law. Have a clear vision for where they want to take their firm and want technology that grows with them.</p>
+          </div>
+          <div class="persona-card">
+            <h4>⛔ Not Our People</h4>
+            <p>Large enterprise firms with custom in-house systems. Solo practitioners who don't need a platform. Firms that aren't open to changing how they've always done things — not yet, at least.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goTo(2)">← What We Build</button>
+      <button class="btn-fwd" onclick="goTo(4)">Take the Quick Quiz →</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 4: QUIZ ===== -->
+  <div class="screen" id="s4">
+    <div class="sec-label">Chapter 4 of 4 · Knowledge Check</div>
+
+    <div id="quiz-mount"></div>
+    <div id="quiz-results" style="display:none;"></div>
+  </div>
+
+</div><!-- /shell -->
+
+<script>
+// ===== NAVIGATION =====
+let curScreen = 0;
+const SCREENS = 5;
+
+function goTo(n) {
+  if (n < 0 || n >= SCREENS) return;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
+  // update dots
+  for (let i = 0; i < SCREENS; i++) {
+    const dot = document.getElementById('dot-'+i);
+    if (!dot) continue;
+    dot.classList.remove('active','done');
+    if (i < n) dot.classList.add('done');
+    else if (i === n) dot.classList.add('active');
+  }
+  for (let i = 0; i < SCREENS-1; i++) {
+    const line = document.getElementById('line-'+i);
+    if (!line) continue;
+    line.classList.toggle('done', i < n);
+  }
+  curScreen = n;
+  window.scrollTo({top:0,behavior:'smooth'});
+  // trigger reveal animations
+  setTimeout(()=>{
+    document.querySelectorAll('#s'+n+' .reveal').forEach((el,i)=>{
+      setTimeout(()=>el.classList.add('visible'), i*120);
+    });
+  }, 80);
+}
+
+// ===== ACCORDION =====
+function toggleProb(i) {
+  const el = document.getElementById('prob'+i);
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.prob-item').forEach(p=>p.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+// ===== TAGLINE =====
+const tagDefs = [
+  "A platform is something you build upon — Actionstep allows firms to build and grow without switching software. It's the foundation for their future.",
+  "Our software adapts to YOUR firm's preferences and ideal processes — not the other way around. You don't have to make it work; Actionstep works for you.",
+  '"Firm" alludes to law firm — but also to steady, confident, and unwavering. We help law firms strengthen their stake in the legal marketplace.',
+  '"A firm advantage" suggests a sustained outcome and benefit — Actionstep makes it possible for law firms to achieve continued, confident growth.'
+];
+function showTagDef(i, el) {
+  document.querySelectorAll('.tm-item').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const expl = document.getElementById('tm-ex');
+  expl.style.display = 'block';
+  document.getElementById('tm-text').textContent = tagDefs[i];
+}
+
+// ===== QUIZ =====
+const QS = [
+  {cat:"Who We Are",q:"What is Actionstep's primary tagline?",opts:["Law Firm Software Simplified","Build Your Firm Advantage","The All-in-One Legal Platform","Connect, Automate, Grow"],ans:1,exp:"'Build Your Firm Advantage' — each word is intentional. Build (platform to grow on), Your (it adapts to you), Firm (law firm + steady confidence), Advantage (the sustained outcome)."},
+  {cat:"Mission",q:"Which type of law firm is Actionstep's ideal customer?",opts:["Solo practitioners and small boutique firms","Large enterprise firms with 500+ staff","Midsize law firms who want to modernize and systemize","Government and public defender offices"],ans:2,exp:"Midsize law firms who are business-minded, ambitious, and want technology that grows with them. They have a clear vision for their firm and are open to change."},
+  {cat:"What We Do",q:"Which of the following is NOT listed as a core Actionstep platform feature?",opts:["Trust Accounting","Client Intake","AI-Powered Litigation Support","Time & Billing"],ans:2,exp:"AI-Powered Litigation Support is not an Actionstep feature. The platform covers client intake, matter management, document management, time & billing, trust accounting, and business reporting."},
+  {cat:"Problems We Solve",q:"A law firm says: 'Our team does things completely differently from each other — there's no consistent process.' Which Actionstep benefit directly addresses this?",opts:["Cloud-based remote access","Structured workflow automation ensuring consistent processes","Open API integrations","Subscription-based pricing"],ans:1,exp:"Actionstep's workflow automation and one-set-of-tools approach ensures every team member follows the same process — delivering consistent client experiences every time."},
+  {cat:"Brand & Values",q:"What brand archetype does Actionstep identify with most closely?",opts:["The Hero — wins against the odds","The Sage — the wise advisor","The Creator — visionary, non-conformist, authentic","The Ruler — commands authority"],ans:2,exp:"Actionstep is The Creator — a visionary, non-conformist, authentic brand that wants to make something different and make a difference to the people they care about."},
+  {cat:"Our Voice",q:"How does Actionstep describe its brand voice?",opts:["Corporate and authoritative","The Friendly Expert — simple, professional, and upbeat","Disruptive and edgy","Clinical and data-driven"],ans:1,exp:"The Friendly Expert. Actionstep's language is simple, professional, and upbeat — speaking to customers in ways that reflect understanding of their business reality."},
+  {cat:"What We Do",q:"What does Actionstep mean when it says customers will 'never outgrow' the platform?",opts:["Actionstep offers unlimited data storage at no extra cost","The platform is cloud-based, subscription-based, and integrates with other tools — scaling as the firm scales","Actionstep will always be cheaper than competitors","The platform is available on all devices"],ans:1,exp:"Cloud-based architecture + subscription model + open integrations = unlimited scalability. Adding staff is as easy as adding a license. No servers, no infrastructure, no lock-in."},
+  {cat:"Values",q:"Which Actionstep value best describes the attitude: 'I don't assume someone else has this covered — I step in, lead, and drive it to a great outcome'?",opts:["Walk in Our Customers' Shoes","Do It Right","Step Up and Take It On","Dare to Be Different"],ans:2,exp:"'Step Up and Take It On' — we don't assume someone else has it. We confirm, lead, and collaborate to a great outcome. This is the ownership mindset that defines the team."},
+];
+
+let cq = 0, answers = [], qAnswered = false;
+
+function buildQ() {
+  if (cq >= QS.length) { showRes(); return; }
+  qAnswered = false;
+  const q = QS[cq];
+  const pct = Math.round((cq / QS.length) * 100);
+  const score = answers.filter(a=>a.c).length;
+  const L = ['A','B','C','D'];
+  const opts = q.opts.map((o,i)=>`
+    <button class="qopt" onclick="pickAns(${i})" id="qo${i}">
+      <span class="ql2">${L[i]}</span>${o}
+    </button>`).join('');
+  document.getElementById('quiz-mount').innerHTML = `
+    <div class="quiz-hdr">
+      <span class="ql">Question ${cq+1} of ${QS.length}</span>
+      <div class="qpw"><div class="qpf" style="width:${pct}%"></div></div>
+      <span class="qr">Score: ${score}/${cq}</span>
+    </div>
+    <div class="qcard">
+      <div class="qh">
+        <div class="qnum">${cq+1}</div>
+        <div>
+          <div class="qcat">${q.cat}</div>
+          <div class="qtxt">${q.q}</div>
+        </div>
+      </div>
+      <div class="qopts">${opts}</div>
+      <div class="qfb" id="qfb"><span class="fi" id="fi"></span><div><div class="ftit" id="ftit"></div><div id="fbd">${q.exp}</div></div></div>
+      <div class="qfoot">
+        <button class="btn-next" id="bnext" onclick="nextQ()">${cq < QS.length-1 ? 'Next Question →' : 'See My Results'}</button>
+      </div>
+    </div>`;
+}
+
+function pickAns(i) {
+  if (qAnswered) return;
+  qAnswered = true;
+  const q = QS[cq];
+  const ok = i === q.ans;
+  answers.push({q: cq, ch: i, c: ok});
+  document.querySelectorAll('.qopt').forEach((b,j) => {
+    b.disabled = true;
+    if (j === q.ans && ok) b.classList.add('ca');
+    else if (j === q.ans && !ok) b.classList.add('rr');
+    else if (j === i && !ok) b.classList.add('wa');
+  });
+  const fb = document.getElementById('qfb');
+  fb.className = 'qfb show ' + (ok ? 'ok' : 'ng');
+  document.getElementById('fi').textContent = ok ? '✓' : '✗';
+  document.getElementById('ftit').textContent = ok ? 'Correct!' : 'Not quite — here\'s why:';
+  document.getElementById('bnext').style.display = 'block';
+}
+
+function nextQ() { cq++; buildQ(); }
+
+function showRes() {
+  document.getElementById('quiz-mount').style.display = 'none';
+  const rs = document.getElementById('quiz-results');
+  rs.style.display = 'block';
+  const score = answers.filter(a=>a.c).length;
+  const pct = Math.round((score/QS.length)*100);
+  const pass = pct >= 80;
+  const rc = pass ? '#024638' : '#B03020';
+  const rb = pass ? '#EBF5E3' : '#FFF0E6';
+  const rev = answers.map(a => {
+    const q = QS[a.q];
+    return `<div class="ri2 ${a.c ? 'ci' : 'wi'}">
+      <span class="ric">${a.c ? '✓' : '✗'}</span>
+      <div>
+        <div class="rq">${q.q}</div>
+        <div class="ra">${a.c ? `<strong>Correct:</strong> ${q.opts[q.ans]}` : `<strong>You chose:</strong> ${q.opts[a.ch]} &nbsp;·&nbsp; <strong>Correct:</strong> ${q.opts[q.ans]}`}</div>
+      </div>
+    </div>`;
+  }).join('');
+  rs.innerHTML = `
+    <div class="res-card">
+      <div class="res-hero">
+        <div class="score-ring" style="background:${rb};border:5px solid ${rc}">
+          <span class="sp" style="color:${rc}">${pct}%</span>
+          <span class="sl2" style="color:${rc}">${score}/${QS.length}</span>
+        </div>
+        <div class="badge" style="background:${rb};color:${rc}">${pass ? '✓ Orientation Complete!' : '✗ Review & Retry'}</div>
+        <p>${pass
+          ? "Great work! You've got a solid foundation on who Actionstep is, what we build, and why we do it. Welcome to the team."
+          : "You need 80% to pass. Review the chapters and try again — the material is all there waiting for you."
+        }</p>
+      </div>
+      <div class="res-review"><h3>Your Answers</h3>${rev}</div>
+      <div class="res-cta">
+        <button class="btn-retry" onclick="retryQuiz()">Retake Quiz</button>
+        ${pass ? '<button class="btn-finish" onclick="goTo(0)">Back to Start ✓</button>' : ''}
+      </div>
+    </div>`;
+}
+
+function retryQuiz() {
+  cq = 0; answers = []; qAnswered = false;
+  document.getElementById('quiz-mount').style.display = 'block';
+  document.getElementById('quiz-mount').innerHTML = '';
+  document.getElementById('quiz-results').style.display = 'none';
+  buildQ();
+}
+
+// ===== INIT =====
+buildQ();
+
+// Init first screen reveals
+setTimeout(()=>{
+  document.querySelectorAll('#s0 .reveal').forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('visible'), i*100);
+  });
+}, 200);
+</script>
+</body>
+</html>
