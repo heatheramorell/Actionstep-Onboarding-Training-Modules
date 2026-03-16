@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6 Assessment — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638;--navy:#171C29;--teal:#255C4E;--leaf:#74AA50;
+    --yellow:#FED141;--orange:#FF6900;--steel:#285780;
+    --ltgreen:#E3F7E4;--gray:#F5F7F5;--border:#C8E0C8;
+    --text:#171C29;--mid:#4A5568;--white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);min-height:100vh;color:var(--text);}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .lm{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .lt{font-size:17px;font-weight:700;color:white;}
+  .lt span{color:var(--leaf);}
+  .mt{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .shell{max-width:820px;margin:0 auto;padding:40px 20px 80px;}
+
+  /* START SCREEN */
+  .start{background:white;border-radius:18px;overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,0.4);}
+  .sh2{background:var(--green);padding:48px 48px 36px;position:relative;overflow:hidden;}
+  .sh2::after{content:'';position:absolute;bottom:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,0.04);border-radius:50%;}
+  .sh2 .ey{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--leaf);font-weight:700;margin-bottom:14px;}
+  .sh2 h1{font-size:42px;font-weight:900;color:white;line-height:1.12;margin-bottom:16px;}
+  .sh2 p{color:#A8D5A8;font-size:15px;line-height:1.7;font-weight:400;max-width:480px;}
+  .sm{padding:34px 48px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px;border-bottom:1px solid var(--border);}
+  .mi{text-align:center;}
+  .mi .mv{font-size:36px;font-weight:900;color:var(--green);display:block;margin-bottom:4px;}
+  .mi .ml{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;}
+  .si{padding:26px 48px;border-bottom:1px solid var(--border);}
+  .si h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:12px;}
+  .si ul{list-style:none;}
+  .si li{padding:6px 0;font-size:14px;color:var(--mid);display:flex;align-items:center;gap:10px;}
+  .si li::before{content:'→';color:var(--leaf);font-weight:700;}
+  .sc2{padding:32px 48px;display:flex;justify-content:center;}
+  .btn-s{background:var(--green);color:white;border:none;padding:16px 48px;border-radius:10px;font-family:'Red Hat Display',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 24px rgba(2,70,56,0.4);}
+  .btn-s:hover{background:var(--teal);transform:translateY(-2px);}
+
+  /* QUIZ */
+  .qscreen{display:none;}
+  .qtop{background:var(--green);border-radius:12px;padding:16px 26px;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:20px;border-bottom:3px solid var(--leaf);}
+  .qpl{color:#A8D5A8;font-size:13px;font-weight:600;white-space:nowrap;}
+  .qpw{flex:1;height:6px;background:rgba(255,255,255,0.15);border-radius:3px;overflow:hidden;}
+  .qpf{height:100%;background:linear-gradient(90deg,var(--yellow),var(--leaf));border-radius:3px;transition:width 0.4s ease;}
+  .qpr{color:var(--yellow);font-size:13px;font-weight:700;white-space:nowrap;}
+
+  .qcard{background:white;border-radius:14px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,0.3);animation:up 0.32s ease;}
+  @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .qh{padding:26px 34px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:18px;}
+  .qn{background:var(--green);color:white;font-size:18px;font-weight:900;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .qm .qcat{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+  .qm .qtxt{font-size:17px;line-height:1.7;color:var(--text);}
+  .qopts{padding:22px 34px;display:flex;flex-direction:column;gap:9px;}
+  .opt2{padding:15px 18px;border-radius:9px;border:2px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:15px;color:var(--text);cursor:pointer;transition:all 0.18s;text-align:left;display:flex;align-items:center;gap:14px;line-height:1.5;}
+  .ol{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--mid);flex-shrink:0;transition:all 0.18s;}
+  .opt2:hover:not(:disabled){border-color:var(--green);background:var(--ltgreen);}
+  .opt2:hover:not(:disabled) .ol{border-color:var(--green);color:var(--green);}
+  .opt2:disabled{cursor:default;}
+  .opt2.ca{border-color:var(--leaf);background:#EBF5E3;}
+  .opt2.ca .ol{background:var(--leaf);border-color:var(--leaf);color:white;}
+  .opt2.ca .ot{color:#1A5C1A;font-weight:600;}
+  .opt2.wa{border-color:var(--orange);background:#FFF0E6;}
+  .opt2.wa .ol{background:var(--orange);border-color:var(--orange);color:white;}
+  .opt2.wa .ot{color:#883300;}
+  .opt2.rr{border-color:var(--leaf);background:#EBF5E3;opacity:0.6;}
+  .opt2.rr .ol{background:var(--leaf);border-color:var(--leaf);color:white;}
+
+  .qfb{margin:0 34px;padding:16px 20px;border-radius:10px;font-size:14px;line-height:1.7;display:none;gap:12px;margin-bottom:6px;}
+  .qfb.show{display:flex;animation:up 0.28s ease;}
+  .qfb.ok2{background:#EBF5E3;border:1.5px solid var(--leaf);color:#1A5C1A;}
+  .qfb.ng2{background:#FFF0E6;border:1.5px solid var(--orange);color:#883300;}
+  .qfb .fi{font-size:20px;flex-shrink:0;}
+
+  .qnav{padding:20px 34px;display:flex;justify-content:flex-end;border-top:1px solid var(--border);}
+  .btn-n{background:var(--green);color:white;border:none;padding:13px 32px;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;opacity:0.3;pointer-events:none;}
+  .btn-n.on{opacity:1;pointer-events:all;}
+  .btn-n.on:hover{background:var(--teal);}
+
+  /* RESULTS */
+  .rscreen{display:none;}
+  .rcard{background:white;border-radius:18px;overflow:hidden;box-shadow:0 28px 72px rgba(0,0,0,0.4);}
+  .rh{padding:48px 48px 36px;text-align:center;}
+  .rh.pass{background:var(--green);}
+  .rh.fail{background:#8B2500;}
+  .rbadge{font-size:72px;margin-bottom:16px;}
+  .rh h2{font-size:40px;font-weight:900;color:white;margin-bottom:8px;}
+  .rh p{color:#A8D5A8;font-size:16px;}
+  .rscore-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-bottom:1px solid var(--border);}
+  .rsc{padding:28px;text-align:center;border-right:1px solid var(--border);}
+  .rsc:last-child{border:none;}
+  .rsc .rv{font-size:40px;font-weight:900;color:var(--green);display:block;}
+  .rsc .rl{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--mid);font-weight:600;margin-top:4px;}
+  .rreview{padding:32px 40px;}
+  .rreview h3{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:20px;}
+  .ritem{border-radius:10px;overflow:hidden;margin-bottom:12px;border:1.5px solid var(--border);}
+  .ritem-h{padding:14px 18px;display:flex;align-items:flex-start;gap:14px;cursor:pointer;}
+  .ritem-h .ri{font-size:16px;flex-shrink:0;margin-top:2px;}
+  .ritem-h .rq{font-size:14px;color:var(--navy);flex:1;line-height:1.5;}
+  .ritem-h .rtag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+  .rtag.c{background:#EBF5E3;color:#1A5C1A;}
+  .rtag.w{background:#FFF0E6;color:#883300;}
+  .ritem-body{display:none;padding:14px 18px;border-top:1px solid var(--border);background:var(--gray);font-size:14px;line-height:1.6;color:var(--mid);}
+  .ritem-body.open{display:block;}
+  .ritem-body .your{margin-bottom:8px;color:var(--orange);font-weight:600;}
+  .ritem-body .correct{margin-bottom:8px;color:#1A5C1A;font-weight:600;}
+  .ritem-body .exp{color:var(--mid);}
+  .rbtn-row{padding:28px 40px;display:flex;gap:12px;justify-content:center;border-top:1px solid var(--border);}
+  .btn-retry{background:var(--green);color:white;border:none;padding:14px 36px;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="lm">A</div>
+    <div class="lt">Action<span>step</span></div>
+  </div>
+  <div class="mt">Module 6 Assessment</div>
+</header>
+
+<div class="shell">
+
+<!-- START SCREEN -->
+<div class="start" id="start-screen">
+  <div class="sh2">
+    <div class="ey">Module 6 · Phase 2 · Week 6</div>
+    <h1>Discovery &amp; Deal Structure</h1>
+    <p>Demonstrate mastery of the DISCOVER framework, question strategy, stakeholder mapping, and deal structure fundamentals.</p>
+  </div>
+  <div class="sm">
+    <div class="mi"><span class="mv">15</span><span class="ml">Questions</span></div>
+    <div class="mi"><span class="mv">80%</span><span class="ml">Pass Threshold</span></div>
+    <div class="mi"><span class="mv">~18 min</span><span class="ml">Estimated Time</span></div>
+  </div>
+  <div class="si">
+    <h3>This Assessment Covers</h3>
+    <ul>
+      <li>The DISCOVER framework — all 8 steps and their purpose</li>
+      <li>Discovery gate criteria for advancing to Confirming Value</li>
+      <li>Question strategy — surface, impact, and strategic pain</li>
+      <li>Stakeholder identification and champion validation</li>
+      <li>Deal structure components and Salesforce documentation</li>
+      <li>Common Discovery mistakes and how to avoid them</li>
+    </ul>
+  </div>
+  <div class="sc2"><button class="btn-s" onclick="startQuiz()">Begin Assessment</button></div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="qscreen" id="quiz-screen">
+  <div class="qtop">
+    <span class="qpl" id="q-label">Question 1 of 15</span>
+    <div class="qpw"><div class="qpf" id="q-prog" style="width:0%"></div></div>
+    <span class="qpr" id="q-score-live">Score: 0/0</span>
+  </div>
+  <div id="q-mount"></div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="rscreen" id="results-screen">
+  <div class="rcard">
+    <div class="rh" id="r-head">
+      <div class="rbadge" id="r-badge"></div>
+      <h2 id="r-title"></h2>
+      <p id="r-sub"></p>
+    </div>
+    <div class="rscore-row">
+      <div class="rsc"><span class="rv" id="r-pct"></span><span class="rl">Score</span></div>
+      <div class="rsc"><span class="rv" id="r-correct"></span><span class="rl">Correct</span></div>
+      <div class="rsc"><span class="rv" id="r-wrong"></span><span class="rl">Incorrect</span></div>
+    </div>
+    <div class="rreview">
+      <h3>Full Answer Review</h3>
+      <div id="r-items"></div>
+    </div>
+    <div class="rbtn-row">
+      <button class="btn-retry" onclick="retry()">Retake Assessment</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    cat:'DISCOVER Framework',
+    q:'What does the "S" in the DISCOVER framework stand for — and what is its primary goal?',
+    opts:['Scope the solution — understand what product features are most relevant','Summarize findings — recap what you have heard so far before advancing','Surface the impact — quantify the business cost of the pain the prospect just described','Schedule next steps — get a follow-up meeting on the calendar'],
+    ans:2,
+    fb:'S stands for Surface the Impact. The goal is to move from surface pain ("we have billing problems") to quantified impact ("we lose $50K/year in uncaptured billable time"). Impact is what builds the business case.'
+  },
+  {
+    cat:'Discovery Gate Criteria',
+    q:'Which of the following is NOT one of the five required gate criteria for advancing from Discovery to Confirming Value?',
+    opts:['ICP qualification confirmed','A product demo has been delivered to the prospect','Pain clearly identified and documented in the prospect\'s own words','Next step mutually agreed upon with a specific date'],
+    ans:1,
+    fb:'A product demo is NOT a Discovery gate criterion. In fact, running a demo before completing Discovery is one of the most common mistakes reps make. All five actual gate criteria (pain, ICP, stakeholders, integrations, next step) must be met first.'
+  },
+  {
+    cat:'Question Strategy',
+    q:'A prospect says: "We have some billing challenges." What is the BEST follow-up question to deepen your Discovery?',
+    opts:['How does Actionstep\'s billing automation compare to your current system?','Let me show you how our billing module would solve that for you.','How much time does your team spend on billing each month — and what do you estimate is going uncaptured?','Is billing the biggest pain point, or are there other areas we should focus on?'],
+    ans:2,
+    fb:'The goal is to quantify the impact. "Billing challenges" is surface pain. Asking about time spent and revenue uncaptured converts surface pain into impact pain — the financial basis for a business case.'
+  },
+  {
+    cat:'DISCOVER Framework',
+    q:'What does the "R" step in DISCOVER require you to do — and within what timeframe?',
+    opts:['Request a referral from the prospect after a successful Discovery call','Run a reverse demo to show product fit before the call ends','Send a written recap email to your champion and fully document Discovery notes in Salesforce — within 24 hours','Review your notes with your manager before the next call'],
+    ans:2,
+    fb:'R = Recap and Document. The recap email gives your champion the language to sell internally when you\'re not in the room. Full Salesforce documentation protects your pipeline accuracy. Both must happen within 24 hours.'
+  },
+  {
+    cat:'Stakeholder Mapping',
+    q:'You are selling to a 14-attorney firm. Your contact is the Office Manager, who is enthusiastic and engaged. She cannot, however, get you introduced to the Managing Partner and has never proactively pushed the project forward on your behalf. What is the most accurate assessment?',
+    opts:['She is your champion — enthusiasm and engagement are the key signals','She is a potential blocker who is pretending to be supportive','She is a friendly contact, not a true champion — a real champion must have power, advocacy, and vested interest in your success','She is the economic buyer because she controls day-to-day operations'],
+    ans:2,
+    fb:'A true champion requires three things: power/influence, willingness to sell on your behalf, and a vested interest in your success. This contact has neither the power to get you to the economic buyer nor a track record of advocacy. She is a friendly contact — keep looking for your real champion.'
+  },
+  {
+    cat:'Pain Identification',
+    q:'Which of the following represents "Impact Pain" (as opposed to Surface or Strategic Pain)?',
+    opts:['The managing partner says the firm is planning to double headcount in two years','The office manager says she finds the current billing software frustrating','A paralegal estimates the team loses 8–10 hours per week chasing time entries, costing approximately $60K/year in uncaptured revenue','The IT lead says they want better integrations with their document management system'],
+    ans:2,
+    fb:'Impact Pain is quantified pain — time, money, risk, or client satisfaction with a number attached. The $60K/year figure is the financial anchor that justifies budget allocation and makes the business case real for the economic buyer.'
+  },
+  {
+    cat:'DISCOVER Framework',
+    q:'A prospect says: "We haven\'t really thought about what success would look like — we just know we need something better." Which DISCOVER step is most designed to address this?',
+    opts:['D — Diagnose the Business','I — Identify Current State Pain','O — Open Up the Future State','V — Validate Fit'],
+    ans:2,
+    fb:'O = Open Up the Future State. When prospects can\'t articulate success, you help them visualize it. "If you could wave a magic wand, what would your firm look like 12 months from now?" Their answer becomes the anchor for your value proposition.'
+  },
+  {
+    cat:'Discovery Gate Criteria',
+    q:'You have identified pain, confirmed ICP fit, and know who the key stakeholders are. Integration requirements are scoped. The prospect says "let\'s talk next week." Are you ready to advance to Confirming Value?',
+    opts:['Yes — four of the five gate criteria are met, which is sufficient','No — "let\'s talk next week" is not a committed next step with a specific date and agreed action','Yes — the key gate criteria are the first four; next steps are administrative','No — you also need to have delivered at least one product demo first'],
+    ans:1,
+    fb:'"Let\'s talk next week" is a vague non-commitment, not a mutually agreed next step. Gate criterion 5 requires a specific date and specific action agreed by both sides. Without it, momentum dies and your pipeline entry is inaccurate.'
+  },
+  {
+    cat:'Question Strategy',
+    q:'Which question is MOST effective for surfacing potential blockers before they derail a late-stage deal?',
+    opts:['Who is the final decision-maker here?','What would cause you to press pause on this project?','Is everyone in the firm excited about making a change?','Have you gotten budget approved yet?'],
+    ans:1,
+    fb:'"What would cause you to press pause?" is a proactive blocker-surfacing question. It gives the prospect permission to share risks and objections before they escalate into late-stage deal-killers — and gives you time to address them.'
+  },
+  {
+    cat:'Stakeholder Mapping',
+    q:'In an Actionstep deal at a law firm, which stakeholder is MOST likely to be the economic buyer?',
+    opts:['The IT Manager, because they evaluate all technology purchases','The Billing Administrator, because they use the system the most','The Managing Partner or COO, because they control budget and firm strategy','The Paralegal Lead, because they are the primary daily users'],
+    ans:2,
+    fb:'At law firms, the Managing Partner or COO typically controls budget and has final authority over strategic technology investments. The IT Manager and billing staff may influence or block, but the economic buyer — the one who writes the check — is almost always a senior partner or firm leadership.'
+  },
+  {
+    cat:'Deal Structure',
+    q:'What is the primary purpose of sending a written recap email to your champion after a Discovery call?',
+    opts:['To demonstrate your professionalism and differentiate from competitors','To create a paper trail for your CRM records','To give your champion the language and business case to sell Actionstep internally when you are not in the room','To satisfy the Salesforce documentation requirement before advancing the stage'],
+    ans:2,
+    fb:'The recap email is a champion enablement tool. When your champion presents to the managing partner or economic buyer, they use your recap — your language, your numbers, your framing — to make the case. Without it, they improvise and often get it wrong.'
+  },
+  {
+    cat:'Common Mistakes',
+    q:'A rep runs a highly polished product demo for a law firm on their second call — before conducting a formal Discovery session. What is the MOST likely negative consequence?',
+    opts:['The demo will be too advanced for the prospect to appreciate at this stage','The demo cannot be tailored to real pain, making it a generic product tour that is hard to differentiate and easy to forget','The prospect will be overwhelmed by too many features and disengage','The rep will have to run another demo after Discovery, wasting the prospect\'s time'],
+    ans:1,
+    fb:'Without Discovery, you cannot tailor the demo to real pain. You are showing your product, not solving their problem. Generic demos are unmemorable and easy to dismiss. Competitors who do Discovery first and demo second will consistently win against demo-first reps.'
+  },
+  {
+    cat:'DISCOVER Framework',
+    q:'What does the "C" step in DISCOVER ask you to do?',
+    opts:['Close the call with a summary of what has been discussed','Confirm the prospect\'s current software contracts and renewal dates','Map the decision dynamics — who decides, who influences, who can block, and who owns the outcome','Connect discovery findings to Actionstep\'s key features'],
+    ans:2,
+    fb:'C = Confirm Decision Dynamics. This is your stakeholder and buying process mapping step. You need to understand who makes the final call, who influences it, who can block it, and who personally owns the outcome — before advancing to Confirming Value.'
+  },
+  {
+    cat:'Deal Structure',
+    q:'Which of the following is a required component of the Actionstep Deal Structure template?',
+    opts:['A competitor feature comparison matrix','The prospect\'s primary pain in their own words — direct quote if possible','A draft SOW outlining proposed implementation timeline','The list pricing for all Actionstep tiers under consideration'],
+    ans:1,
+    fb:'The deal structure template requires primary pain documented in the prospect\'s own words. This is your anchor for all future conversations — demos, proposals, and negotiations. The most powerful pain documentation is a direct quote, because it proves you listened.'
+  },
+  {
+    cat:'DISCOVER Framework',
+    q:'Which of the following statements about the DISCOVER framework is TRUE?',
+    opts:['DISCOVER is a rigid script that must be followed in exact sequence on every call','The "E" step (Earn the Next Step) is optional if the prospect seems engaged and ready to move forward','Every Discovery call must end with a specific, date-committed mutual next step logged in Salesforce before the call closes','The framework is designed for AEs only — SDRs should focus on qualification before using DISCOVER'],
+    ans:2,
+    fb:'Every Discovery call — no exceptions — must end with a specific, date-committed next step logged in Salesforce. "Let\'s talk soon" is not a next step. DISCOVER is a framework, not a rigid script, and applies to both SDRs and AEs at appropriate stages of their conversations.'
+  },
+];
+
+let current = 0, correct = 0, answered = [];
+const labels = 'ABCD';
+
+function startQuiz() {
+  current = 0; correct = 0; answered = [];
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  renderQ();
+}
+
+function renderQ() {
+  const q = QUESTIONS[current];
+  const pct = (current / QUESTIONS.length) * 100;
+  document.getElementById('q-label').textContent = 'Question ' + (current+1) + ' of ' + QUESTIONS.length;
+  document.getElementById('q-prog').style.width = pct + '%';
+  document.getElementById('q-score-live').textContent = 'Score: ' + correct + '/' + current;
+
+  document.getElementById('q-mount').innerHTML = `
+    <div class="qcard">
+      <div class="qh">
+        <div class="qn">${current+1}</div>
+        <div class="qm">
+          <div class="qcat">${q.cat}</div>
+          <div class="qtxt">${q.q}</div>
+        </div>
+      </div>
+      <div class="qopts">
+        ${q.opts.map((o,i) => `
+          <button class="opt2" id="opt-${i}" onclick="pick(${i})">
+            <span class="ol">${labels[i]}</span>
+            <span class="ot">${o}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div class="qfb" id="qfb"></div>
+      <div class="qnav"><button class="btn-n" id="btn-next" onclick="nextQ()">Next Question →</button></div>
+    </div>
+  `;
+}
+
+function pick(i) {
+  const q = QUESTIONS[current];
+  const isCorrect = i === q.ans;
+  if (isCorrect) correct++;
+  answered.push({ q: q.q, cat: q.cat, chosen: i, correct: q.ans, fb: q.fb, opts: q.opts });
+
+  q.opts.forEach((_,j) => {
+    const btn = document.getElementById('opt-'+j);
+    btn.disabled = true;
+    if (j === i) btn.classList.add(isCorrect ? 'ca' : 'wa');
+    else if (j === q.ans) btn.classList.add('rr');
+  });
+
+  const fb = document.getElementById('qfb');
+  fb.className = 'qfb show ' + (isCorrect ? 'ok2' : 'ng2');
+  fb.innerHTML = `<span class="fi">${isCorrect ? '✅' : '❌'}</span><span>${q.fb}</span>`;
+
+  const nb = document.getElementById('btn-next');
+  nb.classList.add('on');
+  nb.textContent = current < QUESTIONS.length - 1 ? 'Next Question →' : 'View Results';
+}
+
+function nextQ() {
+  current++;
+  if (current >= QUESTIONS.length) { showResults(); return; }
+  renderQ();
+}
+
+function showResults() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  const rs = document.getElementById('results-screen');
+  rs.style.display = 'block';
+  const total = QUESTIONS.length;
+  const pct = Math.round((correct / total) * 100);
+  const pass = pct >= 80;
+
+  document.getElementById('r-head').className = 'rh ' + (pass ? 'pass' : 'fail');
+  document.getElementById('r-badge').textContent = pass ? '🏆' : '📚';
+  document.getElementById('r-title').textContent = pass ? 'Assessment Passed' : 'Assessment Not Passed';
+  document.getElementById('r-sub').textContent = pass ? 'Excellent work — you\'ve demonstrated Discovery & Deal Structure mastery.' : 'Score of ' + pct + '% — 80% required. Review the material and retake when ready.';
+  document.getElementById('r-pct').textContent = pct + '%';
+  document.getElementById('r-correct').textContent = correct + '/' + total;
+  document.getElementById('r-wrong').textContent = (total - correct) + '/' + total;
+
+  const container = document.getElementById('r-items');
+  container.innerHTML = '';
+  answered.forEach((a, i) => {
+    const c = a.chosen === a.correct;
+    container.innerHTML += `
+      <div class="ritem">
+        <div class="ritem-h" onclick="toggleR(${i})">
+          <span class="ri">${c ? '✅' : '❌'}</span>
+          <span class="rq">${i+1}. ${a.q}</span>
+          <span class="rtag ${c?'c':'w'}">${c ? 'Correct' : 'Incorrect'}</span>
+        </div>
+        <div class="ritem-body" id="ri-${i}">
+          <div class="your">Your answer: ${labels[a.chosen]}. ${a.opts[a.chosen]}</div>
+          ${!c ? `<div class="correct">Correct answer: ${labels[a.correct]}. ${a.opts[a.correct]}</div>` : ''}
+          <div class="exp">${a.fb}</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function toggleR(i) {
+  document.getElementById('ri-'+i).classList.toggle('open');
+}
+
+function retry() {
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('start-screen').style.display = 'block';
+}
+</script>
+</body>
+</html>

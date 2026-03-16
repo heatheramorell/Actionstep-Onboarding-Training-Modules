@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6 — Discovery & Deal Structure | Actionstep Sales Academy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+:root{
+  --green:#024638;--navy:#171C29;--teal:#255C4E;--leaf:#74AA50;
+  --yellow:#FED141;--orange:#FF6900;--steel:#285780;--ltblue:#7BA7BC;
+  --ltgreen:#E3F7E4;--ltbluetint:#E3F5F7;--gray:#F5F7F5;--border:#C8D8C8;
+  --text:#171C29;--mid:#4A5568;--white:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Red Hat Display',sans-serif;background:var(--navy);min-height:100vh;color:var(--text);}
+
+header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+.logo{display:flex;align-items:center;gap:12px;}
+.lm{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+.lt{font-size:17px;font-weight:700;color:white;}
+.lt span{color:var(--leaf);}
+.mt{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+.hero{background:linear-gradient(135deg,var(--green) 0%,var(--teal) 100%);padding:40px;text-align:center;border-bottom:4px solid var(--leaf);}
+.hero-eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--leaf);font-weight:700;margin-bottom:10px;}
+.hero h1{font-size:36px;font-weight:900;color:white;margin-bottom:10px;}
+.hero p{color:#A8D5A8;font-size:15px;max-width:600px;margin:0 auto;}
+
+.tabs{display:flex;background:var(--navy);border-bottom:2px solid rgba(255,255,255,0.06);padding:0 32px;gap:4px;overflow-x:auto;}
+.tab{padding:14px 22px;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;color:#8899BB;background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.2s;white-space:nowrap;text-transform:uppercase;letter-spacing:1px;}
+.tab:hover{color:white;}
+.tab.active{color:var(--yellow);border-bottom-color:var(--yellow);}
+
+.panel{display:none;max-width:980px;margin:0 auto;padding:36px 24px 80px;}
+.panel.active{display:block;}
+
+/* Cards */
+.card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.25);margin-bottom:24px;}
+.card-head{background:var(--green);padding:20px 28px;display:flex;align-items:center;gap:14px;}
+.card-head .icon{font-size:22px;}
+.card-head h2{font-size:18px;font-weight:900;color:white;}
+.card-head p{font-size:13px;color:#A8D5A8;margin-top:3px;}
+.card-body{padding:24px 28px;}
+
+/* Framework pills */
+.fw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:8px;}
+.fw-item{border-radius:10px;overflow:hidden;border:1.5px solid var(--border);}
+.fw-item-head{padding:12px 16px;display:flex;align-items:center;gap:12px;}
+.fw-letter{width:40px;height:40px;border-radius:8px;background:var(--green);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;flex-shrink:0;}
+.fw-step{font-size:15px;font-weight:700;color:var(--navy);}
+.fw-item-body{padding:0 16px 14px;font-size:13px;color:var(--mid);line-height:1.6;}
+
+/* Pain levels */
+.pain-row{display:grid;grid-template-columns:160px 1fr auto;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);}
+.pain-row:last-child{border:none;}
+.pain-badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;text-align:center;}
+.pain-def{font-size:14px;color:var(--mid);line-height:1.5;}
+.pain-arrow{font-size:20px;color:var(--leaf);}
+
+/* Question bank */
+.qbank-cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.qcat-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:600;color:var(--mid);cursor:pointer;transition:all 0.18s;}
+.qcat-btn.active{background:var(--green);color:white;border-color:var(--green);}
+.qlist{display:none;}
+.qlist.active{display:block;}
+.q-item{padding:13px 18px;border-radius:9px;border:1.5px solid var(--border);margin-bottom:8px;font-size:14px;color:var(--text);line-height:1.6;display:flex;align-items:flex-start;gap:12px;cursor:pointer;transition:all 0.18s;}
+.q-item::before{content:'?';width:24px;height:24px;border-radius:50%;background:var(--ltgreen);color:var(--teal);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0;margin-top:1px;}
+.q-item:hover{border-color:var(--leaf);background:var(--ltgreen);}
+.q-item.starred::before{content:'★';background:var(--yellow);color:var(--navy);}
+.q-tip{display:none;background:var(--ltgreen);border-left:3px solid var(--leaf);padding:10px 14px;margin-top:8px;border-radius:0 6px 6px 0;font-size:13px;color:var(--teal);line-height:1.6;}
+.q-item.open + .q-tip{display:block;}
+
+/* Stakeholder map */
+.sm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;}
+.sm-card{border-radius:10px;overflow:hidden;border:1.5px solid var(--border);}
+.sm-card-top{padding:14px 16px;}
+.sm-role{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:4px;}
+.sm-title{font-size:13px;color:var(--mid);}
+.sm-card-body{background:var(--gray);padding:12px 16px;font-size:12px;color:var(--mid);line-height:1.5;}
+
+/* Scenario */
+.scenario-card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.25);}
+.sc-head{background:var(--navy);padding:24px 28px;}
+.sc-head .label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+.sc-head h2{font-size:20px;font-weight:900;color:white;}
+.sc-head p{font-size:14px;color:#8899BB;margin-top:6px;line-height:1.5;}
+
+.sc-prospect{background:var(--ltbluetint);border-radius:10px;padding:16px 20px;margin:20px 28px 0;border-left:4px solid var(--steel);}
+.sc-prospect h3{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--steel);font-weight:700;margin-bottom:8px;}
+.sc-fact{font-size:13px;color:var(--navy);margin-bottom:4px;display:flex;gap:8px;}
+.sc-fact::before{content:'›';color:var(--steel);font-weight:700;}
+
+.scenario-steps{padding:20px 28px;}
+.sc-step{margin-bottom:24px;}
+.sc-step .step-num{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--leaf);font-weight:700;margin-bottom:8px;}
+.sc-step .step-q{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:14px;line-height:1.5;}
+.sc-choices{display:flex;flex-direction:column;gap:8px;}
+.sc-choice{padding:14px 18px;border-radius:9px;border:1.5px solid var(--border);background:white;font-family:'Red Hat Display',sans-serif;font-size:14px;color:var(--text);cursor:pointer;transition:all 0.18s;text-align:left;display:flex;align-items:flex-start;gap:12px;line-height:1.5;}
+.sc-choice:hover:not(:disabled){border-color:var(--green);background:var(--ltgreen);}
+.sc-choice:disabled{cursor:default;}
+.sc-choice.correct{border-color:var(--leaf);background:#EBF5E3;color:#1A5C1A;}
+.sc-choice.wrong{border-color:var(--orange);background:#FFF0E6;color:#883300;}
+.sc-choice.reveal{border-color:var(--leaf);background:#EBF5E3;opacity:0.5;}
+.sc-fb{padding:14px 18px;border-radius:9px;font-size:14px;line-height:1.6;margin-top:4px;display:none;}
+.sc-fb.show{display:block;}
+.sc-fb.ok{background:#EBF5E3;border:1.5px solid var(--leaf);color:#1A5C1A;}
+.sc-fb.ng{background:#FFF0E6;border:1.5px solid var(--orange);color:#883300;}
+.sc-next{display:none;margin-top:16px;background:var(--green);color:white;border:none;padding:13px 32px;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.sc-next:hover{background:var(--teal);}
+.sc-next.show{display:inline-block;}
+
+.sc-score{background:var(--green);color:white;border-radius:12px;padding:24px 28px;text-align:center;margin-top:16px;display:none;}
+.sc-score h3{font-size:28px;font-weight:900;margin-bottom:6px;}
+.sc-score p{color:#A8D5A8;font-size:15px;}
+.sc-restart{margin-top:16px;background:var(--yellow);color:var(--navy);border:none;padding:12px 28px;border-radius:9px;font-family:'Red Hat Display',sans-serif;font-size:15px;font-weight:700;cursor:pointer;}
+
+/* Checklist */
+.checklist{display:flex;flex-direction:column;gap:8px;}
+.cl-item{display:flex;align-items:flex-start;gap:14px;padding:13px 18px;border-radius:9px;border:1.5px solid var(--border);background:white;cursor:pointer;transition:all 0.18s;}
+.cl-item:hover{border-color:var(--leaf);}
+.cl-item.checked{border-color:var(--leaf);background:var(--ltgreen);}
+.cl-cb{width:22px;height:22px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.18s;}
+.cl-item.checked .cl-cb{background:var(--leaf);border-color:var(--leaf);color:white;}
+.cl-text{font-size:14px;color:var(--text);line-height:1.5;}
+.cl-progress{background:rgba(255,255,255,0.1);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:16px;}
+.cl-bar-wrap{flex:1;height:8px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;}
+.cl-bar{height:100%;background:linear-gradient(90deg,var(--leaf),var(--yellow));border-radius:4px;transition:width 0.4s ease;width:0%;}
+.cl-pct{color:var(--yellow);font-weight:700;font-size:15px;white-space:nowrap;}
+.cl-complete{background:var(--leaf);color:var(--navy);border-radius:9px;padding:14px 20px;font-weight:700;text-align:center;display:none;margin-top:12px;font-size:15px;}
+.cl-complete.show{display:block;}
+
+/* Callout */
+.callout{border-radius:10px;padding:16px 20px;margin-bottom:16px;border-left:4px solid;}
+.callout.warn{background:#FFF0E6;border-color:var(--orange);color:#883300;}
+.callout.info{background:var(--ltgreen);border-color:var(--leaf);color:#1A5C1A;}
+.callout.blue{background:var(--ltbluetint);border-color:var(--steel);color:#1A3A5C;}
+.callout strong{display:block;margin-bottom:4px;font-size:12px;text-transform:uppercase;letter-spacing:1px;}
+
+/* Table */
+.t{width:100%;border-collapse:collapse;margin-bottom:16px;font-size:14px;}
+.t th{background:var(--green);color:white;padding:10px 14px;text-align:left;font-size:13px;}
+.t td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;}
+.t tr:nth-child(even) td{background:var(--ltgreen);}
+
+section-label{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--leaf);font-weight:700;display:block;margin-bottom:10px;}
+.section-label{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--leaf);font-weight:700;display:block;margin-bottom:10px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="lm">A</div>
+    <div class="lt">Action<span>step</span></div>
+  </div>
+  <div class="mt">Module 6 — Discovery & Deal Structure</div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Phase 2 · Controlled Execution · Week 6</div>
+  <h1>Discovery & Deal Structure</h1>
+  <p>Master the questions that reveal real pain — then structure every deal to close.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('framework')">DISCOVER Framework</button>
+  <button class="tab" onclick="switchTab('questions')">Question Bank</button>
+  <button class="tab" onclick="switchTab('stakeholders')">Stakeholder Mapping</button>
+  <button class="tab" onclick="switchTab('scenario')">Scenario Practice</button>
+  <button class="tab" onclick="switchTab('checklist')">Deal Checklist</button>
+</div>
+
+<!-- TAB 1: FRAMEWORK -->
+<div id="tab-framework" class="panel active">
+
+  <div class="callout warn">
+    <strong>⚠ Critical Rule</strong>
+    The #1 mistake new reps make is skipping Discovery and going straight to a demo. A demo without Discovery is a product tour, not a sale. Discovery is mandatory — no exceptions.
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">🔍</div>
+      <div>
+        <h2>The DISCOVER Framework</h2>
+        <p>Eight steps — from first context to committed next action</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="fw-grid">
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">D</div><div class="fw-step">Diagnose the Business</div></div>
+          <div class="fw-item-body">Understand the firm's size, practice areas, current software, and recent history. Set context before diving into pain.</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">I</div><div class="fw-step">Identify Current State Pain</div></div>
+          <div class="fw-item-body">Ask open-ended questions about what is broken, slow, or frustrating today. Let them tell you — never feed them answers.</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">S</div><div class="fw-step">Surface the Impact</div></div>
+          <div class="fw-item-body">Quantify the pain. Time lost, revenue at risk, compliance exposure. Numbers make pain real and buildable into a business case.</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">C</div><div class="fw-step">Confirm Decision Dynamics</div></div>
+          <div class="fw-item-body">Map the buying group. Who is the economic buyer? Who influences? Who can block? Who owns the outcome and their career is tied to it?</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">O</div><div class="fw-step">Open Up the Future State</div></div>
+          <div class="fw-item-body">Ask about their vision. What does success look like? What changes for the firm if this problem gets solved in the next 12 months?</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">V</div><div class="fw-step">Validate Fit</div></div>
+          <div class="fw-item-body">Confirm ICP alignment, integration requirements, and timeline reality. This is where you qualify out if needed — better now than at Deal Review.</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">E</div><div class="fw-step">Earn the Next Step</div></div>
+          <div class="fw-item-body">Never end without a specific, committed next step. A date. An action. Both sides agree. Log it in Salesforce before you close the meeting.</div>
+        </div>
+        <div class="fw-item">
+          <div class="fw-item-head"><div class="fw-letter">R</div><div class="fw-step">Recap and Document</div></div>
+          <div class="fw-item-body">Send a written recap within 24 hours. Log full discovery notes in Salesforce. Your champion uses this to sell internally when you're not there.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">🏁</div>
+      <div>
+        <h2>Discovery Stage Gate Criteria</h2>
+        <p>All 5 must be met before advancing to Confirming Value</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="t">
+        <thead><tr><th>#</th><th>Gate Criterion</th><th>What "Met" Looks Like</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1</strong></td><td>Pain clearly identified and documented</td><td>You can articulate top 1–2 pains in the prospect's own words — and they've confirmed it</td></tr>
+          <tr><td><strong>2</strong></td><td>ICP qualification confirmed</td><td>Firm size, practice area, geography, and tech stack all fit the Actionstep ICP</td></tr>
+          <tr><td><strong>3</strong></td><td>Key stakeholders are known</td><td>Economic buyer, champion, and technical evaluator known by name and role</td></tr>
+          <tr><td><strong>4</strong></td><td>Integration requirements scoped</td><td>You understand what systems Actionstep must connect to</td></tr>
+          <tr><td><strong>5</strong></td><td>Next step mutually agreed upon</td><td>Specific next action with a date — not a vague "let's follow up"</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <strong>💡 The 3 Levels of Pain</strong>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px;">
+          <div style="background:white;border-radius:8px;padding:12px;border:1.5px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--teal);margin-bottom:4px;">SURFACE PAIN</div>
+            <div style="font-size:13px;color:var(--mid);">"We hate our billing software." — Acknowledge and probe deeper.</div>
+          </div>
+          <div style="background:white;border-radius:8px;padding:12px;border:1.5px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--orange);margin-bottom:4px;">IMPACT PAIN</div>
+            <div style="font-size:13px;color:var(--mid);">"We lose 15% of billable hours." — Quantify: how much revenue is that?</div>
+          </div>
+          <div style="background:white;border-radius:8px;padding:12px;border:1.5px solid var(--border);">
+            <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px;">STRATEGIC PAIN</div>
+            <div style="font-size:13px;color:var(--mid);">"We can't scale without better tech." — Connect Actionstep as the growth enabler.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: QUESTION BANK -->
+<div id="tab-questions" class="panel">
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">❓</div>
+      <div>
+        <h2>Discovery Question Bank</h2>
+        <p>Click any question to reveal a coaching tip. Click a category to filter.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="qbank-cats">
+        <button class="qcat-btn active" onclick="filterQ('all',this)">All Questions</button>
+        <button class="qcat-btn" onclick="filterQ('ops',this)">Operational</button>
+        <button class="qcat-btn" onclick="filterQ('finance',this)">Financial</button>
+        <button class="qcat-btn" onclick="filterQ('client',this)">Client Experience</button>
+        <button class="qcat-btn" onclick="filterQ('tech',this)">Technology</button>
+        <button class="qcat-btn" onclick="filterQ('strategic',this)">Strategic</button>
+        <button class="qcat-btn" onclick="filterQ('decision',this)">Decision-Making</button>
+      </div>
+
+      <div id="qlist-all" class="qlist active"></div>
+      <div id="qlist-ops" class="qlist"></div>
+      <div id="qlist-finance" class="qlist"></div>
+      <div id="qlist-client" class="qlist"></div>
+      <div id="qlist-tech" class="qlist"></div>
+      <div id="qlist-strategic" class="qlist"></div>
+      <div id="qlist-decision" class="qlist"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: STAKEHOLDER MAPPING -->
+<div id="tab-stakeholders" class="panel">
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">👥</div>
+      <div>
+        <h2>Stakeholder Roles at Law Firms</h2>
+        <p>Know who to find, what they care about, and how to engage them</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="callout warn">
+        <strong>⚠ Get Wide — Always</strong>
+        Deals die when you only have one contact. Map all stakeholders before advancing to Confirming Value. A hidden blocker discovered at Negotiation stage is a deal-killer.
+      </div>
+      <div class="sm-grid">
+        <div class="sm-card">
+          <div class="sm-card-top" style="background:#EBF5E3;">
+            <div class="sm-role" style="color:var(--teal);">💼 Economic Buyer</div>
+            <div class="sm-title">Managing Partner / COO</div>
+          </div>
+          <div class="sm-card-body">Cares about ROI, firm strategy, risk management, and final budget authority. Speak their language: outcomes and business impact, not features.</div>
+        </div>
+        <div class="sm-card">
+          <div class="sm-card-top" style="background:var(--ltbluetint);">
+            <div class="sm-role" style="color:var(--steel);">⭐ Champion</div>
+            <div class="sm-title">Practice Manager / IT Lead</div>
+          </div>
+          <div class="sm-card-body">Has a vested interest in success. Sells for you internally. Give them the language, the business case, and the tools to advocate on your behalf.</div>
+        </div>
+        <div class="sm-card">
+          <div class="sm-card-top" style="background:#F0F4FF;">
+            <div class="sm-role" style="color:#3D5CB8;">🔧 Technical Evaluator</div>
+            <div class="sm-title">IT Manager / Paralegal Lead</div>
+          </div>
+          <div class="sm-card-body">Focuses on integration, data migration, security, and support. Address their concerns directly — don't minimize technical risk questions.</div>
+        </div>
+        <div class="sm-card">
+          <div class="sm-card-top" style="background:#FFFBE6;">
+            <div class="sm-role" style="color:#8A6B00;">💡 Influencer</div>
+            <div class="sm-title">Senior Associate / Billing Admin</div>
+          </div>
+          <div class="sm-card-body">Cares about daily usability and their specific workflows. A demo tailored to their pain builds grassroots support that champions bubble up.</div>
+        </div>
+        <div class="sm-card">
+          <div class="sm-card-top" style="background:#FFF0E6;">
+            <div class="sm-role" style="color:var(--orange);">🚧 Potential Blocker</div>
+            <div class="sm-title">CFO / Risk-Averse Partner</div>
+          </div>
+          <div class="sm-card-body">Driven by cost concerns, change risk, and "why now?" skepticism. Surface them early, engage their concerns directly, and avoid surprises.</div>
+        </div>
+        <div class="sm-card">
+          <div class="sm-card-top" style="background:#F5F5F5;">
+            <div class="sm-role" style="color:var(--mid);">👻 Unknown Stakeholder</div>
+            <div class="sm-title">You Don't Know Yet</div>
+          </div>
+          <div class="sm-card-body">Every deal has someone you haven't met. Ask your champion: "Who else will have an opinion about this?" before every stage advance.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <div class="section-label">Champion Validation Test</div>
+        <table class="t">
+          <thead><tr><th>Test</th><th>What You're Checking</th><th>Red Flag If...</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Power Test</strong></td><td>Can they get you introduced to the economic buyer?</td><td>They hedge, delay, or don't know the managing partner</td></tr>
+            <tr><td><strong>Advocacy Test</strong></td><td>Do they send emails or make calls on your behalf?</td><td>They say they will but nothing happens</td></tr>
+            <tr><td><strong>Vested Interest Test</strong></td><td>Does solving this problem tie to their professional success?</td><td>This is a "nice to have" project for them, not a career goal</td></tr>
+            <tr><td><strong>Information Test</strong></td><td>Do they share internal context you wouldn't otherwise have?</td><td>Every update comes from you, never from them</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: SCENARIO PRACTICE -->
+<div id="tab-scenario" class="panel">
+  <div class="scenario-card">
+    <div class="sc-head">
+      <div class="label">Scenario Practice</div>
+      <h2>The River Bend Discovery Call</h2>
+      <p>You've just booked a Discovery call with River Bend Family Law — a 12-attorney firm in Charlotte, NC. Work through the decisions a real rep faces in this call.</p>
+    </div>
+
+    <div class="sc-prospect">
+      <h3>Prospect Profile</h3>
+      <div class="sc-fact">12-attorney family law firm, Charlotte NC — 18 staff total</div>
+      <div class="sc-fact">Current software: Clio (5 years, contract up for renewal in 4 months)</div>
+      <div class="sc-fact">Your contact: Dana Reyes, Practice Manager — reached out via LinkedIn after seeing an Actionstep webinar</div>
+      <div class="sc-fact">Dana said on your intro call: "We're growing fast and Clio just isn't keeping up with us anymore."</div>
+    </div>
+
+    <div class="scenario-steps" id="scenario-steps">
+      <!-- Steps rendered by JS -->
+    </div>
+    <div class="sc-score" id="sc-score">
+      <h3 id="sc-score-text"></h3>
+      <p id="sc-score-sub"></p>
+      <button class="sc-restart" onclick="resetScenario()">Restart Scenario</button>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5: DEAL CHECKLIST -->
+<div id="tab-checklist" class="panel">
+  <div class="card">
+    <div class="card-head">
+      <div class="icon">✅</div>
+      <div>
+        <h2>Discovery Completion Checklist</h2>
+        <p>All items must be checked before advancing to Confirming Value</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="cl-progress">
+        <div class="cl-bar-wrap"><div class="cl-bar" id="cl-bar"></div></div>
+        <div class="cl-pct" id="cl-pct">0 / 12</div>
+      </div>
+      <div class="checklist" id="checklist"></div>
+      <div class="cl-complete" id="cl-complete">
+        🎉 Discovery Complete — You're ready to advance to Confirming Value!
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head" style="background:var(--orange);">
+      <div class="icon">🚫</div>
+      <div>
+        <h2>The 5 Costliest Discovery Mistakes</h2>
+        <p>Know them. Avoid them. Always.</p>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="t">
+        <thead><tr><th>Mistake</th><th>Why It Hurts</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Demo-first selling</strong></td><td>You can't tailor a demo to pain you don't know. Win rates collapse against any rep who actually did Discovery.</td></tr>
+          <tr><td><strong>Staying at surface pain</strong></td><td>"You have billing challenges" doesn't win budget. Impact numbers do. No quantification = no business case.</td></tr>
+          <tr><td><strong>One contact only</strong></td><td>Law firm decisions involve multiple partners. Hidden blockers discovered at Negotiation kill deals every time.</td></tr>
+          <tr><td><strong>Vague next steps</strong></td><td>"Let's talk soon" is not a next step. Without a date and action, momentum dies and prospects go cold.</td></tr>
+          <tr><td><strong>No recap email</strong></td><td>Your champion uses your recap to sell internally when you're not there. Without it, they improvise — and get it wrong.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── QUESTION BANK ──────────────────────────────────────────────────────────
+const QUESTIONS = [
+  {cat:'ops', q:'Walk me through what happens from the moment a new client signs an engagement letter to when their first invoice goes out.', tip:'This uncovers the full matter lifecycle. Listen for manual handoffs, delays, and "that\'s just how we\'ve always done it" moments — those are your pain points.'},
+  {cat:'ops', q:'Which tasks in your current workflow would you consider genuinely manual or repetitive — things you wish were automated?', tip:'Let them list the pain. Don\'t guess. The more they articulate it, the more they own the need for change.'},
+  {cat:'ops', q:'How do you track deadlines, tasks, and matter milestones today? What falls through the cracks?', tip:'"What falls through the cracks?" is the key phrase — it gives permission to talk about failure without blame.'},
+  {cat:'ops', q:'Describe your billing and time-capture process. Where does time most often go uncaptured?', tip:'Most firms lose 10–20% of billable time. Getting this number helps you build a quantified ROI case.'},
+  {cat:'ops', q:'If a client calls asking for a matter status update, how long does it take your team to pull that information together?', tip:'This reveals data visibility gaps. If it takes more than 30 seconds, they have a problem Actionstep solves directly.'},
+  {cat:'finance', q:'What percentage of your billable hours do you estimate are actually billed and collected each month?', tip:'Push for a number. Even a rough estimate (e.g., "maybe 80%?") gives you the basis for revenue-at-risk calculations.'},
+  {cat:'finance', q:'How do you currently handle trust accounting and client ledger management?', tip:'Trust accounting is a compliance risk and a frequent pain point. If they\'re doing it in spreadsheets, that\'s a significant vulnerability.'},
+  {cat:'finance', q:'What is your average time-to-invoice after work is completed?', tip:'Longer time-to-invoice = longer time to payment. Industry benchmark is 30 days; most firms doing it manually are at 45–60.'},
+  {cat:'finance', q:'Do you have visibility into Work in Progress (WIP) at any point in the month, or only at billing time?', tip:'Lack of WIP visibility is a cash flow killer. If they can only see it at billing time, they\'re flying blind for 30 days at a time.'},
+  {cat:'finance', q:'Have you ever written off time because the billing process was too cumbersome to complete?', tip:'This is almost always a yes. Getting them to say it out loud makes the cost of inaction real and personally felt.'},
+  {cat:'client', q:'How do your clients currently communicate with your firm — email, phone, portal, or all of the above?', tip:'Firms managing client comms entirely via email have data fragmentation, missed messages, and no audit trail. All pain Actionstep addresses.'},
+  {cat:'client', q:'Do you offer clients any self-service access to their matter status, documents, or invoices?', tip:'Client portals are increasingly expected. Firms without one lose pitches to those who have one.'},
+  {cat:'client', q:'What complaints do you hear most frequently from clients about working with your firm?', tip:'"We\'re not technical" is not a complaint — this is a safe way to surface the issues they already know about but haven\'t connected to their software.'},
+  {cat:'tech', q:'What practice management system are you using today, and when did you implement it?', tip:'Age of system + team size + growth rate = migration urgency. A 5-year-old system for a fast-growing firm is almost always a misfit.'},
+  {cat:'tech', q:'What made you start looking for something different from what you have now?', tip:'This is the "inciting incident" question. Their answer tells you exactly what pain is top of mind and why now matters.'},
+  {cat:'tech', q:'Which of the following do you use: document management, e-signature, accounting (Xero, QuickBooks, MYOB), email integration, or client portal?', tip:'Map the stack. Integration requirements are a Discovery gate criterion — you need this list before advancing.'},
+  {cat:'tech', q:'Have you tried to integrate your current systems? What happened?', tip:'Failed integration attempts create technical PTSD. Acknowledge the pain, then position Actionstep\'s native integrations as the solution.'},
+  {cat:'strategic', q:'Where do you see the firm in three years — headcount, practice areas, geography?', tip:'Growth plans validate ICP fit and justify investment. A firm planning to double headcount needs infrastructure, not just software.'},
+  {cat:'strategic', q:'What is the single biggest operational constraint on your ability to grow?', tip:'This is the "magic wand" question. The constraint they name is your primary business case.'},
+  {cat:'strategic', q:'Have you lost business or clients because of operational or technology limitations?', tip:'Revenue already lost is the most powerful pain anchor you can build a business case around. Push gently if they\'re reluctant — it\'s usually a yes.'},
+  {cat:'strategic', q:'What does success look like for this project, twelve months after go-live?', tip:'Future state vision is your proof point. When your champion is selling internally, they use this language to describe the destination.'},
+  {cat:'decision', q:'Who else in the firm will be impacted by this decision — or needs to be part of it?', tip:'This is your stakeholder mapping question. Ask it early. Then ask again at the end of each meeting.'},
+  {cat:'decision', q:'Is there anyone who might have concerns about making a change like this?', tip:'Surfaces the blocker before they become a surprise. Better to know now than to find them at Negotiation stage.'},
+  {cat:'decision', q:'Who owns the budget for this initiative? Is it already allocated or does it need to be approved?', tip:'Budget status tells you how long the sales cycle will be. Allocated = faster. Needs approval = map the approval process.'},
+  {cat:'decision', q:'Has the firm evaluated practice management software before? What happened?', tip:'Failed evaluations leave scar tissue. Understanding why previous evaluations didn\'t close helps you avoid the same traps.'},
+  {cat:'decision', q:'What would cause you to press pause on this project?', tip:'This surfaces risk factors proactively. Get them on the table now so you can address them before they derail the deal.'},
+];
+
+function buildQuestions() {
+  const cats = ['all','ops','finance','client','tech','strategic','decision'];
+  cats.forEach(cat => {
+    const container = document.getElementById('qlist-' + cat);
+    const qs = cat === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.cat === cat);
+    qs.forEach((item, i) => {
+      const id = 'q-' + cat + '-' + i;
+      container.innerHTML += `
+        <div class="q-item" id="${id}" onclick="toggleQ('${id}')">
+          <span class="qt">${item.q}</span>
+        </div>
+        <div class="q-tip">${item.tip}</div>
+      `;
+    });
+  });
+}
+
+function toggleQ(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+function filterQ(cat, btn) {
+  document.querySelectorAll('.qcat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.qlist').forEach(l => l.classList.remove('active'));
+  document.getElementById('qlist-' + cat).classList.add('active');
+}
+
+// ── SCENARIO ───────────────────────────────────────────────────────────────
+const SCENARIO_STEPS = [
+  {
+    num: 'Step 1 of 5',
+    q: 'Dana says: "We\'re growing fast and Clio just isn\'t keeping up with us anymore." What is the BEST immediate response?',
+    choices: [
+      {text: 'Great! Let me show you Actionstep — I think you\'ll love what it can do for a firm your size.', correct: false, fb: 'Wrong move. This jumps straight to pitch mode. You have one sentence of context and zero understanding of actual pain. Showing the product now is a demo without Discovery.'},
+      {text: 'I\'d love to understand more about that. When you say it\'s not keeping up — can you walk me through what a typical week looks like for your team right now?', correct: true, fb: 'Excellent. You acknowledged the signal and asked an open-ended diagnostic question. This opens the full Discovery conversation without leading the witness.'},
+      {text: 'What specifically is Clio not doing well? Give me your top 3 complaints.', correct: false, fb: 'Too aggressive. You\'re leading them to a list rather than letting them tell their story. Open-ended questions get you richer, more authentic pain signals.'},
+      {text: 'Got it — so you need a replacement for Clio. What\'s your timeline for making a decision?', correct: false, fb: 'You\'ve skipped to qualification before doing any Discovery. Jumping to timeline before understanding pain sets the wrong tone and leaves you without the context to qualify accurately.'},
+    ]
+  },
+  {
+    num: 'Step 2 of 5',
+    q: 'Dana tells you: "Our billing is a mess. Time entry is inconsistent, and we\'re always chasing time at month-end." What do you do NEXT?',
+    choices: [
+      {text: 'Actionstep has fantastic time capture tools that will solve that completely. Let me show you how it works.', correct: false, fb: 'Stay in Discovery mode. You have surface pain — now you need impact. Jumping to solutions at this point means you can\'t quantify the business case.'},
+      {text: 'How much time do you estimate is going uncaptured each month across the team — and what does that cost you in revenue?', correct: true, fb: 'Perfect. You\'ve moved from surface pain to impact pain. Now you\'re building the financial case that your champion will use to get budget approved.'},
+      {text: 'That\'s a really common problem. Most firms we work with have the same issue before they switch to Actionstep.', correct: false, fb: 'You\'re minimizing their pain and pivoting to a sales statement. This is not Discovery — it\'s a segue to a pitch. Stay curious.'},
+      {text: 'Is billing your only pain point, or are there other issues we should talk about?', correct: false, fb: 'You\'ve shifted the topic before fully exploring this one. Go deeper on billing first — quantify the impact before moving to the next pain area.'},
+    ]
+  },
+  {
+    num: 'Step 3 of 5',
+    q: 'Dana says billing losses are probably $40–50K/year in uncaptured time. She seems engaged. Now you need to understand the buying group. What do you ask?',
+    choices: [
+      {text: 'Dana, would you be the person to make the final call on a new system?', correct: false, fb: 'Too direct and potentially puts Dana on the spot. If she\'s not the final decision-maker, this question can feel like a trap. Ask more broadly.'},
+      {text: 'Who else in the firm would be impacted by a change like this — and who would need to be part of the evaluation?', correct: true, fb: 'Excellent stakeholder mapping question. Broad enough to surface the full buying group without putting Dana in an awkward position.'},
+      {text: 'Let\'s talk about next steps — when can you get me in front of the managing partner?', correct: false, fb: 'Too fast. You haven\'t finished Discovery yet. Rushing to an executive intro before completing your stakeholder map creates false urgency and can backfire.'},
+      {text: 'Is there an IT person I should be talking to about integrations?', correct: false, fb: 'You\'ve narrowed the question to one role. This misses the economic buyer, influencers, and potential blockers. Ask broadly first, then drill down.'},
+    ]
+  },
+  {
+    num: 'Step 4 of 5',
+    q: 'Dana reveals the Managing Partner (Michael Park) controls budget, and there\'s also a CFO who "tends to push back on tech spending." You\'re approaching the end of the call. What is your most important action?',
+    choices: [
+      {text: 'Send Dana a product overview deck so she can share it with Michael and the CFO before your next call.', correct: false, fb: 'A product deck without a joint value proposition gives your champion the wrong ammunition. They need business case language, not feature slides.'},
+      {text: 'Agree on a specific next step with a date — such as a follow-up call with Dana and Michael — and log it in Salesforce immediately.', correct: true, fb: 'Correct. A specific, dated, committed next step is non-negotiable. Without it, momentum dies. Logging it in Salesforce protects you and shows up in your pipeline accurately.'},
+      {text: 'Ask Dana to handle the CFO concerns internally before your next conversation.', correct: false, fb: 'Never outsource objection handling to your champion without giving them the tools. They\'ll likely make it worse. Engage the CFO\'s concerns directly, with Dana\'s help.'},
+      {text: 'Set up a product demo for next week and include the managing partner.', correct: false, fb: 'You haven\'t completed Discovery yet. Moving straight to demo without fully understanding Michael\'s perspective and the CFO\'s concerns will produce a generic, unwinnable demo.'},
+    ]
+  },
+  {
+    num: 'Step 5 of 5',
+    q: 'The call ends. What do you do in the next 24 hours?',
+    choices: [
+      {text: 'Update Salesforce with the new stage (Confirming Value) and move on to the next prospect.', correct: false, fb: 'You\'re not ready to advance the stage. You haven\'t yet had the stakeholder conversations or confirmed all 5 gate criteria. Stage advancement requires evidence, not hope.'},
+      {text: 'Send Dana a recap email summarizing the pain identified, the impact discussed, and the agreed next steps — then fully document the Discovery notes in Salesforce.', correct: true, fb: 'Exactly right. The recap email gives your champion the language to sell internally. Full Salesforce documentation protects your deal and gives your manager accurate pipeline visibility.'},
+      {text: 'Call Dana again to thank her for her time and check if she has any questions.', correct: false, fb: 'A check-in call without a purpose wastes both your time and Dana\'s. The recap email is the right follow-up vehicle — it\'s professional, useful, and gives Dana something to share.'},
+      {text: 'Draft the SOW so you\'re ready to move fast when Michael agrees.', correct: false, fb: 'Way too early. You haven\'t validated fit with Michael, addressed the CFO\'s concerns, or completed the Discovery gate criteria. A premature SOW signals you\'re not listening.'},
+    ]
+  }
+];
+
+let scStep = 0;
+let scScore = 0;
+let scAnswered = false;
+
+function buildScenario() {
+  const container = document.getElementById('scenario-steps');
+  container.innerHTML = '';
+  renderScStep();
+}
+
+function renderScStep() {
+  if (scStep >= SCENARIO_STEPS.length) {
+    document.getElementById('scenario-steps').innerHTML = '';
+    const scoreEl = document.getElementById('sc-score');
+    const pct = Math.round((scScore / SCENARIO_STEPS.length) * 100);
+    document.getElementById('sc-score-text').textContent = scScore + ' / ' + SCENARIO_STEPS.length + ' Correct (' + pct + '%)';
+    document.getElementById('sc-score-sub').textContent = pct >= 80 ? 'Strong work — you\'re thinking like an experienced Actionstep rep.' : 'Review the feedback above and retry. Discovery decisions make or break deals.';
+    scoreEl.style.display = 'block';
+    return;
+  }
+  const s = SCENARIO_STEPS[scStep];
+  const container = document.getElementById('scenario-steps');
+  container.innerHTML = `
+    <div class="sc-step" id="sc-step-${scStep}">
+      <div class="step-num">${s.num}</div>
+      <div class="step-q">${s.q}</div>
+      <div class="sc-choices">
+        ${s.choices.map((c,i) => `<button class="sc-choice" id="sc-choice-${scStep}-${i}" onclick="pickChoice(${scStep},${i})">${c.text}</button>`).join('')}
+      </div>
+      <div class="sc-fb" id="sc-fb-${scStep}"></div>
+      <button class="sc-next" id="sc-next-${scStep}" onclick="nextStep()">Next →</button>
+    </div>
+  `;
+  scAnswered = false;
+}
+
+function pickChoice(step, idx) {
+  if (scAnswered) return;
+  scAnswered = true;
+  const s = SCENARIO_STEPS[step];
+  const choice = s.choices[idx];
+  const fb = document.getElementById('sc-fb-' + step);
+  fb.textContent = choice.correct ? '✅ ' + choice.fb : '❌ ' + choice.fb;
+  fb.className = 'sc-fb show ' + (choice.correct ? 'ok' : 'ng');
+  if (choice.correct) scScore++;
+  s.choices.forEach((c, i) => {
+    const btn = document.getElementById('sc-choice-' + step + '-' + i);
+    btn.disabled = true;
+    if (i === idx) btn.className = 'sc-choice ' + (choice.correct ? 'correct' : 'wrong');
+    else if (c.correct) btn.className = 'sc-choice reveal';
+  });
+  document.getElementById('sc-next-' + step).classList.add('show');
+}
+
+function nextStep() {
+  scStep++;
+  renderScStep();
+}
+
+function resetScenario() {
+  scStep = 0; scScore = 0; scAnswered = false;
+  document.getElementById('sc-score').style.display = 'none';
+  buildScenario();
+}
+
+// ── CHECKLIST ──────────────────────────────────────────────────────────────
+const CL_ITEMS = [
+  'Top 1–2 business pains documented in the prospect\'s own words',
+  'Impact quantified — time lost, revenue at risk, or cost identified with a number',
+  'Future state vision captured — what does success look like in 12 months?',
+  'ICP qualification confirmed — firm size, practice areas, geography, tech stack all fit',
+  'All key stakeholders identified by name and role (buyer, champion, technical, influencer)',
+  'Potential blockers surfaced and noted',
+  'Integration requirements mapped — accounting, email, docs, e-sig, billing',
+  'Competitive landscape understood — who else are they evaluating and why',
+  'Decision process documented — who decides, how, and by when',
+  'Budget status clarified — allocated vs. TBD',
+  'Target go-live date captured and validated against their stated urgency',
+  'Next step committed — specific, dated, mutual commitment logged in Salesforce',
+];
+
+function buildChecklist() {
+  const container = document.getElementById('checklist');
+  CL_ITEMS.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'cl-item';
+    div.id = 'cl-' + i;
+    div.onclick = () => toggleCL(i);
+    div.innerHTML = `<div class="cl-cb" id="cl-cb-${i}"></div><div class="cl-text">${item}</div>`;
+    container.appendChild(div);
+  });
+}
+
+function toggleCL(i) {
+  const item = document.getElementById('cl-' + i);
+  const cb = document.getElementById('cl-cb-' + i);
+  const checked = item.classList.toggle('checked');
+  cb.innerHTML = checked ? '✓' : '';
+  updateCLProgress();
+}
+
+function updateCLProgress() {
+  const checked = document.querySelectorAll('.cl-item.checked').length;
+  const total = CL_ITEMS.length;
+  const pct = Math.round((checked / total) * 100);
+  document.getElementById('cl-bar').style.width = pct + '%';
+  document.getElementById('cl-pct').textContent = checked + ' / ' + total;
+  const complete = document.getElementById('cl-complete');
+  complete.classList.toggle('show', checked === total);
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+buildQuestions();
+buildScenario();
+buildChecklist();
+</script>
+</body>
+</html>

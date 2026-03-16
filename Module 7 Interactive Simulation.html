@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 7 | Sales Cadence & Activity Management — Actionstep Sales Academy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root {
+    --green:#024638; --navy:#171C29; --teal:#255C4E; --leaf:#74AA50;
+    --yellow:#FED141; --orange:#FF6900; --steel:#285780; --red:#C0392B;
+    --ltgreen:#E3F7E4; --ltblue:#E3F5F7; --gray:#F5F7F5; --border:#C8D8C8;
+    --text:#171C29; --mid:#4A5568; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;}
+
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .logo-mark{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .logo-text{font-size:17px;font-weight:700;color:white;}
+  .logo-text span{color:var(--leaf);}
+  .mod-tag{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+
+  .main{max-width:1080px;margin:0 auto;padding:40px 20px;}
+  .hero{text-align:center;margin-bottom:40px;}
+  .hero h1{font-size:38px;font-weight:900;color:white;margin-bottom:10px;letter-spacing:-0.5px;}
+  .hero p{color:#89B89A;font-size:15px;max-width:560px;margin:0 auto;}
+
+  .tabs{display:flex;gap:4px;background:rgba(255,255,255,0.06);border-radius:12px;padding:5px;margin-bottom:32px;border:1px solid rgba(255,255,255,0.08);}
+  .tab-btn{flex:1;padding:11px 18px;border:none;background:transparent;color:#89B89A;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+  .tab-btn.active{background:var(--green);color:white;box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+  .tab-btn:hover:not(.active){color:white;}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  /* ── TAB 1: CADENCE EXPLORER ── */
+  .intro-card{background:white;border-radius:14px;padding:28px 36px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .intro-card h2{font-size:22px;font-weight:900;color:var(--green);margin-bottom:10px;}
+  .intro-card p{color:var(--mid);font-size:14px;line-height:1.75;}
+
+  .rule-banner{background:var(--orange);border-radius:14px;padding:24px 32px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.25);}
+  .rule-banner .rb-label{font-size:10px;font-weight:700;letter-spacing:2.5px;color:rgba(255,255,255,0.8);text-transform:uppercase;margin-bottom:6px;}
+  .rule-banner .rb-rule{font-size:22px;font-weight:900;color:white;margin-bottom:6px;}
+  .rule-banner .rb-sub{font-size:13px;color:rgba(255,255,255,0.9);line-height:1.6;}
+
+  .role-tabs{display:flex;gap:8px;margin-bottom:16px;}
+  .role-btn{padding:8px 22px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:#89B89A;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.2s;}
+  .role-btn.active{background:var(--leaf);color:var(--navy);border-color:var(--leaf);}
+  .role-btn:hover:not(.active){border-color:rgba(255,255,255,0.4);color:white;}
+
+  .cadence-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;}
+  .day-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.15);cursor:pointer;transition:transform 0.15s;}
+  .day-card:hover{transform:translateY(-2px);}
+  .day-card.open{box-shadow:0 6px 24px rgba(2,70,56,0.35);}
+  .day-header{padding:14px 14px 10px;text-align:center;}
+  .day-name{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mid);margin-bottom:4px;}
+  .day-title{font-size:13px;font-weight:700;color:var(--text);line-height:1.3;}
+  .day-expand{padding:12px 14px;border-top:1px solid var(--border);background:var(--ltgreen);display:none;}
+  .day-card.open .day-expand{display:block;}
+  .day-expand p{font-size:12px;color:var(--mid);line-height:1.6;}
+
+  .habit-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
+  .habit-card{background:white;border-radius:12px;padding:20px;box-shadow:0 4px 16px rgba(0,0,0,0.12);}
+  .habit-icon{font-size:28px;margin-bottom:10px;}
+  .habit-title{font-size:14px;font-weight:700;color:var(--green);margin-bottom:6px;}
+  .habit-body{font-size:13px;color:var(--mid);line-height:1.6;}
+
+  /* ── TAB 2: GATE TRACKER ── */
+  .gate-intro{background:white;border-radius:14px;padding:24px 32px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .gate-intro h2{font-size:20px;font-weight:900;color:var(--green);margin-bottom:8px;}
+  .gate-intro p{font-size:14px;color:var(--mid);line-height:1.7;}
+
+  .deal-input-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+  .deal-input-row input{flex:1;min-width:200px;padding:10px 16px;border:2px solid rgba(255,255,255,0.15);border-radius:8px;background:rgba(255,255,255,0.08);color:white;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:500;}
+  .deal-input-row input::placeholder{color:rgba(255,255,255,0.35);}
+  .deal-input-row input:focus{outline:none;border-color:var(--leaf);}
+  .reset-btn{padding:10px 22px;background:transparent;border:2px solid rgba(255,255,255,0.2);color:#89B89A;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;border-radius:8px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+  .reset-btn:hover{border-color:var(--leaf);color:var(--leaf);}
+
+  .gates-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+  .gate-row{background:white;border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 3px 12px rgba(0,0,0,0.12);cursor:pointer;transition:all 0.2s;border-left:5px solid var(--border);}
+  .gate-row.complete{border-left-color:var(--leaf);background:#F0FAF0;}
+  .gate-row.na{border-left-color:#aaa;opacity:0.6;}
+  .gate-num{width:32px;height:32px;border-radius:50%;background:var(--ltgreen);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--green);flex-shrink:0;}
+  .gate-row.complete .gate-num{background:var(--leaf);color:white;}
+  .gate-info{flex:1;}
+  .gate-label{font-size:14px;font-weight:700;color:var(--text);}
+  .gate-def{font-size:12px;color:var(--mid);margin-top:2px;}
+  .gate-controls{display:flex;gap:8px;flex-shrink:0;}
+  .gate-controls button{padding:5px 14px;border-radius:6px;font-family:'Red Hat Display',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:all 0.18s;}
+  .btn-yes{background:var(--leaf);color:var(--navy);}
+  .btn-yes:hover{background:#5d9040;}
+  .btn-no{background:#eee;color:var(--mid);}
+  .btn-no:hover{background:#ddd;}
+  .btn-na{background:#f5f5f5;color:#aaa;border:1px solid #ddd;}
+  .btn-na:hover{background:#ececec;}
+
+  .gate-summary{background:white;border-radius:14px;padding:24px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .gate-summary h3{font-size:16px;font-weight:900;color:var(--green);margin-bottom:14px;}
+  .gs-bar-wrap{background:#eee;border-radius:8px;height:12px;margin-bottom:10px;}
+  .gs-bar{background:var(--leaf);height:12px;border-radius:8px;transition:width 0.4s;}
+  .gs-stats{display:flex;gap:20px;font-size:13px;color:var(--mid);margin-bottom:16px;}
+  .gs-stats span{font-weight:700;color:var(--green);}
+  .stage-reco{padding:12px 18px;border-radius:8px;font-size:13px;font-weight:700;}
+  .stage-reco.discovery{background:#E3F5F7;color:var(--steel);}
+  .stage-reco.confirming{background:var(--ltgreen);color:var(--teal);}
+  .stage-reco.dealreview{background:var(--ltblue);color:var(--steel);}
+  .stage-reco.negotiate{background:#FFF3E0;color:var(--orange);}
+  .stage-reco.strong{background:var(--ltgreen);color:var(--green);}
+
+  /* ── TAB 3: SCENARIOS ── */
+  .scenario-header{background:white;border-radius:14px;padding:24px 32px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .scenario-header h2{font-size:20px;font-weight:900;color:var(--green);margin-bottom:8px;}
+  .scenario-header p{font-size:14px;color:var(--mid);line-height:1.7;}
+  .sc-meta{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;}
+  .sc-badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+  .sc-badge.cat1{background:var(--ltgreen);color:var(--teal);}
+  .sc-badge.cat2{background:#FFF3E0;color:var(--orange);}
+  .sc-badge.cat3{background:var(--ltblue);color:var(--steel);}
+
+  .sc-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .sc-nav-btns{display:flex;gap:8px;}
+  .sc-nav-btn{padding:8px 18px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;background:rgba(255,255,255,0.1);color:#89B89A;transition:all 0.18s;}
+  .sc-nav-btn:hover{background:rgba(255,255,255,0.18);color:white;}
+  .sc-counter{font-size:13px;color:#89B89A;font-weight:700;}
+
+  .scenario-card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.18);margin-bottom:22px;}
+  .sc-type-bar{height:5px;}
+  .sc-body{padding:28px 32px;}
+  .sc-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:8px;}
+  .sc-situation{font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.5;}
+  .sc-question{font-size:14px;color:var(--mid);margin-bottom:22px;padding:14px 18px;background:var(--gray);border-radius:8px;border-left:4px solid var(--leaf);}
+  .sc-options{display:flex;flex-direction:column;gap:10px;}
+  .sc-option{padding:14px 18px;border:2px solid var(--border);border-radius:10px;cursor:pointer;font-size:14px;color:var(--mid);font-weight:500;transition:all 0.18s;display:flex;gap:12px;align-items:flex-start;}
+  .sc-option:hover:not(.answered){border-color:var(--leaf);color:var(--text);background:var(--ltgreen);}
+  .sc-option.correct{border-color:var(--leaf);background:#F0FAF0;color:var(--green);}
+  .sc-option.wrong{border-color:#e74c3c;background:#FFF0F0;color:#c0392b;}
+  .sc-option.dimmed{opacity:0.4;}
+  .opt-letter{width:24px;height:24px;border-radius:50%;background:var(--ltgreen);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--green);flex-shrink:0;margin-top:1px;}
+  .sc-option.correct .opt-letter{background:var(--leaf);color:white;}
+  .sc-option.wrong .opt-letter{background:#e74c3c;color:white;}
+
+  .sc-feedback{margin-top:20px;padding:18px 22px;border-radius:10px;font-size:14px;line-height:1.7;display:none;}
+  .sc-feedback.correct{background:#F0FAF0;border-left:4px solid var(--leaf);}
+  .sc-feedback.wrong{background:#FFF0F0;border-left:4px solid #e74c3c;}
+  .sc-feedback strong{display:block;margin-bottom:6px;font-size:15px;}
+  .sc-feedback.correct strong{color:var(--green);}
+  .sc-feedback.wrong strong{color:#c0392b;}
+
+  .sc-next{margin-top:16px;padding:12px 28px;background:var(--green);color:white;border:none;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;display:none;transition:background 0.2s;}
+  .sc-next:hover{background:var(--teal);}
+
+  .score-panel{background:white;border-radius:14px;padding:28px 36px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .score-panel h3{font-size:18px;font-weight:900;color:var(--green);margin-bottom:8px;}
+  .score-pct{font-size:52px;font-weight:900;line-height:1;}
+  .score-pct.pass{color:var(--leaf);}
+  .score-pct.fail{color:var(--orange);}
+  .score-sub{font-size:14px;color:var(--mid);margin:8px 0 18px;}
+  .retry-btn{padding:12px 28px;background:var(--green);color:white;border:none;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background 0.2s;}
+  .retry-btn:hover{background:var(--teal);}
+
+  /* ── TAB 4: OBJECTION & CLOSE PLAN ── */
+  .obj-header{background:white;border-radius:14px;padding:24px 32px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .obj-header h2{font-size:20px;font-weight:900;color:var(--green);margin-bottom:8px;}
+  .obj-header p{font-size:14px;color:var(--mid);line-height:1.7;}
+
+  .obj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:22px;}
+  .obj-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.12);cursor:pointer;}
+  .obj-card-top{padding:16px 20px;}
+  .obj-card-top .obj-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mid);margin-bottom:6px;}
+  .obj-card-top .obj-text{font-size:14px;font-weight:700;color:var(--text);line-height:1.4;}
+  .obj-card-expand{padding:16px 20px;background:var(--ltgreen);border-top:2px solid var(--leaf);display:none;}
+  .obj-card.open .obj-card-expand{display:block;}
+  .expand-section{margin-bottom:10px;}
+  .expand-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:4px;}
+  .expand-text{font-size:13px;color:var(--mid);line-height:1.6;}
+
+  .self-obj-section{background:white;border-radius:14px;padding:28px 32px;margin-bottom:22px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .self-obj-section h3{font-size:18px;font-weight:900;color:var(--orange);margin-bottom:8px;}
+  .self-obj-section .intro{font-size:14px;color:var(--mid);margin-bottom:18px;line-height:1.7;}
+  .self-obj-list{display:flex;flex-direction:column;gap:10px;}
+  .soi-row{padding:14px 18px;border-radius:10px;border-left:4px solid var(--orange);background:#FFF8F0;}
+  .soi-num{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .soi-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+  .soi-detail{font-size:13px;color:var(--mid);line-height:1.5;}
+
+  .close-plan{background:white;border-radius:14px;padding:28px 32px;box-shadow:0 8px 28px rgba(0,0,0,0.18);}
+  .close-plan h3{font-size:18px;font-weight:900;color:var(--green);margin-bottom:8px;}
+  .close-plan .intro{font-size:14px;color:var(--mid);margin-bottom:18px;line-height:1.7;}
+  .cp-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+  .cp-field{display:flex;flex-direction:column;gap:4px;}
+  .cp-field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mid);}
+  .cp-field input{padding:9px 14px;border:2px solid var(--border);border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;color:var(--text);}
+  .cp-field input:focus{outline:none;border-color:var(--leaf);}
+  .cp-actions-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px;}
+  .cp-actions-table th{background:var(--green);color:white;padding:10px 12px;text-align:left;font-size:12px;font-weight:700;}
+  .cp-actions-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--mid);vertical-align:middle;}
+  .cp-actions-table tr:nth-child(even) td{background:var(--ltgreen);}
+  .cp-actions-table td input{border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-family:'Red Hat Display',sans-serif;font-size:12px;width:100%;}
+  .cp-actions-table td input:focus{outline:none;border-color:var(--leaf);}
+  .cp-check{display:inline-flex;align-items:center;gap:6px;cursor:pointer;}
+  .cp-check input[type=checkbox]{width:16px;height:16px;cursor:pointer;accent-color:var(--leaf);}
+  .cp-export-btn{padding:12px 28px;background:var(--green);color:white;border:none;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background 0.2s;}
+  .cp-export-btn:hover{background:var(--teal);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div class="logo-text">Actionstep <span>Sales Academy</span></div>
+  </div>
+  <div class="mod-tag">Module 7 · Interactive Sim</div>
+</header>
+
+<div class="main">
+  <div class="hero">
+    <h1>Sales Cadence & Activity Management</h1>
+    <p>Build the daily habits, gate discipline, and close plan skills that separate top performers from the rest.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(0)">📅 Cadence Explorer</button>
+    <button class="tab-btn" onclick="switchTab(1)">🔑 Deal Gates</button>
+    <button class="tab-btn" onclick="switchTab(2)">🎯 Scenarios</button>
+    <button class="tab-btn" onclick="switchTab(3)">🛡 Objections & Close Plan</button>
+  </div>
+
+  <!-- TAB 1: CADENCE EXPLORER -->
+  <div class="tab-panel active" id="panel-0">
+    <div class="intro-card">
+      <h2>The Weekly Rhythm That Wins Deals</h2>
+      <p>Top performers don't wing it. They protect their time, structure their week, and make sure every deal moves forward — every single week. Select your role and explore each day's focus.</p>
+    </div>
+    <div class="rule-banner">
+      <div class="rb-label">The Non-Negotiable Rule</div>
+      <div class="rb-rule">Every deal needs a logged Next Step + Close Date — always.</div>
+      <div class="rb-sub">No deal should be in your pipeline without a scheduled follow-up within 5 business days. If a deal hasn't moved in 10 days, something is wrong. Fix it or flag it.</div>
+    </div>
+
+    <div class="role-tabs">
+      <button class="role-btn active" onclick="switchRole('sdr')">📞 SDR Cadence</button>
+      <button class="role-btn" onclick="switchRole('ae')">🤝 AE Cadence</button>
+    </div>
+
+    <div class="cadence-grid" id="cadence-grid"></div>
+
+    <div class="habit-row">
+      <div class="habit-card">
+        <div class="habit-icon">🌅</div>
+        <div class="habit-title">Protect the Morning</div>
+        <div class="habit-body">The first 90 minutes of each day are sacred. No slack. No email rabbit holes. Outbound activity only. This is when your best prospecting calls happen.</div>
+      </div>
+      <div class="habit-card">
+        <div class="habit-icon">⚡</div>
+        <div class="habit-title">24-Hour Follow-Up Rule</div>
+        <div class="habit-body">Every meeting, demo, or discovery call must be followed by a written summary and confirmed next step within 24 hours. Slow follow-up signals low priority.</div>
+      </div>
+      <div class="habit-card">
+        <div class="habit-icon">🔍</div>
+        <div class="habit-title">Friday Pipeline Review</div>
+        <div class="habit-body">Every Friday: review every open opportunity. Any deal unmoved for 10 business days needs a deliberate next action or a stage correction. No hiding in the forecast.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: GATE TRACKER -->
+  <div class="tab-panel" id="panel-1">
+    <div class="gate-intro">
+      <h2>13-Gate Deal Tracker</h2>
+      <p>Use this interactive tracker to assess where any deal stands against the 13 Deal Gates. Mark each gate as Yes, No, or N/A. The tracker will assess deal health and recommend next actions based on your input.</p>
+    </div>
+
+    <div class="deal-input-row">
+      <input type="text" id="deal-name-input" placeholder="Enter deal name (e.g. Grayson & Associates)" oninput="updateDealName()">
+      <button class="reset-btn" onclick="resetGates()">↺ Reset All Gates</button>
+    </div>
+
+    <div class="gates-list" id="gates-list"></div>
+
+    <div class="gate-summary">
+      <h3 id="gs-title">Deal Health: Enter a deal name above to begin</h3>
+      <div class="gs-bar-wrap"><div class="gs-bar" id="gs-bar" style="width:0%"></div></div>
+      <div class="gs-stats">
+        <div>Gates Complete: <span id="gs-done">0</span></div>
+        <div>Gates Pending: <span id="gs-pending">0</span></div>
+        <div>Gates N/A: <span id="gs-na">0</span></div>
+      </div>
+      <div class="stage-reco" id="stage-reco">Complete some gates above to see your deal health assessment.</div>
+    </div>
+  </div>
+
+  <!-- TAB 3: SCENARIOS -->
+  <div class="tab-panel" id="panel-2">
+    <div class="scenario-header">
+      <h2>Scenario Practice</h2>
+      <p>Work through real-world situations that test your cadence knowledge, gate discipline, and close planning instincts. One right answer per question — immediate feedback provided.</p>
+      <div class="sc-meta">
+        <span class="sc-badge cat1">Cadence</span>
+        <span class="sc-badge cat2">Gates</span>
+        <span class="sc-badge cat3">Objections</span>
+      </div>
+    </div>
+    <div class="sc-nav">
+      <div class="sc-nav-btns">
+        <button class="sc-nav-btn" onclick="prevScenario()">← Prev</button>
+        <button class="sc-nav-btn" onclick="nextScenario()">Next →</button>
+      </div>
+      <div class="sc-counter" id="sc-counter">Scenario 1 of 8</div>
+    </div>
+    <div id="scenario-mount"></div>
+    <div class="score-panel" id="score-panel" style="display:none;">
+      <h3>Module 7 Practice Complete</h3>
+      <div class="score-pct" id="sc-score-pct">—</div>
+      <div class="score-sub" id="sc-score-sub"></div>
+      <button class="retry-btn" onclick="retryScenarios()">↺ Retry All Scenarios</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: OBJECTIONS & CLOSE PLAN -->
+  <div class="tab-panel" id="panel-3">
+    <div class="obj-header">
+      <h2>Objection Handling & Close Plans</h2>
+      <p>Click any objection card to reveal the recommended response strategy and sample language. Then use the interactive close plan template below to build a real deal close plan.</p>
+    </div>
+
+    <div class="obj-grid" id="obj-grid"></div>
+
+    <div class="self-obj-section">
+      <h3>⚠️ Self-Created Objections — Don't Shoot Yourself</h3>
+      <p class="intro">A self-created objection is pushback you generate through your own actions. Unlike natural buyer resistance, these are 100% avoidable. Know them. Eliminate them.</p>
+      <div class="self-obj-list">
+        <div class="soi-row"><div class="soi-num">Self-Created #1</div><div class="soi-title">Skipping discovery, jumping to demo</div><div class="soi-detail">You demo features they don't care about → "This doesn't really apply to us." Always tie every demo element to a confirmed pain.</div></div>
+        <div class="soi-row"><div class="soi-num">Self-Created #2</div><div class="soi-title">Moving stages too early</div><div class="soi-detail">Moving to Deal Review before gate criteria are met creates a false forecast and an unprepared close plan.</div></div>
+        <div class="soi-row"><div class="soi-num">Self-Created #3</div><div class="soi-title">Quoting price before value is anchored</div><div class="soi-detail">Price conversations before ROI is established always create sticker shock. Complete Gate 5 before Gate 3 matters.</div></div>
+        <div class="soi-row"><div class="soi-num">Self-Created #4</div><div class="soi-title">Sending proposal to only one person</div><div class="soi-detail">You will always hear "I need to get more people involved" at the last minute. Gate 9 exists to prevent this.</div></div>
+        <div class="soi-row"><div class="soi-num">Self-Created #5</div><div class="soi-title">Not following up within 24 hours</div><div class="soi-detail">Slow follow-up communicates low priority. "We're putting this on hold" often follows a week of silence from the rep.</div></div>
+        <div class="soi-row"><div class="soi-num">Self-Created #6</div><div class="soi-title">Over-promising features or timelines</div><div class="soi-detail">Promises made in sales become objections during implementation. Only commit to what's real and confirmed.</div></div>
+        <div class="soi-row"><div class="soi-num">Self-Created #7</div><div class="soi-title">Ignoring stakeholders outside your champion</div><div class="soi-detail">"Actually, our managing partner has concerns" is the most preventable late-stage objection. Get wide. Early.</div></div>
+      </div>
+    </div>
+
+    <div class="close-plan">
+      <h3>📋 Interactive Close Plan Builder</h3>
+      <p class="intro">Fill in the details below to build a close plan for your top open opportunity. Gate 10 is not complete until a close plan is agreed upon and shared with the buyer.</p>
+      <div class="cp-fields">
+        <div class="cp-field"><label>Deal Name / Account</label><input type="text" placeholder="e.g. Whitmore Law Group" id="cp-deal"></div>
+        <div class="cp-field"><label>Target Close Date</label><input type="date" id="cp-close"></div>
+        <div class="cp-field"><label>AE Owner</label><input type="text" placeholder="Your name" id="cp-ae"></div>
+        <div class="cp-field"><label>Forecast Category</label><input type="text" placeholder="Commit / Forecast / Stretch" id="cp-cat"></div>
+        <div class="cp-field"><label>Deal Value (ACV)</label><input type="text" placeholder="$__,000" id="cp-val"></div>
+        <div class="cp-field"><label>Compelling Event</label><input type="text" placeholder="Why are they looking now?" id="cp-ce"></div>
+      </div>
+      <table class="cp-actions-table">
+        <thead><tr><th>Action Required</th><th>Owner</th><th>Due Date</th><th>Done?</th></tr></thead>
+        <tbody id="cp-actions-body"></tbody>
+      </table>
+      <button class="cp-export-btn" onclick="exportClosePlan()">📄 Print / Save Close Plan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const sdrDays = [
+  { name:'Monday', title:'Outbound & Pipe Review', detail:'Team standup to start. 90-minute cold call block immediately after. Personalized outbound email sequences sent before noon. CRM activity logs updated by EOD.' },
+  { name:'Tuesday', title:'Deep Outbound + MQL Response', detail:'Second cold call block in the morning. LinkedIn outreach and connection follow-ups. Respond to all inbound MQLs within 2 hours. 1:1 with manager — come with pipeline ready.' },
+  { name:'Wednesday', title:'Follow-Up & Research', detail:'Third call block focused on re-engagements. Follow up on all email opens, clicks, and replies. Research and prep target accounts for next week\'s outbound sequences.' },
+  { name:'Thursday', title:'Outbound Sprint + Sync', detail:'Fourth call block — highest energy day for cold outreach. SDR/AE strategy sync to align on qualified leads being handed off. Update all Salesforce activity logs.' },
+  { name:'Friday', title:'Review, Clean, Plan', detail:'No new outbound calls. Review prospecting results for the week. Clean up Salesforce. Celebrate wins with the team. Define next week\'s target accounts and sequences.' },
+];
+const aeDays = [
+  { name:'Monday', title:'Forecast Review & Prep', detail:'Team standup with pipeline review. Update forecast categories for the week. Prep for all discovery and value calls scheduled this week. Salesforce hygiene check.' },
+  { name:'Tuesday', title:'Stakeholder & Champion Calls', detail:'Schedule highest-priority buyer calls on Tuesday/Thursday. Send meeting recaps and confirmed next steps within 24 hours of every call. No exceptions.' },
+  { name:'Wednesday', title:'Internal Deal Work', detail:'Deal Desk and SWOT meeting prep. Internal deal reviews with SE or manager. SOW and proposal writing. Multi-threading outreach to get wide on active deals.' },
+  { name:'Thursday', title:'Confirming Value Calls', detail:'Schedule all Confirming Value and solutioning calls. Send follow-up recaps within 24 hours. Advance gate tracking in Salesforce after each call.' },
+  { name:'Friday', title:'Deal Review + Pipeline Hygiene', detail:'Weekly deal reviews with manager. Update all close plans. Ensure every open opportunity has a Next Step logged with a future date. Salesforce must be fully current by EOD Friday.' },
+];
+
+const GATES = [
+  {num:1, label:'Compelling Event', def:'What is making this customer look at Actionstep'},
+  {num:2, label:'Budget Confirmed', def:'Does this customer have budget identified and approved'},
+  {num:3, label:'Pricing Discussed', def:'Have we presented pricing to the customer'},
+  {num:4, label:'On-Site Meeting Held', def:'Have we visited the customer in person'},
+  {num:5, label:'ROI Analysis', def:'Have we completed our ROI analysis and presented to customer'},
+  {num:6, label:'Vendor Selected', def:'Have we been identified as Vendor of Choice'},
+  {num:7, label:'CCP Confirmed', def:'Has an implementation partner been presented, selected, and confirmed'},
+  {num:8, label:'SOW Completed', def:'Have we presented Statement of Work to customer'},
+  {num:9, label:'Signature Process Defined', def:'Have we walked through who signs and approves on the customer side'},
+  {num:10, label:'Close Plan / Date Agreement', def:'Have we agreed on the close plan and date of final signature'},
+  {num:11, label:'Proposal Progress', def:'Has the proposal been presented to customer'},
+  {num:12, label:'Contracts Status', def:'Has the contract been delivered to customer'},
+  {num:13, label:'Actionstep Required', def:'Do you need any help from the Actionstep leadership team to progress this deal'},
+];
+
+const SCENARIOS = [
+  {
+    type:'cadence', color:'#74AA50',
+    situation:'It\'s Tuesday at 9 AM. You have three open discovery calls scheduled for this week. You\'re tempted to spend the morning reviewing your CRM before making any calls.',
+    question:'What does the Actionstep cadence say you should do first?',
+    options:['Review Salesforce pipeline and update forecast categories','Run your morning outbound call block — protect the first 90 minutes','Wait until all emails are cleared before making calls','Schedule an internal sync with your SE first'],
+    correct:1,
+    feedback:'The first 90 minutes of each day are protected for outbound activity. This is non-negotiable. Salesforce can be updated after your call block — but your prospects\' attention is sharpest in the morning. Guard that time.',
+  },
+  {
+    type:'gates', color:'#285780',
+    situation:'You\'re presenting a Confirming Value proposal to your champion at a 20-attorney firm. The firm\'s managing partner hasn\'t been involved in any conversations yet.',
+    question:'Which gate failure is most likely to surface at the last minute?',
+    options:['Gate 1 — Compelling Event not confirmed','Gate 9 — Signature Process not defined','Gate 3 — Pricing hasn\'t been discussed','Gate 8 — SOW hasn\'t been completed'],
+    correct:1,
+    feedback:'Gate 9 (Signature Process Defined) is exactly what you\'ve missed. If you don\'t know who signs and approves, you will hear "actually, our managing partner has some concerns" days before your expected close. Always map the approval chain before sending a proposal.',
+  },
+  {
+    type:'objection', color:'#FF6900',
+    situation:'You\'re on a call with a prospect who says: "We\'ve been using our current system for 7 years. It has some issues, but switching feels risky."',
+    question:'What is the best response strategy?',
+    options:['Immediately share a product comparison showing Actionstep\'s advantages','Ask what it would take for them to feel confident in a switch — understand the risk specifically','Tell them switching is easy and most firms adapt in 30 days','Offer an extended trial period to reduce their risk'],
+    correct:1,
+    feedback:'Going deep is the right move. "Risky" is vague — is it about data migration? Staff retraining? Timeline? Revenue disruption? Ask: "When you say switching feels risky, what specifically concerns you most?" Surface the real fear, then address it with evidence.',
+  },
+  {
+    type:'cadence', color:'#74AA50',
+    situation:'You had a great discovery call on Monday. It\'s now Friday and you still haven\'t sent the follow-up recap. The prospect emailed you Wednesday asking for a summary.',
+    question:'What has happened here, and what is the likely consequence?',
+    options:['Nothing serious — prospects understand busy schedules','You\'ve created a self-created objection: slow follow-up signals low priority, and the prospect may be cooling','You should wait until next Monday to send a complete recap','You should send a short email now and schedule a new call for the following week'],
+    correct:1,
+    feedback:'Slow follow-up is one of the seven self-created objections. You had a great call — and then let it die. The 24-hour rule exists precisely for this. Send the recap immediately (even now, on Friday) and acknowledge the delay professionally. Then never let it happen again.',
+  },
+  {
+    type:'gates', color:'#285780',
+    situation:'A deal is at Deal Review stage. Your manager asks about Gates 7, 8, and 9. You realize none of them are complete.',
+    question:'What does this tell you about this deal\'s forecast readiness?',
+    options:['The deal can stay at Deal Review — those gates are optional at this stage','The deal may be mis-staged — Deal Review requires gates 7, 8, and 9 in progress or complete','The deal should be moved immediately to Negotiation to create urgency','No action needed until the customer asks about implementation'],
+    correct:1,
+    feedback:'Deal Review requires that Gates 7 (CCP Confirmed), 8 (SOW Completed), and 9 (Signature Process Defined) are in progress or complete. If none of these are touched, the deal is likely mis-staged. Correct the stage in Salesforce and build a plan to advance these gates before returning to Deal Review.',
+  },
+  {
+    type:'objection', color:'#FF6900',
+    situation:'You\'re in Negotiation and the prospect says: "Your price is higher than what we budgeted. Can you come down 20%?"',
+    question:'What is the right Actionstep approach to this pricing objection?',
+    options:['Immediately offer a 10% discount to split the difference','Decline the discount and move forward at list price','Reaffirm the ROI and value established, then involve Deal Desk with a corresponding ask from the buyer','Tell them you\'ll need to check with your manager and follow up next week'],
+    correct:2,
+    feedback:'Price objections after ROI has been established require a two-step response: (1) reanchor on value — "The ROI we identified was X. At list price, you\'re recovering that in Y months." Then (2) involve Deal Desk with a corresponding ask: referencability, longer contract term, case study participation. Never discount without an ask.',
+  },
+  {
+    type:'cadence', color:'#74AA50',
+    situation:'You have 12 opportunities in your pipeline. Three have close dates from last month that haven\'t been updated. Two have no logged Next Step. What is your Friday pipeline review action?',
+    question:'Which action is correct per Actionstep cadence standards?',
+    options:['Leave them — forecasts are due on Monday, you\'ll fix them then','Update the three close dates to next quarter automatically to clean up the forecast','Address each deal: update close dates to reflect actual expectations, log a Next Step on the two that are blank, and flag any as at-risk to your manager','Archive the deals with no Next Step since they\'re not active'],
+    correct:2,
+    feedback:'Friday pipeline hygiene is non-negotiable. Every deal needs an accurate close date AND a logged Next Step. Three stale close dates and two missing next steps is a real forecast problem. Fix them now — not Monday. If close dates can\'t be set because deals are truly stalled, flag them as at-risk.',
+  },
+  {
+    type:'gates', color:'#285780',
+    situation:'You\'re about to submit a deal to Contracted stage. Your manager asks: "Has Gate 10 been completed?" You say you verbally agreed with the champion on a close date.',
+    question:'Is Gate 10 complete?',
+    options:['Yes — verbal agreement from the champion is sufficient','No — Gate 10 requires a confirmed and shared close plan document, not just a verbal agreement','Yes, as long as it\'s logged in your call notes in Salesforce','No — Gate 10 requires signature from both parties before it counts'],
+    correct:1,
+    feedback:'Gate 10 (Close Plan/Date Agreement) is not complete based on a verbal mention. The close plan must be written, shared with the buyer, and mutually confirmed. A rep\'s notes in Salesforce are not a close plan — the buyer needs to have agreed to it explicitly.',
+  },
+];
+
+const OBJECTIONS = [
+  { label:'Objection', text:'We\'re happy with our current system.', strategy:'Curiosity question', stratDetail:'Ask open-ended questions to surface latent dissatisfaction.', sample:'"What would it take for you to consider a change? What\'s the one thing you wish your current system did better?"' },
+  { label:'Objection', text:'Your price is too high.', strategy:'ROI Anchor', stratDetail:'Tie the price back to confirmed value before going near a discount.', sample:'"The ROI we identified was $X in recovered time per year. At this investment, you\'re breaking even in under 6 months. Does that framing change how you\'re looking at the number?"' },
+  { label:'Objection', text:'We\'re not ready to make a decision right now.', strategy:'Compelling event', stratDetail:'Surface what would make them ready — use Gate 1 language.', sample:'"What would need to be true for you to feel ready by [date]? Is there a specific concern we haven\'t addressed?"' },
+  { label:'Objection', text:'We\'re also looking at [competitor].', strategy:'Differentiation', stratDetail:'Focus on Actionstep\'s legal-specific depth, not a feature war.', sample:'"Great — what matters most to you in making this comparison? Let\'s make sure you\'re evaluating the right things for a firm your size."' },
+  { label:'Objection', text:'We don\'t have budget approved.', strategy:'Partnership frame', stratDetail:'Offer to help them build the internal business case.', sample:'"Would it help if I put together a one-page business case you could share with your managing partner? I can tie it to the numbers we identified."' },
+  { label:'Objection', text:'Can you do better on price?', strategy:'Value before discount', stratDetail:'Reaffirm ROI, then involve Deal Desk with a corresponding ask.', sample:'"I want to find a way to make this work. Help me understand — is it the total cost, or is it really about getting budget aligned internally?"' },
+  { label:'Objection', text:'We need IT to approve this.', strategy:'Get wide', stratDetail:'Ask to be introduced — don\'t wait for the champion to relay information.', sample:'"That\'s great — IT alignment early prevents surprises later. Can we schedule a 30-minute technical call? I can bring our integration team."' },
+  { label:'Objection', text:'We\'ve heard implementation is hard.', strategy:'Evidence + CCP', stratDetail:'Reference a similar firm\'s smooth go-live and introduce your implementation partner early.', sample:'"That\'s a fair concern. Let me introduce you to [CCP Partner] — they\'ve completed 50+ Actionstep go-lives. Would you be open to a brief call with them?"' },
+];
+
+const CP_ACTIONS = [
+  { action:'Conduct formal discovery session', owner:'AE' },
+  { action:'Present ROI analysis to champion', owner:'AE + SE' },
+  { action:'Confirm implementation partner (CCP)', owner:'AE' },
+  { action:'Deliver Statement of Work (SOW)', owner:'AE + Deal Desk' },
+  { action:'Present formal proposal', owner:'AE' },
+  { action:'Map signature and approval process', owner:'AE' },
+  { action:'Deliver final contract', owner:'AE + Legal' },
+  { action:'Agree on final close date', owner:'AE + Buyer' },
+];
+
+// ── STATE ──
+let currentRole = 'sdr';
+let gateStates = new Array(13).fill('pending'); // 'yes','no','na','pending'
+let scIdx = 0;
+let scAnswered = [];
+let scScore = 0;
+
+// ── TAB LOGIC ──
+function switchTab(i) {
+  document.querySelectorAll('.tab-btn').forEach((b,j) => b.classList.toggle('active', i===j));
+  document.querySelectorAll('.tab-panel').forEach((p,j) => p.classList.toggle('active', i===j));
+}
+
+// ── TAB 1: CADENCE ──
+function switchRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.role-btn').forEach((b,i) => b.classList.toggle('active', ['sdr','ae'][i] === role));
+  renderCadence();
+}
+function renderCadence() {
+  const days = currentRole === 'sdr' ? sdrDays : aeDays;
+  const grid = document.getElementById('cadence-grid');
+  grid.innerHTML = days.map((d,i) => `
+    <div class="day-card" id="dc-${i}" onclick="toggleDay(${i})">
+      <div class="day-header">
+        <div class="day-name">${d.name}</div>
+        <div class="day-title">${d.title}</div>
+      </div>
+      <div class="day-expand"><p>${d.detail}</p></div>
+    </div>
+  `).join('');
+}
+
+function toggleDay(i) {
+  const card = document.getElementById(`dc-${i}`);
+  card.classList.toggle('open');
+}
+
+// ── TAB 2: GATES ──
+function renderGates() {
+  const list = document.getElementById('gates-list');
+  list.innerHTML = GATES.map((g,i) => `
+    <div class="gate-row ${gateStates[i]==='yes'?'complete':gateStates[i]==='na'?'na':''}" id="gr-${i}">
+      <div class="gate-num">${g.num}</div>
+      <div class="gate-info">
+        <div class="gate-label">${g.label}</div>
+        <div class="gate-def">${g.def}</div>
+      </div>
+      <div class="gate-controls">
+        <button class="btn-yes" onclick="setGate(${i},'yes')">✓ Yes</button>
+        <button class="btn-no" onclick="setGate(${i},'no')">✗ No</button>
+        <button class="btn-na" onclick="setGate(${i},'na')">N/A</button>
+      </div>
+    </div>
+  `).join('');
+  updateGateSummary();
+}
+
+function setGate(i, val) {
+  gateStates[i] = val;
+  renderGates();
+}
+
+function resetGates() {
+  gateStates = new Array(13).fill('pending');
+  renderGates();
+}
+
+function updateDealName() {
+  updateGateSummary();
+}
+
+function updateGateSummary() {
+  const done = gateStates.filter(s=>s==='yes').length;
+  const na = gateStates.filter(s=>s==='na').length;
+  const applicable = 13 - na;
+  const pending = gateStates.filter(s=>s==='pending'||s==='no').length;
+  const pct = applicable > 0 ? Math.round(done/applicable*100) : 0;
+
+  document.getElementById('gs-bar').style.width = pct + '%';
+  document.getElementById('gs-done').textContent = done;
+  document.getElementById('gs-pending').textContent = pending;
+  document.getElementById('gs-na').textContent = na;
+
+  const name = document.getElementById('deal-name-input').value || 'This deal';
+  document.getElementById('gs-title').textContent = `Deal Health: ${name}`;
+
+  const reco = document.getElementById('stage-reco');
+  if (done === 0 && pending > 0) {
+    reco.className = 'stage-reco discovery';
+    reco.textContent = '📍 Start with Gates 1 & 2. You need a Compelling Event and confirmed Budget before this deal belongs in your active forecast.';
+  } else if (done <= 2) {
+    reco.className = 'stage-reco discovery';
+    reco.textContent = '📍 Early Discovery stage. Focus on Gates 1, 2, and 5 before advancing the opportunity stage.';
+  } else if (done <= 5) {
+    reco.className = 'stage-reco confirming';
+    reco.textContent = '📋 Confirming Value territory. Get wide — all firm influencers should be engaged. Work toward Gates 5, 6, and 7.';
+  } else if (done <= 9) {
+    reco.className = 'stage-reco dealreview';
+    reco.textContent = '📊 Deal Review stage. Gates 7, 8, and 9 must be complete before moving to Negotiation. Close plan prep should begin now.';
+  } else if (done <= 11) {
+    reco.className = 'stage-reco negotiate';
+    reco.textContent = '⚡ Negotiation-ready. Gate 10 (Close Plan Agreement) and Gate 12 (Contracts Status) are your final milestones. Involve Deal Desk.';
+  } else {
+    reco.className = 'stage-reco strong';
+    reco.textContent = '🏆 Strong close position. All major gates cleared. Confirm billing start date, collect deposit, and execute Closed Won.';
+  }
+}
+
+// ── TAB 3: SCENARIOS ──
+function renderScenario() {
+  const s = SCENARIOS[scIdx];
+  const answered = scAnswered[scIdx] !== undefined;
+  document.getElementById('sc-counter').textContent = `Scenario ${scIdx+1} of ${SCENARIOS.length}`;
+
+  const mount = document.getElementById('scenario-mount');
+  mount.innerHTML = `
+    <div class="scenario-card">
+      <div class="sc-type-bar" style="background:${s.color}"></div>
+      <div class="sc-body">
+        <div class="sc-label">Scenario ${scIdx+1} · ${s.type.charAt(0).toUpperCase()+s.type.slice(1)}</div>
+        <div class="sc-situation">${s.situation}</div>
+        <div class="sc-question">💬 ${s.question}</div>
+        <div class="sc-options">
+          ${s.options.map((o,i) => `
+            <div class="sc-option ${answered?(i===s.correct?'correct':scAnswered[scIdx]===i?'wrong':'dimmed'):''}" onclick="answerScenario(${i})">
+              <div class="opt-letter">${['A','B','C','D'][i]}</div>
+              <div>${o}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="sc-feedback ${answered?(scAnswered[scIdx]===s.correct?'correct':'wrong'):''}" style="display:${answered?'block':'none'}">
+          <strong>${scAnswered[scIdx]===s.correct?'✓ Correct!':'✗ Not quite.'}</strong>
+          ${s.feedback}
+        </div>
+        <button class="sc-next" id="sc-next-btn" style="display:${answered?'block':'none'}" onclick="nextScenario()">
+          ${scIdx < SCENARIOS.length-1 ? 'Next Scenario →' : 'See Results'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function answerScenario(choice) {
+  if (scAnswered[scIdx] !== undefined) return;
+  scAnswered[scIdx] = choice;
+  if (choice === SCENARIOS[scIdx].correct) scScore++;
+  renderScenario();
+
+  if (scIdx === SCENARIOS.length - 1) {
+    const allDone = scAnswered.filter(a=>a!==undefined).length === SCENARIOS.length;
+    if (allDone) showScorePanel();
+  }
+}
+
+function showScorePanel() {
+  document.getElementById('scenario-mount').style.display='none';
+  document.querySelector('.sc-nav').style.display='none';
+  const pct = Math.round(scScore/SCENARIOS.length*100);
+  const panel = document.getElementById('score-panel');
+  panel.style.display='block';
+  const pctEl = document.getElementById('sc-score-pct');
+  pctEl.textContent = pct + '%';
+  pctEl.className = 'score-pct ' + (pct >= 80 ? 'pass' : 'fail');
+  document.getElementById('sc-score-sub').textContent = `You answered ${scScore} of ${SCENARIOS.length} scenarios correctly. ${pct>=80?'Great work — you\'re ready for the Module 7 Assessment.':'Review the cadence and gate sections, then try again.'}`;
+}
+
+function retryScenarios() {
+  scIdx = 0; scAnswered = []; scScore = 0;
+  document.getElementById('score-panel').style.display='none';
+  document.getElementById('scenario-mount').style.display='block';
+  document.querySelector('.sc-nav').style.display='flex';
+  renderScenario();
+}
+
+function nextScenario() {
+  if (scIdx < SCENARIOS.length - 1) { scIdx++; renderScenario(); }
+  else if (scAnswered.filter(a=>a!==undefined).length === SCENARIOS.length) showScorePanel();
+}
+function prevScenario() { if (scIdx > 0) { scIdx--; renderScenario(); } }
+
+// ── TAB 4: OBJECTIONS & CLOSE PLAN ──
+function renderObjGrid() {
+  document.getElementById('obj-grid').innerHTML = OBJECTIONS.map((o,i) => `
+    <div class="obj-card" id="oc-${i}" onclick="toggleObj(${i})">
+      <div class="obj-card-top">
+        <div class="obj-label">${o.label}</div>
+        <div class="obj-text">"${o.text}"</div>
+      </div>
+      <div class="obj-card-expand">
+        <div class="expand-section"><div class="expand-label">Strategy</div><div class="expand-text"><strong>${o.strategy}</strong> — ${o.stratDetail}</div></div>
+        <div class="expand-section"><div class="expand-label">Sample Language</div><div class="expand-text">${o.sample}</div></div>
+      </div>
+    </div>
+  `).join('');
+}
+function toggleObj(i) {
+  document.getElementById(`oc-${i}`).classList.toggle('open');
+}
+
+function renderClosePlan() {
+  const tbody = document.getElementById('cp-actions-body');
+  tbody.innerHTML = CP_ACTIONS.map((a,i) => `
+    <tr>
+      <td>${a.action}</td>
+      <td><input type="text" value="${a.owner}" placeholder="Owner"></td>
+      <td><input type="date" placeholder="Due date"></td>
+      <td><label class="cp-check"><input type="checkbox" id="cp-done-${i}"> Done</label></td>
+    </tr>
+  `).join('');
+}
+
+function exportClosePlan() {
+  const deal = document.getElementById('cp-deal').value || '[Deal Name]';
+  const ae = document.getElementById('cp-ae').value || '[AE]';
+  const close = document.getElementById('cp-close').value || '[Close Date]';
+  const cat = document.getElementById('cp-cat').value || '[Category]';
+  const val = document.getElementById('cp-val').value || '[ACV]';
+  const ce = document.getElementById('cp-ce').value || '[Compelling Event]';
+  alert(`Close Plan for: ${deal}\nAE: ${ae}  |  Close: ${close}  |  Forecast: ${cat}\nACV: ${val}  |  Compelling Event: ${ce}\n\nPrint this page (Ctrl+P / Cmd+P) to save your close plan.`);
+  window.print();
+}
+
+// ── INIT ──
+renderCadence();
+renderGates();
+renderScenario();
+renderObjGrid();
+renderClosePlan();
+</script>
+</body>
+</html>

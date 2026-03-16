@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 7 Assessment | Sales Cadence & Activity Management — Actionstep</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&display=swap');
+  :root{--green:#024638;--navy:#171C29;--teal:#255C4E;--leaf:#74AA50;--yellow:#FED141;--orange:#FF6900;--steel:#285780;--red:#C0392B;--ltgreen:#E3F7E4;--ltblue:#E3F5F7;--gray:#F5F7FA;--border:#C8D8C8;--text:#171C29;--mid:#4A5568;--white:#FFFFFF;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Red Hat Display',sans-serif;background:var(--navy);color:var(--text);min-height:100vh;}
+  header{background:var(--green);padding:0 40px;height:58px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid var(--leaf);}
+  .logo{display:flex;align-items:center;gap:12px;}
+  .lm{width:34px;height:34px;background:var(--teal);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:white;}
+  .lt{font-size:17px;font-weight:700;color:white;}
+  .lt span{color:var(--leaf);}
+  .mt{background:rgba(255,255,255,0.12);color:#A8D5A8;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+  .shell{max-width:800px;margin:0 auto;padding:40px 20px;}
+
+  /* ── START SCREEN ── */
+  .start{background:white;border-radius:18px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.35);}
+  .sh2{background:var(--green);padding:48px 48px 40px;text-align:center;}
+  .ey{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;}
+  .sh2 h1{font-size:40px;font-weight:900;color:white;margin-bottom:14px;letter-spacing:-0.5px;line-height:1.1;}
+  .sh2 p{font-size:15px;color:#A8D5A8;max-width:520px;margin:0 auto;line-height:1.7;}
+  .sm{display:flex;justify-content:center;gap:0;border-top:1px solid rgba(255,255,255,0.1);margin-top:0;}
+  .mi{flex:1;padding:20px;text-align:center;border-right:1px solid var(--border);}
+  .mi:last-child{border-right:none;}
+  .mv{display:block;font-size:28px;font-weight:900;color:var(--green);}
+  .ml{display:block;font-size:12px;color:var(--mid);font-weight:600;}
+  .si{padding:28px 48px;}
+  .si h3{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid);margin-bottom:14px;}
+  .si ul{display:grid;grid-template-columns:1fr 1fr;gap:8px;list-style:none;}
+  .si li{font-size:14px;color:var(--mid);display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+  .si li::before{content:'✓';color:var(--leaf);font-weight:700;flex-shrink:0;}
+  .sc2{padding:0 48px 40px;text-align:center;}
+  .btn-s{background:var(--green);color:white;border:none;padding:16px 48px;border-radius:10px;font-family:'Red Hat Display',sans-serif;font-size:16px;font-weight:700;cursor:pointer;transition:background 0.2s;}
+  .btn-s:hover{background:var(--teal);}
+
+  /* ── QUESTION SCREEN ── */
+  .qscreen{display:none;}
+  .qtop{background:white;border-radius:14px;padding:18px 28px;margin-bottom:20px;display:flex;align-items:center;gap:20px;box-shadow:0 4px 20px rgba(0,0,0,0.18);}
+  .qpl{font-size:13px;font-weight:700;color:var(--mid);white-space:nowrap;}
+  .qpw{flex:1;height:8px;background:#eee;border-radius:4px;overflow:hidden;}
+  .qpf{height:8px;background:var(--leaf);border-radius:4px;transition:width 0.3s;}
+  .qpr{font-size:13px;font-weight:700;color:var(--green);white-space:nowrap;}
+
+  .qcard{background:white;border-radius:14px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.22);}
+  .qcat-bar{height:5px;}
+  .qbody{padding:32px 40px;}
+  .qcat{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mid);margin-bottom:10px;}
+  .qtext{font-size:18px;font-weight:700;color:var(--text);margin-bottom:28px;line-height:1.5;}
+  .opts{display:flex;flex-direction:column;gap:10px;}
+  .opt{display:flex;align-items:flex-start;gap:14px;padding:15px 20px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.18s;}
+  .opt:hover:not(.answered){border-color:var(--leaf);background:var(--ltgreen);}
+  .opt.correct{border-color:var(--leaf);background:#F0FAF0;}
+  .opt.wrong{border-color:var(--red);background:#FFF0F0;}
+  .opt.dimmed{opacity:0.38;}
+  .olet{width:28px;height:28px;border-radius:50%;background:var(--ltgreen);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--green);flex-shrink:0;}
+  .opt.correct .olet{background:var(--leaf);color:white;}
+  .opt.wrong .olet{background:var(--red);color:white;}
+  .otxt{font-size:14px;color:var(--mid);line-height:1.5;padding-top:4px;}
+
+  .fb{margin-top:22px;padding:18px 22px;border-radius:10px;display:none;font-size:14px;line-height:1.7;}
+  .fb.correct{background:#F0FAF0;border-left:4px solid var(--leaf);}
+  .fb.wrong{background:#FFF0F0;border-left:4px solid var(--red);}
+  .fb strong{display:block;margin-bottom:6px;font-size:15px;}
+  .fb.correct strong{color:var(--green);}
+  .fb.wrong strong{color:var(--red);}
+
+  .qfooter{padding:20px 40px;border-top:1px solid var(--border);display:none;justify-content:flex-end;}
+  .btn-next{background:var(--green);color:white;border:none;padding:12px 32px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background 0.2s;}
+  .btn-next:hover{background:var(--teal);}
+
+  /* ── RESULTS SCREEN ── */
+  .rscreen{display:none;}
+  .res-top{background:var(--green);border-radius:18px 18px 0 0;padding:48px;text-align:center;}
+  .res-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--leaf);margin-bottom:14px;}
+  .res-pct{font-size:80px;font-weight:900;line-height:1;margin-bottom:8px;}
+  .res-pct.pass{color:var(--yellow);}
+  .res-pct.fail{color:var(--orange);}
+  .res-verdict{font-size:22px;font-weight:700;color:white;margin-bottom:8px;}
+  .res-sub{font-size:15px;color:#A8D5A8;line-height:1.6;}
+  .res-stats{display:flex;justify-content:center;gap:0;background:white;}
+  .rst{flex:1;padding:20px;text-align:center;border-right:1px solid var(--border);}
+  .rst:last-child{border-right:none;}
+  .rsv{display:block;font-size:28px;font-weight:900;color:var(--green);}
+  .rsl{display:block;font-size:12px;color:var(--mid);font-weight:600;}
+  .review-section{background:white;padding:32px 40px;}
+  .review-section h3{font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--mid);margin-bottom:20px;}
+  .ri{padding:18px 0;border-bottom:1px solid var(--border);}
+  .ri:last-child{border-bottom:none;}
+  .ri-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .ri-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+  .ri-icon.pass{background:var(--leaf);color:white;}
+  .ri-icon.fail{background:var(--red);color:white;}
+  .ri-q{font-size:14px;font-weight:700;color:var(--text);}
+  .ri-ans{font-size:13px;color:var(--mid);margin:4px 0 0 32px;}
+  .ri-exp{font-size:13px;color:var(--mid);margin:8px 0 0 32px;padding:10px 14px;background:var(--ltgreen);border-radius:8px;line-height:1.6;}
+  .res-footer{background:white;border-radius:0 0 18px 18px;padding:28px 40px;border-top:1px solid var(--border);display:flex;justify-content:center;gap:12px;}
+  .btn-retry{background:transparent;color:var(--green);border:2px solid var(--green);padding:12px 28px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;}
+  .btn-retry:hover{background:var(--ltgreen);}
+  .btn-ct{background:var(--yellow);color:var(--navy);border:none;padding:12px 30px;border-radius:8px;font-family:'Red Hat Display',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.18s;}
+  .btn-ct:hover{background:#D4B030;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><div class="lm">A</div><div class="lt">Actionstep <span>Sales Academy</span></div></div>
+  <div class="mt">Module 7 · Assessment</div>
+</header>
+<div class="shell">
+  <div class="start" id="start">
+    <div class="sh2">
+      <div class="ey">Actionstep Sales Academy  ·  Module 7</div>
+      <h1>Sales Cadence &<br>Activity Management</h1>
+      <p>Demonstrate mastery of daily cadence habits, the 13-gate deal tracker, objection handling, self-created objections, and close plan development.</p>
+    </div>
+    <div class="sm">
+      <div class="mi"><span class="mv">15</span><span class="ml">Questions</span></div>
+      <div class="mi"><span class="mv">80%</span><span class="ml">Passing Score</span></div>
+      <div class="mi"><span class="mv">~12</span><span class="ml">Minutes</span></div>
+    </div>
+    <div class="si">
+      <h3>What's Covered</h3>
+      <ul>
+        <li>Weekly cadence standards for SDRs and AEs</li>
+        <li>The 13 Deal Gates and when they apply</li>
+        <li>Objection handling strategies</li>
+        <li>Recognizing self-created objections</li>
+        <li>Close plan structure and Gate 10 requirements</li>
+        <li>24-hour follow-up and pipeline hygiene rules</li>
+      </ul>
+    </div>
+    <div class="sc2"><button class="btn-s" onclick="startQuiz()">Begin Assessment →</button></div>
+  </div>
+
+  <div class="qscreen" id="qscreen">
+    <div class="qtop">
+      <span class="qpl" id="qctr">Question 1 of 15</span>
+      <div class="qpw"><div class="qpf" id="qpf" style="width:0%"></div></div>
+      <span class="qpr" id="qst">Score: 0/0</span>
+    </div>
+    <div id="qmount"></div>
+  </div>
+
+  <div class="rscreen" id="rscreen"></div>
+</div>
+
+<script>
+const L=['A','B','C','D'];
+const QS=[
+  {
+    cat:"Weekly Cadence",
+    color:"#74AA50",
+    q:"According to the Actionstep cadence, what is the non-negotiable rule for every deal in your pipeline?",
+    opts:["Every deal must have a signed NDA before advancing to Confirming Value","Every deal must have a logged Next Step and accurate Close Date at all times","Every deal must have at least one on-site meeting before Deal Review","Every deal must have ROI analysis completed before discovery ends"],
+    ans:1,
+    exp:"The non-negotiable rule: every deal in your pipeline must have a logged Next Step, an accurate Close Date, and a scheduled follow-up activity within 5 business days — always. No exceptions."
+  },
+  {
+    cat:"Weekly Cadence",
+    color:"#74AA50",
+    q:"What does the Actionstep cadence say about the first 90 minutes of each workday?",
+    opts:["They should be used for Salesforce updates and internal meetings","They are protected for outbound activity — prospecting calls, strategic email, CRM updates","They should be reserved for internal standup calls and pipeline reviews","They are flexible — reps should use them however feels most productive"],
+    ans:1,
+    exp:"The first 90 minutes of each day are protected for outbound activity. This is when your prospects' attention is sharpest. Guard this time — no Slack rabbit holes, no email spirals. Outbound only."
+  },
+  {
+    cat:"Weekly Cadence",
+    color:"#74AA50",
+    q:"How long does a rep have to send a written follow-up summary after a discovery call?",
+    opts:["48 hours","72 hours","24 hours","End of the same business week"],
+    ans:2,
+    exp:"The 24-hour follow-up rule is a core Actionstep cadence requirement. Every meeting, demo, or discovery session must be followed by a written summary and confirmed next step within one business day. Slow follow-up signals low priority."
+  },
+  {
+    cat:"Weekly Cadence",
+    color:"#74AA50",
+    q:"What should a rep do on Friday as part of the weekly cadence?",
+    opts:["Focus exclusively on cold outbound calls to close the week strong","Review every open opportunity, update stale close dates, and log next steps for any unmoved deals","Send weekly pipeline report to leadership without reviewing individual deals","Take no new prospecting actions — Fridays are reserved for internal meetings only"],
+    ans:1,
+    exp:"Every Friday, review every open opportunity. If a deal hasn't moved in 10 business days, it needs a deliberate next action or a stage correction. Every open deal must have an up-to-date close date and logged next step by EOD Friday."
+  },
+  {
+    cat:"Deal Gates",
+    color:"#285780",
+    q:"Gate 1 (Compelling Event) must be answered in which stage?",
+    opts:["Confirming Value","Deal Review","Discovery","Negotiation"],
+    ans:2,
+    exp:"Gate 1 — Compelling Event — must be answered during Discovery. If you can't explain what's making the customer look at Actionstep right now, you don't have a real deal. This is a foundational gate."
+  },
+  {
+    cat:"Deal Gates",
+    color:"#285780",
+    q:"What does Gate 7 (CCP Confirmed) require?",
+    opts:["That the customer has signed a confidentiality agreement","That an implementation partner has been presented, selected, and confirmed","That the customer's IT team has approved the integration plan","That the close plan and date have been agreed upon"],
+    ans:1,
+    exp:"Gate 7 — CCP Confirmed — requires that an implementation (Channel/Certified) partner has been presented to, selected by, and confirmed with the customer. This gate should typically be in progress before advancing to Deal Review."
+  },
+  {
+    cat:"Deal Gates",
+    color:"#285780",
+    q:"Which of the following best describes Gate 9 (Signature Process Defined)?",
+    opts:["The rep has confirmed the contract has been countersigned by legal","The rep has walked through who signs and approves on the customer's side","The rep has received written confirmation the deal will close by the target date","The rep has confirmed Actionstep leadership assistance is needed"],
+    ans:1,
+    exp:"Gate 9 requires that you have walked through the approval and signature process on the customer side — who needs to sign, who needs to approve, and in what order. Without this, late-stage 'we need more approvals' surprises become inevitable."
+  },
+  {
+    cat:"Deal Gates",
+    color:"#285780",
+    q:"A deal is in Negotiation stage. Which gates should typically be complete or actively in progress?",
+    opts:["Gates 1 and 2 only","Gates 1 through 6 only","Gates 12 (Contracts) and 10 (Close Plan), with Gate 13 engaged if needed","Gate 8 and Gate 3 only"],
+    ans:2,
+    exp:"At Negotiation stage, Gate 12 (Contracts Status) should be delivered, Gate 10 (Close Plan/Date Agreement) confirmed, and Gate 13 activated if you need Actionstep leadership assistance. All earlier gates should already be complete or in progress."
+  },
+  {
+    cat:"Deal Gates",
+    color:"#285780",
+    q:"What is the purpose of Gate 13 (Actionstep Required)?",
+    opts:["To confirm the customer has selected Actionstep as their vendor of choice","To determine whether the Actionstep leadership team needs to be involved to advance the deal","To confirm the contract has been reviewed by Actionstep's legal department","To confirm the implementation partner has been briefed and is ready"],
+    ans:1,
+    exp:"Gate 13 tracks whether Actionstep leadership involvement is needed to move the deal forward. This might mean executive sponsorship, a reference call, or leadership participation in a negotiation. When a close plan action slips twice, Gate 13 should be activated."
+  },
+  {
+    cat:"Objection Handling",
+    color:"#FF6900",
+    q:"A prospect says: 'We've been with our current vendor for 8 years. Switching is risky.' What is the best initial response?",
+    opts:["Provide a detailed feature comparison showing Actionstep's advantages","Ask what specifically concerns them about switching — surface the real risk","Offer a trial period to reduce perceived risk","Explain that most firms complete implementation in under 60 days"],
+    ans:1,
+    exp:"'Risky' is vague. Go deep — ask what specifically concerns them. Is it data migration? Staff retraining? Revenue disruption during cutover? Once you understand the real fear, you can address it with evidence. Surface responses build resistance; depth builds trust."
+  },
+  {
+    cat:"Objection Handling",
+    color:"#FF6900",
+    q:"A prospect in Negotiation asks for a 20% discount. What is the correct Actionstep approach?",
+    opts:["Immediately split the difference at 10% to close quickly","Decline firmly and explain that list price is non-negotiable","Reaffirm the ROI established, then involve Deal Desk with a corresponding ask from the buyer","Tell them you'll check with your manager and follow up in 3 days"],
+    ans:2,
+    exp:"Price objections after ROI has been established require: (1) reanchor on value — remind them of the ROI analysis; (2) involve Deal Desk with a corresponding ask such as referencability, longer term, or a case study. Never discount without an ask."
+  },
+  {
+    cat:"Self-Created Objections",
+    color:"#FF6900",
+    q:"Which of the following is a self-created objection?",
+    opts:["A prospect questions whether Actionstep integrates with their document management software","The prospect's budget cycle doesn't align with your quarter-end close date","A rep demos features that don't connect to any confirmed pain the prospect mentioned","A prospect's managing partner is unfamiliar with the product category"],
+    ans:2,
+    exp:"Self-created objections come from rep behavior, not genuine buyer resistance. Demoing features disconnected from confirmed pain creates the objection 'this doesn't really apply to us.' Every demo element must tie to a previously confirmed pain point."
+  },
+  {
+    cat:"Self-Created Objections",
+    color:"#FF6900",
+    q:"A rep sends a proposal directly to their champion without knowing who else needs to approve it. What self-created objection is most likely to follow?",
+    opts:["'Your price is higher than we expected.'","'We need to get more people involved — this wasn't something I can approve alone.'","'We're also talking to a competitor.'","'The implementation timeline doesn't work for us.'"],
+    ans:1,
+    exp:"Skipping Gate 9 (Signature Process Defined) before sending a proposal is a classic self-created objection. If you don't know who needs to approve, you will always hear 'I need to get a few more people involved' at the worst possible moment."
+  },
+  {
+    cat:"Close Plans",
+    color:"#024638",
+    q:"When should a close plan be introduced in the Actionstep sales process?",
+    opts:["Only after a contract has been delivered","No later than the Deal Review stage, then refreshed at every Negotiation touchpoint","Only when the prospect requests it","In the first discovery call as a way to set expectations"],
+    ans:1,
+    exp:"Close plans should be introduced no later than Deal Review stage and refreshed at every Negotiation touchpoint. They are a mutual agreement — not a rep's internal wishlist — and should be co-created with the buyer to establish joint ownership."
+  },
+  {
+    cat:"Close Plans",
+    color:"#024638",
+    q:"A rep verbally agreed with their champion on a close date. Is Gate 10 (Close Plan/Date Agreement) complete?",
+    opts:["Yes — verbal agreement from the champion is sufficient to mark Gate 10 complete","No — Gate 10 requires the close plan to be written, shared with the buyer, and mutually confirmed","Yes — as long as the verbal agreement is logged in Salesforce call notes","No — Gate 10 also requires the contract to be delivered before it can be marked complete"],
+    ans:1,
+    exp:"Gate 10 is not complete based on a verbal mention. The close plan must be written, shared with the buyer, and mutually confirmed. A rep's Salesforce notes are not a close plan — the buyer must explicitly agree to the plan and timeline."
+  },
+];
+
+let qi=0, score=0, answers=[], started=false;
+
+function startQuiz(){
+  qi=0; score=0; answers=[];
+  document.getElementById('start').style.display='none';
+  document.getElementById('qscreen').style.display='block';
+  render();
+}
+
+function render(){
+  if(qi>=QS.length){ showResults(); return; }
+  const q=QS[qi];
+  document.getElementById('qctr').textContent=`Question ${qi+1} of ${QS.length}`;
+  document.getElementById('qpf').style.width=(qi/QS.length*100)+'%';
+  document.getElementById('qst').textContent=`Score: ${score}/${qi}`;
+  document.getElementById('qmount').innerHTML=`
+    <div class="qcard">
+      <div class="qcat-bar" style="background:${q.color}"></div>
+      <div class="qbody">
+        <div class="qcat">${q.cat}</div>
+        <div class="qtext">${q.text||q.q}</div>
+        <div class="opts" id="opts">
+          ${q.opts.map((o,i)=>`
+            <div class="opt" id="opt-${i}" onclick="choose(${i})">
+              <div class="olet">${L[i]}</div>
+              <div class="otxt">${o}</div>
+            </div>`).join('')}
+        </div>
+        <div class="fb" id="fb"></div>
+      </div>
+      <div class="qfooter" id="qfooter">
+        <button class="btn-next" onclick="next()">${qi<QS.length-1?'Next Question →':'See Results'}</button>
+      </div>
+    </div>`;
+}
+
+function choose(i){
+  if(answers[qi]!==undefined) return;
+  const q=QS[qi];
+  answers[qi]=i;
+  const correct=i===q.ans;
+  if(correct) score++;
+  document.getElementById('qst').textContent=`Score: ${score}/${qi+1}`;
+  document.querySelectorAll('.opt').forEach((el,j)=>{
+    if(j===q.ans) el.classList.add('correct');
+    else if(j===i&&!correct) el.classList.add('wrong');
+    else if(j!==q.ans) el.classList.add('dimmed');
+    el.classList.add('answered');
+  });
+  const fb=document.getElementById('fb');
+  fb.className='fb '+(correct?'correct':'wrong');
+  fb.innerHTML=`<strong>${correct?'✓ Correct!':'✗ Not quite.'}</strong>${q.exp}`;
+  fb.style.display='block';
+  document.getElementById('qfooter').style.display='flex';
+}
+
+function next(){ qi++; render(); }
+
+function showResults(){
+  document.getElementById('qscreen').style.display='none';
+  const pct=Math.round(score/QS.length*100);
+  const pass=pct>=80;
+  document.getElementById('rscreen').style.display='block';
+  document.getElementById('rscreen').innerHTML=`
+    <div class="res-top" style="${pass?'':'background:var(--navy);border:3px solid var(--orange);border-radius:18px 18px 0 0;'}">
+      <div class="res-label">Module 7 Assessment Complete</div>
+      <div class="res-pct ${pass?'pass':'fail'}">${pct}%</div>
+      <div class="res-verdict">${pass?'🏆 Certified — Module 7 Complete':'🔄 Keep Practicing — Retake to Certify'}</div>
+      <div class="res-sub">${pass?`You answered ${score} of ${QS.length} correctly. Submit your close plan to your manager to complete Module 7 certification.`:`You answered ${score} of ${QS.length} correctly. Review the cadence guide, gate tracker, and close plan sections, then retake.`}</div>
+    </div>
+    <div class="res-stats">
+      <div class="rst"><span class="rsv">${score}</span><span class="rsl">Correct</span></div>
+      <div class="rst"><span class="rsv">${QS.length-score}</span><span class="rsl">Incorrect</span></div>
+      <div class="rst"><span class="rsv">${pct}%</span><span class="rsl">Score</span></div>
+      <div class="rst"><span class="rsv" style="color:${pass?'var(--leaf)':'var(--orange)'}">${pass?'PASS':'FAIL'}</span><span class="rsl">Result</span></div>
+    </div>
+    <div class="review-section">
+      <h3>Full Answer Review</h3>
+      ${QS.map((q,i)=>{
+        const ua=answers[i]; const correct=ua===q.ans;
+        return `<div class="ri">
+          <div class="ri-top">
+            <div class="ri-icon ${correct?'pass':'fail'}">${correct?'✓':'✗'}</div>
+            <div class="ri-q">Q${i+1}: ${q.q||q.text}</div>
+          </div>
+          ${!correct?`<div class="ri-ans" style="color:var(--red)">Your answer: ${ua!==undefined?q.opts[ua]:'Not answered'}</div>
+          <div class="ri-ans" style="color:var(--green)">Correct: ${q.opts[q.ans]}</div>`:`<div class="ri-ans" style="color:var(--green)">✓ ${q.opts[q.ans]}</div>`}
+          <div class="ri-exp">${q.exp}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="res-footer">
+      <button class="btn-retry" onclick="retake()">↺ Retake Assessment</button>
+      ${pass?`<button class="btn-ct" onclick="alert('Congratulations! Module 7 certified. Proceed to Module 8.')">Module 8 →</button>`:''}
+    </div>`;
+}
+
+function retake(){ qi=0;score=0;answers=[];document.getElementById('rscreen').style.display='none';document.getElementById('rscreen').innerHTML='';document.getElementById('qscreen').style.display='block';render();}
+</script>
+</body>
+</html>
